@@ -1,1 +1,70 @@
 @import "tailwindcss";
+
+@layer components{
+    .nav-brand{
+        padding: 0px 10px;
+        color: white;
+        font-size: 38px;
+    }
+}
+
+
+@layer components {
+    .navbar-brand i {
+        padding: 0px 10px;
+        color: white;
+        font-size: 38px;
+    }
+}
+
+@layer components{
+    .hamburger {
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        margin-right: 15px;
+    }
+}
+
+@layer components{
+    .hamburger span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background-color: #fff;
+        margin-bottom: 5px;
+    }
+}
+
+@layer components {
+    .navbar-search {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        position: relative;
+    }
+}
+
+@layer components {
+    .navbar-search input[type="search"] {
+        width: 200px;
+        height: 30px;
+        padding: 10px;
+        padding-right: 30px;
+        border: none;
+        border-radius: 20px;
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+@layer components {
+    .navbar-search i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #000000;
+    }
+}
+
