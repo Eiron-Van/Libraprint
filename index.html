@@ -16,7 +16,7 @@
         <section class="mx-auto p-4 flex justify-between items-center">
             <div class="flex items-center mx-4 space-x-6">
                 <div>
-                    <button id="menu" class="text-3xl focus:outline-none cursor-pointer hover:opacity-60 transition-opacity duration-200">
+                    <button id="menu" class="text-3xl focus:outline-none cursor-pointer hover:opacity-60 active:opacity-40 transition-opacity duration-200 p-2">
                         &#9776;
                     </button>
                 </div>
@@ -38,12 +38,12 @@
                 <div id="mobile-search" class="relative hidden sm:block">
                         <input id="search-input" type="search"
                             placeholder="Search..."
-                            class="pl-3 pr-8 py-1 rounded-full w-full bg-white text-black focus:outline-none dark:text-black" />
+                            class="pl-3 pr-8 py-1 rounded-full w-full bg-white text-black focus:outline-none" />
                         <i class="fas fa-search absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 </div>
                 <div>
-                    <button id="search-toggle" class="cursor-pointer hover:opacity-60 block sm:hidden">
-                        <i class="fas fa-search text-white"></i>
+                    <button id="search-toggle" class="cursor-pointer hover:opacity-60 active:opacity-40 block p-2 sm:hidden">
+                        <i class="fas fa-search text-white text-2xl"></i>
                     </button>
                 </div>
             </div>
@@ -51,7 +51,22 @@
         </section>
     </header>
 
-    <main class="flex items-center justify-center relative min-h-screen">
+    <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] w-fit">
+        <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
+            <ul>
+                <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/profile.png">Profile</a></li>
+                <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/book_r.png">Book Reservation</a></li>
+                <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/book_b.png">Book Borrowing</a></li>
+                <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/setting.png">Settings</a></li>
+            </ul>
+            <button class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center bottom-0">
+                <img class="w-8 m-2" src="asset/logout.png" alt="">
+                Logout
+            </button>
+        </nav>
+    </div>
+
+    <!-- <main class="flex items-center justify-center relative min-h-screen">
         <div class="flex flex-col items-center space-y-4 absolute 
                     left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 
                     lg:top-40 lg:left-80 lg:translate-x-0 lg:translate-y-0">
@@ -66,6 +81,6 @@
 
     <div>
 
-    </div>
+    </div> -->
 </body>
 </html>
