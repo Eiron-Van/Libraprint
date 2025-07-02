@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuButton = document.getElementById('menu');
   const sideMenu = document.getElementById('side-menu');
 
-  // searchbar on mobile
+  // Mobile searchbar toggle
   toggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     mobileSearch.classList.toggle('hidden');
@@ -17,34 +17,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // close searchbar when clicked outside
+  // Prevent clicks inside searchbar from closing it
+  mobileSearch.addEventListener('click', (e) => e.stopPropagation());
+
+  // Side menu toggle
+  menuButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    sideMenu.classList.toggle('hidden');
+  });
+
+  // Unified click-outside handler
   document.addEventListener('click', (e) => {
-    const clickedInside =
-      mobileSearch.contains(e.target) ||
-      toggleBtn.contains(e.target);
-    if (!clickedInside && !mobileSearch.classList.contains('hidden')) {
+    const clickedInsideSearch = mobileSearch.contains(e.target) || toggleBtn.contains(e.target);
+    const clickedInsideMenu = sideMenu.contains(e.target) || menuButton.contains(e.target);
+
+    if (!clickedInsideSearch && !mobileSearch.classList.contains('hidden')) {
       mobileSearch.classList.add('hidden');
       brand.classList.remove('hidden');
       toggleBtn.classList.remove('hidden');
     }
-  });
 
-  mobileSearch.addEventListener('click', (e) => e.stopPropagation());
-
-  // side menu button unhide/hide
-  menuButton.addEventListener('click', () => {
-    const menu = document.getElementById('menu');
-    sideMenu.classList.toggle('hidden');
-  });
-
-  // close side menu when clicked outside
-  document.addEventListener('click', (e) => {
-    const clickedInsideMenu = sideMenu.contains(e.target);
-    const clickedToggle = menuButton.contains(e.target);
-  
-    if (!clickedInsideMenu && !clickedToggle && !sideMenu.classList.contains('hidden')) {
+    if (!clickedInsideMenu && !sideMenu.classList.contains('hidden')) {
       sideMenu.classList.add('hidden');
     }
   });
-
 });
