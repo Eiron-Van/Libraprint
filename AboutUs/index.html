@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/asset/fingerprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/style.css?v=1.1">
+    <link rel="stylesheet" href="/style.css?v=1.2">
     <script src="/script.js"></script>
 
     <title>About Us | Libraprint</title>
 </head>
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
     <header class="bg-gray-900 text-white sticky top-0 z-10">
-        <section class="mx-auto p-4 flex justify-between items-center">
+        <section class="mx-auto p-3 lg:p-2 flex justify-between items-center">
             <div class="flex items-center mx-4 space-x-6">
                 <div>
                     <button id="menu" class="text-[30px] focus:outline-none cursor-pointer hover:opacity-60 active:opacity-40 transition-opacity duration-200 p-2">
@@ -29,7 +29,7 @@
                     <nav>
                         <ul class="md:flex md:flex-col lg:flex-row md:text-sm space-x-6">
                             <li><a href="https://libraprintlucena.com" class="hover:opacity-60 transition-opacity duration-200">Home</a></li>
-                            <li><a href="/AboutUs" class="hover:opacity-60 transition-opacity duration-200">About Us</a></li>
+                            <li><a href="/AboutUs" class="font-bold hover:opacity-60 transition-opacity duration-200">About Us</a></li>
                             <li><a href="#" class="hover:opacity-60 transition-opacity duration-200">Contact</a></li>
                         </ul>
                     </nav>
@@ -50,15 +50,15 @@
         </section>
     </header>
 
-    <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] w-fit z-10">
+    <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] fixed inset-y-0 z-[9] w-fit top-21 lg:top-19">
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
                 <ul>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/profile.png">Profile</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/book_r.png">Book Reservation</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/book_b.png">Book Borrowing</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/setting.png">Settings</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="/asset/about_us.png">About Us</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/contact_us.png">Contact Us</a></li>
+                    <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="/asset/about_us.png">About Us</a></li>
+                    <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/contact_us.png">Contact Us</a></li>
                 </ul>
                 <button class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center bottom-0">
                     <img class="w-8 m-2" src="/asset/logout.png" alt="">
@@ -67,5 +67,23 @@
             </nav>
         </div>
     
+    <main class="text-white flex flex-col sm:gap-8">
+        <section id="hero" class=" relative bg-[url(/asset/library.jpg)] bg-cover min-h-50 md:min-h-70 lg:min-h-100 flex items-center justify-center text-center">
+            <div class="absolute inset-0 z-[7] bg-black opacity-50"></div>
+
+            <div class="relative z-[8] container">
+                <h1 class="text-4xl font-serif">About Us</h1>
+            </div>
+        </section>
+
+        <section class="container flex flex-col justify-center items-center text-center gap-5 p-4">
+            <h1 class="text-2xl font-serif">Introduction to Lucena City Library and Libraprint</h1>
+            <div class="container flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-10 text-left">
+                <img class="sm:w-9/20" src="/asset/introduction.jpg" alt="A librarian taking a look at what the girls pointing on the computer">
+                <p class="sm:w-1/4 h-fit">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
