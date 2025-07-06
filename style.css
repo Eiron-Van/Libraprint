@@ -276,8 +276,35 @@
   .h-\[800px\] {
     height: 800px;
   }
+  .h-\[calc\(100svh-10px\)\] {
+    height: calc(100svh - 10px);
+  }
+  .h-\[calc\(100svh-74px\)\] {
+    height: calc(100svh - 74px);
+  }
+  .h-\[calc\(100svh-76px\)\] {
+    height: calc(100svh - 76px);
+  }
+  .h-\[calc\(100svh-77px\)\] {
+    height: calc(100svh - 77px);
+  }
+  .h-\[calc\(100svh-78px\)\] {
+    height: calc(100svh - 78px);
+  }
+  .h-\[calc\(100svh-79px\)\] {
+    height: calc(100svh - 79px);
+  }
+  .h-\[calc\(100svh-80px\)\] {
+    height: calc(100svh - 80px);
+  }
+  .h-\[calc\(100svh-82px\)\] {
+    height: calc(100svh - 82px);
+  }
   .h-\[calc\(100svh-84px\)\] {
     height: calc(100svh - 84px);
+  }
+  .h-\[calc\(100svh-94px\)\] {
+    height: calc(100svh - 94px);
   }
   .h-\[calc\(100vh-84px\)\] {
     height: calc(100vh - 84px);
@@ -396,6 +423,12 @@
   }
   .bg-\[\#F4F4F4\] {
     background-color: #F4F4F4;
+  }
+  .bg-\[\#e71f1f\] {
+    background-color: #e71f1f;
+  }
+  .bg-\[\#ff0000\] {
+    background-color: #ff0000;
   }
   .bg-black {
     background-color: var(--color-black);
