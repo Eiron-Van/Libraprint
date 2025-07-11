@@ -50,20 +50,16 @@
         </section>
     </header>
 
-    <div id ="side-menu" class="hidden flex-col fixed inset-y-0 z-[9] w-fit top-21 lg:top-19">
+    <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] fixed inset-y-0 z-[9] w-fit top-21 lg:top-19">
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
                 <ul>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/profile.png">Profile</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/book_r.png">Book Reservation</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/book_b.png">Book Borrowing</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/setting.png">Settings</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="/asset/about_us.png">About Us</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/contact_us.png">Contact Us</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/setting.png">Settings</a></li>
                 </ul>
-                <button class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center bottom-0">
-                    <img class="w-8 m-2" src="/asset/logout.png" alt="">
-                    Logout
-                </button>
             </nav>
     </div>
     
@@ -72,17 +68,71 @@
             <div class="absolute inset-0 z-[7] bg-black opacity-50"></div>
 
             <div class="relative z-[8] container">
-                <h1 class="text-4xl font-serif">About Us</h1>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif">About Us</h1>
             </div>
         </section>
 
-        <section id ="introduction" class="flex flex-col justify-center items-center text-center gap-5 p-4">
-            <h1 class="text-2xl font-serif">Introduction to Lucena City Library and Libraprint</h1>
-            <div class="container flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-10 text-left">
-                <img class="sm:w-9/20" src="/asset/introduction.jpg" alt="A librarian taking a look at what the girls pointing on the computer">
-                <p class="sm:w-1/4 h-fit">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <section id ="introduction" class="flex flex-col justify-center items-center text-center gap-5 lg:gap-15 p-4 sm:p-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif">Introduction to Lucena City Library and Libraprint</h1>
+            <div class="container flex flex-col lg:flex-row justify-center items-center gap-2 sm:gap-10 text-justify">
+                <img class="md:w-9/10 lg:w-4/10" src="/asset/introduction.jpg" alt="A librarian taking a look at what the girls pointing on the computer">
+                <p class="md:w-9/10 lg:w-6/10 h-fit text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">Lucena City Library stands as a cornerstone of public knowledge, offering residents, students, and researchers access to a wide range of learning resources and community-driven programs. As part of its commitment to modernization and improved service delivery, the library has partnered with student as developers and researchers to introduce LibraPrint an innovative library management system designed to enhance library operations through automation, analytics, and intelligent features.</p>
             </div>
         </section>
+
+        <section class="flex flex-col gap-4 lg:gap-15 p-4 sm:p-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif text-center">Mission and Vision</h1>
+
+            <div class="flex flex-col justify-center sm:flex-row gap-2 sm:gap-10 md:gap-15">
+                <div class="text-center sm:w-5/10 md:w-5/10 lg:w-3/10">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl mb-2">Mission</h1>
+                    <p class="text-justify text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">LibraPrint aims to modernize and simplify public library operations by providing an intelligent, user-friendly, and data-driven management system. Through the integration of barcode tracking, biometric attendance, and descriptive analytics, LibraPrint empowers librarians to efficiently manage resources, improve user experience, and support transparent reporting to national institutions.</p>
+                </div>
+                <div class="text-center sm:w-5/10 md:w-5/10 lg:w-3/10">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl mb-2">Vision</h1>
+                    <p class="text-justify text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">To become a leading model of digital transformation in Philippine public libraries by fostering innovation, operational excellence, and data-informed decision-making ensuring accessible, organized, and technology-enabled library services for every citizen.</p>
+                </div>
+            </div> 
+        </section>
+
+
+        
+        <section class="py-10">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif text-center mb-12">Team Members</h1>
+
+            <div class="flex flex-wrap justify-center gap-10 sm:gap-20 md:gap-25 lg:gap-50">
+                <div class="relative w-72 h-96 hover:scale-105 transition">
+                    <div class="rounded-3xl overflow-hidden w-full h-full">
+                        <img src="/asset/card1.png" alt="" class="w-full h-full object-cover rounded-3xl">
+                    </div>
+                    <div class="absolute bottom-0 bg-[#5364A2] rounded-3xl w-86 py-3 text-center text-white left-1/2 transform -translate-x-1/2 mb-4">
+                        <h3 class="font-serif text-xl">Juan San Pedro</h3>
+                        <p class="text-base">Librarian</p>
+                        <div class="flex justify-center space-x-3 mt-2 lg:text-3xl">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative w-72 h-96 hover:scale-105 transition">
+                    <div class="rounded-3xl overflow-hidden w-full h-full">
+                        <img src="/asset/card2.jpg" alt="" class="w-full h-full object-cover rounded-3xl">
+                    </div>
+                    <div class="absolute bottom-0 bg-[#5364A2] rounded-3xl w-86 py-3 text-center text-white left-1/2 transform -translate-x-1/2 mb-4">
+                        <h3 class="font-serif text-xl">Maria Del Rosario</h3>
+                        <p class="text-base">OIC -Lucena City Library</p>
+                        <div class="flex justify-center space-x-3 mt-2 lg:text-3xl">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
 </body>
