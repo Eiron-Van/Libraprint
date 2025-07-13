@@ -41,4 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sideMenu.classList.add('hidden');
     }
   });
+
+  // Get the current year
+  document.getElementById("year").textContent = new Date().getFullYear();
 });
