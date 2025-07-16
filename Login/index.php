@@ -4,34 +4,21 @@
     include("connection.php");
     include("function.php");
 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        //something was posted
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        if (!empty($username) && !empty($password)){
-            //read from database
-            $query = "select * from users where username = '$username' or email = '$username' or mobile = '$username' limit 1";
+    // Query to check user
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $sql);
 
-            $result = mysqli_query($conn, $query);
-            if($result){
-                if($result && mysqli_num_rows($result) > 0){
-                    $user_data = mysqli_fetch_assoc($result);
-                    if($user_data["password"] === $password && $user_data["username"] == $username){
-                        $_SESSION['user_id'] = $user_data['user_id'];
-                        header("Location: test.html");
-                        die();
-                    }
-                }
-            }
-
-            echo "Wrong Username or Password!";
-
-        }else{
-            echo "Wrong Username or Password!";
-        }
-
+    if (mysqli_num_rows($result) == 1) {
+        $_SESSION['username'] = $username;
+        header("Location: test.html"); // <-- redirect to a page after login
+    } else {
+        echo "<script>alert('Invalid Username or Password'); window.history.back();</script>";
     }
+}
 
 ?>
 
