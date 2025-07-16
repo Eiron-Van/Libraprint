@@ -19,6 +19,7 @@
                     $user_data = mysqli_fetch_assoc($result);
                     if($user_data["password"] === $password && $user_data["username"] == $username){
                         $_SESSION['user_id'] = $user_data['user_id'];
+                        $_SESSION['username'] = $user_data['username'];
                         header("Location: /test.html");
                         die();
                     }

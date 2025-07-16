@@ -1,15 +1,15 @@
 <?php
-    session_start();
+session_start();
     
-    include("connection.php");
-    include("function.php");
+include("connection.php");
+include("function.php");
 
     // $user_data = check_login($conn);
 
-    if (!isset($_SESSION['username'])) {
-        header("Location: /Login");
-        exit();
-    }
+if (!isset($_SESSION['username'])) {
+header("Location: /Login");
+exit();
+}
 
 ?>
 
