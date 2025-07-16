@@ -19,11 +19,8 @@
                     $user_data = mysqli_fetch_assoc($result);
                     if($user_data["password"] === $password && $user_data["username"] == $username){
                         $_SESSION['user_id'] = $user_data['user_id'];
-                        
-                        echo "<script>alert('Login successful!');</script>";
-
-                        exit;
-
+                        header("Location: /test.html");
+                        die();
                     }
                 }
             }

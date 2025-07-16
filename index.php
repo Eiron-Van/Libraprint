@@ -7,7 +7,7 @@
     // $user_data = check_login($conn);
 
     if (!isset($_SESSION['username'])) {
-        header("Location: /Login/index.php");
+        header("Location: /Login");
         exit();
     }
 
