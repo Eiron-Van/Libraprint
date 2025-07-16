@@ -1,0 +1,36 @@
+<!-- <?php
+    session_start();
+    
+    include("connection.php");
+    include("function.php");
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        //something was posted
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        if (!empty($username) && !empty($password)){
+            //save to database
+            $user_id = random_num(20);
+            $query = "insert into users(username, password) values('$username', '$password')";
+
+            mysqli_query($conn, $query);
+            header("Location: /Login");
+        }else{
+            echo "Please enter some valid information!";
+        }
+
+    }
+
+?> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
