@@ -53,7 +53,7 @@
     <section class="w-full h-screen flex items-center justify-center px-5">
         <div
             class="flex justify-center items-center border border-white rounded-4xl w-full max-w-md h-125 shadow-md text text-center py-4 px-20 text-white bg-transparent back">
-            <form method="POST" class="w-full">
+            <form method="post" class="w-full">
                 <h1 class="font-bold text-xl">Sign In</h1>
                 <p class="text-sm">Enter valid details to continue</p>
 
