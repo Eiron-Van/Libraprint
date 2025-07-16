@@ -19,7 +19,7 @@
                     $user_data = mysqli_fetch_assoc($result);
                     if($user_data["password"] === $password && $user_data["username"] == $username){
                         $_SESSION['user_id'] = $user_data['user_id'];
-                        header("Location: https://libraprintlucena.com");
+                        header("Location: /ContactUs");
                         die();
                     }
                 }
