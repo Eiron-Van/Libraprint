@@ -4,21 +4,34 @@
     include("connection.php");
     include("function.php");
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        //something was posted
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-    // Query to check user
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    $result = mysqli_query($conn, $sql);
+        if (!empty($username) && !empty($password)){
+            //read from database
+            $query = "select * from users where username = '$username' or email = '$username' or mobile = '$username' limit 1";
 
-    if (mysqli_num_rows($result) == 1) {
-        $_SESSION['username'] = $username;
-        header("Location: test.html"); // <-- redirect to a page after login
-    } else {
-        echo "<script>alert('Invalid Username or Password'); window.history.back();</script>";
+            $result = mysqli_query($conn, $query);
+            if($result){
+                if($result && mysqli_num_rows($result) > 0){
+                    $user_data = mysqli_fetch_assoc($result);
+                    if($user_data["password"] === $password && $user_data["username"] == $username){
+                        $_SESSION['user_id'] = $user_data['user_id'];
+                        header("Location: test.html");
+                        die();
+                    }
+                }
+            }
+
+            echo "Wrong Username or Password!";
+
+        }else{
+            echo "Wrong Username or Password!";
+        }
+
     }
-}
 
 ?>
 
@@ -40,7 +53,7 @@
     <section class="w-full h-screen flex items-center justify-center px-5">
         <div
             class="flex justify-center items-center border border-white rounded-4xl w-full max-w-md h-125 shadow-md text text-center py-4 px-20 text-white bg-transparent back">
-            <form action="index.php" method="post" class="w-full">
+            <form action="/index.php" method="POST" class="w-full">
                 <h1 class="font-bold text-xl">Sign In</h1>
                 <p class="text-sm">Enter valid details to continue</p>
 
