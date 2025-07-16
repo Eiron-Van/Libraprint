@@ -13,6 +13,6 @@ function check_login($conn){
     }
 
     //redirect to login
-    header("Location: /Login/index.php");
+    header("Location: login.php");
     die;
 } 
