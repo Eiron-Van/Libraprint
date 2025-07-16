@@ -69,9 +69,6 @@
         <label for="password">password</label>
         <input type="password" name="password" id="password" placeholder="Password">
 
-        <label for="password">password</label>
-        <input type="password" name="password" id="password" placeholder="Password">
-
         
         <button type="submit">Register</button>
 
