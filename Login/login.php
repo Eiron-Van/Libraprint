@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("config.php"); // <-- your database connection file
+include("\config.php"); // <-- your database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
