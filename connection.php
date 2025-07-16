@@ -9,7 +9,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}else {
-    echo "✅ Connected successfully!";
+    die("<h1 style='color: red;'>❌ Connection failed: " . mysqli_connect_error() . "</h1>");
+} else {
+    die("<h1 style='color: green;'>✅ Connected successfully to the database.</h1>");
 }
