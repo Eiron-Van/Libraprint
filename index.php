@@ -1,15 +1,11 @@
 <?php
 session_start();
-    
-include("connection.php");
-include("function.php");
 
-    // $user_data = check_login($conn);
-
-if (!isset($_SESSION['username'])) {
-header("Location: /Login");
-exit();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html");
+    exit();
 }
+
 
 ?>
 

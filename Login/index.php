@@ -1,49 +1,35 @@
 <?php
-
-    include 'connection.php';
-include 'function.php';
-
-if (isset($_POST['login'])) {
-    echo "Form submitted!<br>"; // For debugging
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    login($email, $password);
-}
-
-    // session_start();
     
-    // include("connection.php");
-    // include("function.php");
+    session_start();
+include 'db_connect.php'; // Your DB connection file
 
-    // if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //     //something was posted
-    //     $username = $_POST["username"];
-    //     $password = $_POST["password"];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $identifier = trim($_POST['username']);
+    $password = $_POST['password'];
 
-    //     if (!empty($username) && !empty($password)){
-    //         //read from database
-    //         $query = "select * from users where username = '$username' or email = '$username' or mobile = '$username' limit 1";
+    // Prepare SQL
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ? OR contact_number = ?");
+    $stmt->bind_param("sss", $identifier, $identifier, $identifier);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    //         $result = mysqli_query($conn, $query);
-    //         if($result){
-    //             if($result && mysqli_num_rows($result) > 0){
-    //                 $user_data = mysqli_fetch_assoc($result);
-    //                 if($user_data["password"] === $password && $user_data["username"] == $username){
-    //                     $_SESSION['user_id'] = $user_data['user_id'];
-    //                     $_SESSION['username'] = $user_data['username'];
-    //                     header("Location: /test.html");
-    //                     die();
-    //                 }
-    //             }
-    //         }
+    // Check if user exists
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
 
-    //         echo "Wrong Username or Password!";
-
-    //     }else{
-    //         echo "Wrong Username or Password!";
-    //     }
-
-    // }
+        // Plain text password check (for testing only!)
+        if ($password === $user['password']) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            header("Location: landing.php");
+            exit();
+        } else {
+            echo "Incorrect password.";
+        }
+    } else {
+        echo "No user found.";
+    }
+}
 
 ?>
 
@@ -89,9 +75,7 @@ if (isset($_POST['login'])) {
                     <a href="" class="hover:underline">Forgot Password?</a>
                 </div>
 
-                <button type="submit" name="login"
-                    class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign
-                    In</button>
+                <button type="submit" class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
             </form>
         </div>
     </section>
