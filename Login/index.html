@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 session_start();
 include '../connection.php'; // Your DB connection file
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('No user found with that username/email/contact number.'); window.location.href='login.html';</script>";
     }
 }
-?>
+?> -->
 
 
 <!DOCTYPE html>
@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/style.css?v=1.4">
+    <link rel="stylesheet" href="/style.css?v=1.5">
     <script src="show_password.js"></script>
     <title>Login | Libraprint</title>
 </head>
 
-<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
+<body class="bg-[url(/asset/books_login.jpg)] bg-cover backdrop-blur-xs lg:backdrop-blur-xl">
 
     <section class="w-full h-screen flex items-center justify-center px-5">
         <div class="w-full md:w-[50rem] flex justify-center md:justify-start md:bg-[url(/asset/books_login.jpg)] md:bg-cover rounded-3xl py-10 px-10">
