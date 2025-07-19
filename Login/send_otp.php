@@ -32,13 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_to_send->addTo($email, $users['first_name']);
         $email_to_send->addContent("text/plain", "Your OTP is: $otp");
 
-        require_once __DIR__ . '/../vendor/autoload.php'; // Adjust path as needed
+        require_once __DIR__ . '/../vendor/autoload.php';
 
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__); // Adjust path
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
         $dotenv->load();
 
-        // Now you can use:
-        $sendgrid = $_ENV['SENDGRID_API_KEY'];
+        $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
 
         try {
             $response = $sendgrid->send($email_to_send);
