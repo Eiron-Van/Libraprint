@@ -1,13 +1,13 @@
 <?php
-    
-    session_start();
-include 'db_connect.php'; // Your DB connection file
+
+session_start();
+include '../connection.php'; // Your DB connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $identifier = trim($_POST['username']);
+    $identifier = trim($_POST['username']); // Can be username, email, or contact number
     $password = $_POST['password'];
 
-    // Prepare SQL
+    // Prepare and execute the SQL query
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ? OR contact_number = ?");
     $stmt->bind_param("sss", $identifier, $identifier, $identifier);
     $stmt->execute();
@@ -17,21 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Plain text password check (for testing only!)
-        if ($password === $user['password']) {
+        // Use password_verify to check the hashed password
+        if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
-            header("Location: landing.php");
+
+            // Redirect to your dashboard or home
+            header("Location: https://libraprintlucena.com");
             exit();
         } else {
-            echo "Incorrect password.";
+            echo "<script>alert('Incorrect password.'); window.location.href='login.html';</script>";
         }
     } else {
-        echo "No user found.";
+        echo "<script>alert('No user found with that username/email/contact number.'); window.location.href='login.html';</script>";
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,34 +51,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
 
     <section class="w-full h-screen flex items-center justify-center px-5">
-        <div
-            class="flex justify-center items-center border border-white rounded-4xl w-full max-w-md h-125 shadow-md text text-center py-4 px-20 text-white bg-transparent back">
-            <form action="" method="POST" class="w-full">
-                <h1 class="font-bold text-xl">Sign In</h1>
-                <p class="text-sm">Enter valid details to continue</p>
-
-                <div class="text-black flex flex-col gap-3 mt-5">
-                    <div class="flex items-center relative">
-                        <input type="text" name="username" id="username" required
-                            placeholder="Username/Email/Mobile Number"
-                            class="placeholder:text-[.8rem] bg-white w-full rounded-2xl px-3 py-2">
-                        <i class='bx bx-user absolute right-2'></i>
+        <div class="w-full md:w-[50rem] flex justify-center md:justify-start md:bg-[url(/asset/books_login.jpg)] md:bg-cover rounded-3xl py-10 px-10">
+            <div class="flex justify-center items-center border border-[#F5DEB3] rounded-4xl w-full max-w-md h-125 shadow-2xl text text-center py-4 px-6 sm:px-10 md:px-15 text-white bg-transparent backdrop-blur-xs">
+                <form action="" method="POST" class="w-full select-none">
+                    <h1 class="font-bold text-xl">Sign In</h1>
+                    <p class="text-sm">Enter valid details to continue</p>
+    
+                    <div class="text-black flex flex-col gap-3 mt-5">
+                        <div class="flex items-center relative">
+                            <input type="text" name="username" id="username" required
+                                placeholder="Username/Email/Mobile Number"
+                                class="placeholder:text-[.7rem] md:placeholder:text-[1rem] bg-white w-full rounded-2xl px-3 py-2">
+                            <i class='bx bx-user absolute right-2'></i>
+                        </div>
+    
+                        <div class="flex items-center relative">
+                            <input type="password" name="password" id="password" required placeholder="Password?"
+                                minlength="8" class="placeholder:text-[.7rem] md:placeholder:text-[1rem] bg-white w-full rounded-2xl px-3 py-2">
+                            <i class='bx bx-lock absolute right-2'></i>
+                        </div>
                     </div>
-
-                    <div class="flex items-center relative">
-                        <input type="password" name="password" id="password" required placeholder="Password?"
-                            minlength="8" class="placeholder:text-[.8rem] bg-white w-full rounded-2xl px-3 py-2">
-                        <i class='bx bx-lock absolute right-2'></i>
+    
+                    <div class="flex justify-between text-sm mt-2">
+                        <label><input type="checkbox" name="" id="" class="mr-2">Remember Me</label>
+                        <a href="" class="hover:underline">Forgot Password?</a>
                     </div>
-                </div>
-
-                <div class="flex justify-between text-sm mt-2">
-                    <label><input type="checkbox" name="" id="" class="mr-2">Remember Me</label>
-                    <a href="" class="hover:underline">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
-            </form>
+    
+                    <button type="submit" class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
+                </form>
+            </div>
         </div>
     </section>
 
