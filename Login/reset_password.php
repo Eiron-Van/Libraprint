@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result) {
         unset($_SESSION['reset_email']);  // Clean up session
-        echo "<script>alert('✅ Password reset successful! Please log in.'); window.location.href='login.html';</script>";
+        echo "<script>alert('✅ Password reset successful! Please log in.'); window.location.href='/Login';</script>";
     } else {
         echo "❌ Failed to update password.";
     }
