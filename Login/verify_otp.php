@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 include("connection.php");
 
@@ -6,14 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $otp = $_POST["otp"];
 
-    $query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
+    $query = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) == 1) {
-        $user = mysqli_fetch_assoc($result);
+        $users = mysqli_fetch_assoc($result);
 
-        $db_otp = $user['reset_otp'];
-        $otp_time = strtotime($user['otp_created_at']);
+        $db_otp = $users['reset_otp'];
+        $otp_time = strtotime($users['otp_created_at']);
         $current_time = time();
 
         // Check OTP match and time validity (10 minutes)
