@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $created_at = date("Y-m-d H:i:s");
 
         // Save OTP in DB
-        $update = "UPDATE user SET reset_otp='$otp', otp_created_at='$created_at' WHERE email='$email'";
+        $update = "UPDATE users SET reset_otp='$otp', otp_created_at='$created_at' WHERE email='$email'";
         mysqli_query($conn, $update);
 
         // Send email via SendGrid
