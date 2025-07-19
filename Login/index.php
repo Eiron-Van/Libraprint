@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/style.css?v=1.4">
-    <script src="/script.js"></script>
+    <script src="show_password.js"></script>
     <title>Login | Libraprint</title>
 </head>
 
@@ -73,8 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
     
                     <div class="flex justify-between text-sm mt-2">
-                        <label><input type="checkbox" name="" id="" class="mr-2">Remember Me</label>
-                        <a href="" class="hover:underline">Forgot Password?</a>
+                        <label><input type="checkbox" name="show-password" id="show-password" class="mr-2">Show Password</label>
+                        <a href="forgot_password.html" class="hover:underline">Forgot Password?</a>
                     </div>
     
                     <button type="submit" class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
