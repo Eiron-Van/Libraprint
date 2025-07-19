@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // send_otp.php
 require '../vendor/autoload.php'; // only if you used Composer
