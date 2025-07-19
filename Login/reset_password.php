@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Update the password in the database
-    $query = "UPDATE user SET password = '$hashed_password', reset_otp = NULL, otp_created_at = NULL WHERE email = '$email'";
+    $query = "UPDATE users SET password = '$hashed_password', reset_otp = NULL, otp_created_at = NULL WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
