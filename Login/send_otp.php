@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     
     // Check if email exists
-    $query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
+    $query = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) == 1) {
-        $user = mysqli_fetch_assoc($result);
+        $users = mysqli_fetch_assoc($result);
         $otp = rand(100000, 999999); // 6-digit OTP
         $created_at = date("Y-m-d H:i:s");
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_to_send = new Mail();
         $email_to_send->setFrom("20220321@cstc.edu.ph", "LibraPrint");
         $email_to_send->setSubject("Your OTP Code for Password Reset");
-        $email_to_send->addTo($email, $user['first_name']);
+        $email_to_send->addTo($email, $users['first_name']);
         $email_to_send->addContent("text/plain", "Your OTP is: $otp");
 
         require_once __DIR__ . '/../vendor/autoload.php'; // Adjust path as needed
