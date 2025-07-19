@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("connection.php");
+include("../connection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION['reset_email'])) {
