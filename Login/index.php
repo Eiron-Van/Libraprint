@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="forgot_password.html" class="hover:underline">Forgot Password?</a>
                     </div>
     
-                    <button type="submit" class="cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
+                    <button type="submit" class="cursor-pointer textcenter bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
                 </form>
             </div>
         </div>

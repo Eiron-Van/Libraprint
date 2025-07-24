@@ -72,7 +72,6 @@ if (!isset($_SESSION['user_id'])) {
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/setting.png">Settings</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="asset/about_us.png">About Us</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/ContactUs"><img class="w-8 m-2" src="asset/contact_us.png">Contact Us</a></li>
-                    <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/logout.php"><img class="w-8 m-2" src="asset/contact_us.png"></a></li>
                 </ul>
             </nav>
         </div>
