@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (username, first_name, last_name, gender, address, birthdate, contactnumber, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, first_name, last_name, gender, address, birthday, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Check if the statement was prepared successfully
     if (!$stmt) {
