@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = htmlspecialchars(trim($_POST["city"]));
     $barangay = htmlspecialchars(trim($_POST["barangay"]));
     $birthdate = htmlspecialchars(trim($_POST["birthdate"]));
-    $contactnumber = htmlspecialchars(trim($_POST["contactnumber"]));
+    $contactnumber = htmlspecialchars(trim($_POST["contact_number"]));
     $email = htmlspecialchars(trim($_POST["email"]));
     $password = htmlspecialchars(trim($_POST["password"]));
 
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (username, firstname, lastname, gender, address, birthdate, contactnumber, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, first_name, last_name, gender, address, birthdate, contactnumber, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Check if the statement was prepared successfully
     if (!$stmt) {
