@@ -7,17 +7,16 @@ include("../connection.php");
 include("../function.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve and sanitize form data
-    $username = htmlspecialchars(trim($_POST["username"]));
-    $firstname = htmlspecialchars(trim($_POST["firstname"]));
-    $lastname = htmlspecialchars(trim($_POST["lastname"]));
-    $gender = htmlspecialchars(trim($_POST["gender"]));
-    $city = htmlspecialchars(trim($_POST["city"]));
-    $barangay = htmlspecialchars(trim($_POST["barangay"]));
-    $birthdate = htmlspecialchars(trim($_POST["birthdate"]));
-    $contactnumber = htmlspecialchars(trim($_POST["contactnumber"]));
-    $email = htmlspecialchars(trim($_POST["email"]));
-    $password = htmlspecialchars(trim($_POST["password"]));
+    $username = $_POST["username"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $gender = $_POST["gender"];
+    $city = $_POST["city"];
+    $barangay = $_POST["barangay"];
+    $birthdate = $_POST["birthdate"];
+    $contactnumber = $_POST["contactnumber"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
     // Validate inputs
     if (empty($username) || empty($password)) {
