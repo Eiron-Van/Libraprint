@@ -11,7 +11,7 @@ const barangayInput = document.getElementById('barangay');
       .then(res => res.json())
       .then(data => {
         barangayMap = data;
-        populateCityOptions();
+        //populateCityOptions();
       })
       .catch(err => {
         console.error('Failed to load barangayMap.json:', err);
