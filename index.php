@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
                     </button>
                 </div>
                 <div id="brand" class="flex items-center space-x-1.5">
-                    <img src="asset/libraprint_logo.png" class="w-7">
+                    <img src="asset/fingerprint.png" class="w-10">
                     <a class="text-2xl font-serif" href="https://libraprintlucena.com">Libraprint</a>
                 </div>
             </div>
