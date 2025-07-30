@@ -73,6 +73,11 @@ const barangayInput = document.getElementById('barangay');
         populateBarangayOptions(cityInput.value);
       }
     });
+    barangayInput.addEventListener('input', () => {
+      if (cityInput.value) {
+        populateBarangayOptions(cityInput.value, barangayInput.value);
+      }
+    });
 
     document.addEventListener('click', (e) => {
       if (e.target !== cityInput) {

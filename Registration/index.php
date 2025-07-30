@@ -21,17 +21,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate inputs
     if (empty($username) || empty($password)) {
-        echo "Please enter some valid information!";
+        echo "<script>alert('Please enter some valid information!');</script>";
         exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Invalid email format.');</script>";
         echo "Invalid email format";
         exit();
     }
 
     if (strlen($password) < 8) {
-        echo "Password must be at least 8 characters long";
+        echo "<script>alert('Password must be at least 8 characters long.');</script>";
         exit();
     }
 
@@ -41,18 +42,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Check if email already exists
-    $emailCheck = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $emailCheck->bind_param("s", $email);
-    $emailCheck->execute();
-    $emailCheck->store_result();
+    // Combined check for existing username or email
+    $checkStmt = $conn->prepare("SELECT username, email FROM users WHERE username = ? OR email = ?");
+    $checkStmt->bind_param("ss", $username, $email);
+    $checkStmt->execute();
+    $checkStmt->store_result();
 
-    if ($emailCheck->num_rows > 0) {
-        echo "This email is already registered. Please use a different email.";
-        exit();
+    if ($checkStmt->num_rows > 0) {
+        $checkStmt->bind_result($existingUsername, $existingEmail);
+        while ($checkStmt->fetch()) {
+            if ($existingUsername === $username) {
+                echo "<script>alert('Username already exists. Please choose a different one.');</script>";
+                exit();
+            }
+            if ($existingEmail === $email) {
+                echo "<script>alert('Email already exists. Please use a different email.');</script>";
+                exit();
+            }
+        }
     }
 
-    $emailCheck->close();
+    $checkStmt->close();
 
     // Prepare the SQL statement
     $stmt = $conn->prepare("INSERT INTO users (username, first_name, last_name, gender, address, birthday, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -139,11 +149,11 @@ $conn->close();
                             </div>
                             <div class="flex flex-row gap-2">
                                 <div class="relative w-full mb-4">
-                                    <input type="text" placeholder="Type or select..." id="city" name="city" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
+                                    <input required type="text" placeholder="Type or select..." id="city" name="city" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
                                     <div class="hidden absolute w-full max-h-50 overflow-y-auto mb-2 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full" id="city-dropdown"></div>
                                 </div>
                                 <div class="relative w-full">
-                                    <input type="text" placeholder="Type or select..." id="barangay" name="barangay" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
+                                    <input required type="text" placeholder="Type or select..." id="barangay" name="barangay" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
                                     <div class="hidden absolute w-full max-h-50 overflow-y-auto mb-2 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full" id="barangay-dropdown"></div>
                                 </div>
                             </div>
