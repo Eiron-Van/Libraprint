@@ -430,6 +430,9 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
+  .w-15 {
+    width: calc(var(--spacing) * 15);
+  }
   .w-62 {
     width: calc(var(--spacing) * 62);
   }
@@ -745,6 +748,21 @@
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
+  }
+  .pt-0 {
+    padding-top: calc(var(--spacing) * 0);
+  }
+  .pt-0\.5 {
+    padding-top: calc(var(--spacing) * 0.5);
+  }
+  .pt-1 {
+    padding-top: calc(var(--spacing) * 1);
+  }
+  .pt-2 {
+    padding-top: calc(var(--spacing) * 2);
+  }
+  .pt-3 {
+    padding-top: calc(var(--spacing) * 3);
   }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);

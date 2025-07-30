@@ -31,9 +31,9 @@ if (!isset($_SESSION['user_id'])) {
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
-                <div id="brand" class="flex items-center space-x-1.5">
-                    <img src="asset/fingerprint.png" class="w-10">
-                    <a class="text-2xl font-serif" href="https://libraprintlucena.com">Libraprint</a>
+                <div id="brand" class="flex flex-row items-center space-x-1.5">
+                    <img src="asset/fingerprint.png" class="w-15">
+                    <a class="text-2xl font-serif pt-2" href="https://libraprintlucena.com">Libraprint</a>
                 </div>
             </div>
             <div class="flex items-center mx-4 space-x-6">
