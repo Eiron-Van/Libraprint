@@ -21,17 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate inputs
     if (empty($username) || empty($password)) {
-        echo "<script>alert('Please enter some valid information!');</script>";
+        echo "<script>alert('Please enter some valid information!'); window.history.back();</script>";
         exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Invalid email format.');</script>";
+        echo "<script>alert('Invalid email format.'); window.history.back();</script>";
         exit();
     }
 
     if (strlen($password) < 8) {
-        echo "<script>alert('Password must be at least 8 characters long.');</script>";
+        echo "<script>alert('Password must be at least 8 characters long.'); window.history.back();</script>";
         exit();
     }
 
@@ -51,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                echo "<script>alert('Username already exists. Please choose a different one.');</script>";
+                echo "<script>alert('Username already exists. Please choose a different one.'); window.history.back();</script>";
                 exit();
             }
             if ($existingEmail === $email) {
-                echo "<script>alert('Email already exists. Please use a different email.');</script>";
+                echo "<script>alert('Email already exists. Please use a different email.'); window.history.back();</script>";
                 exit();
             }
         }
