@@ -63,8 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $checkStmt->close();
 
+    $user_id = random_num(20);
+
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (username, first_name, last_name, gender, address, birthday, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (user_id, username, first_name, last_name, gender, address, birthday, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Check if the statement was prepared successfully
     if (!$stmt) {
@@ -74,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Bind parameters
-    $stmt->bind_param("sssssssss", $username, $firstname, $lastname, $gender, $address, $birthdate, $contactnumber, $email, $hashed_password);
+    $stmt->bind_param("ssssssssss", $user_id, $username, $firstname, $lastname, $gender, $address, $birthdate, $contactnumber, $email, $hashed_password);
     
     // Execute the statement
     if ($stmt->execute()) {
@@ -128,11 +130,11 @@ $conn->close();
                             </div>
                             <div class="flex flex-row gap-2">
                                 <div>
-                                    <input type="date" name="birthdate" id="birthdate" class="w-62.5 bg-white rounded-3xl text-black px-4 py-2">
+                                    <input type="date" name="birthdate" id="birthdate" required class="w-62.5 bg-white rounded-3xl text-black px-4 py-2">
                                     <label for="birthdate">Birthday</label>
                                 </div>
                                 <div>
-                                    <select name="gender" id="gender" class="w-62.5 bg-white rounded-3xl text-black px-4 py-2">
+                                    <select name="gender" id="gender" required class="w-62.5 bg-white rounded-3xl text-black px-4 py-2">
                                         <option value="">Select a Gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
