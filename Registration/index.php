@@ -6,6 +6,10 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
+require '../vendor/autoload.php';
+use SendGrid\Mail\Mail;
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve and sanitize form data
     $username = htmlspecialchars(trim($_POST["username"]));
@@ -64,9 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $checkStmt->close();
 
     $user_id = random_num(20);
+    $token = bin2hex(random_bytes(32));
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (user_id, username, first_name, last_name, gender, address, birthday, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (user_id, username, first_name, last_name, gender, address, birthday, contact_number, email, password, verification_token, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Check if the statement was prepared successfully
     if (!$stmt) {
@@ -76,16 +81,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Bind parameters
-    $stmt->bind_param("ssssssssss", $user_id, $username, $firstname, $lastname, $gender, $address, $birthdate, $contactnumber, $email, $hashed_password);
+    $stmt->bind_param("sssssssssss", $user_id, $username, $firstname, $lastname, $gender, $address, $birthdate, $contactnumber, $email, $hashed_password, $token);
     
-    // Execute the statement
     if ($stmt->execute()) {
-        // Redirect after successful registration
-        header("Location: /Login");
-        exit();
+        // ✅ Send verification email
+        $verifyLink = "https://libraprintlucena.com/Registration/verify.php?token=" . $token;
+
+        $emailObj = new Mail();
+        $emailObj->setFrom("20220321@cstc.edu.ph", "Libraprint");
+        $emailObj->setSubject("Verify your email address");
+        $emailObj->addTo($email, $firstname . " " . $lastname);
+        $emailObj->addContent(
+            "text/html",
+            "Hello <b>$firstname</b>,<br><br>
+            Please verify your email by clicking the link below:<br>
+            <a href='$verifyLink'>$verifyLink</a><br><br>
+            Thank you!"
+        );
+
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        try {
+            $response = $sendgrid->send($emailObj);
+            echo "<script>alert('Registration successful! Please check your email to verify your account.'); window.location.href='/Login';</script>";
+        } catch (Exception $e) {
+            echo 'Caught exception: '. $e->getMessage() ."\n";
+        }
     } else {
         echo "An error occurred while registering. Please try again.";
     }
+
+    // // Execute the statement
+    // if ($stmt->execute()) {
+    //     // Redirect after successful registration
+    //     header("Location: /Login");
+    //     exit();
+    // } else {
+    //     echo "An error occurred while registering. Please try again.";
+    // }
 
     // Close the statement
     $stmt->close();
