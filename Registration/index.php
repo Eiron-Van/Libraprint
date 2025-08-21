@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $token = bin2hex(random_bytes(32));
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (user_id, username, first_name, last_name, gender, address, birthday, contact_number, email, password, verification_token, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (user_id, username, first_name, last_name, gender, address, birthday, contact_number, email, password, verification_token, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
     
     // Check if the statement was prepared successfully
     if (!$stmt) {
