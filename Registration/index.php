@@ -7,6 +7,8 @@ include("../connection.php");
 include("../function.php");
 
 require '../vendor/autoload.php';
+require 'vendor/sendgrid-php/sendgrid-php.php';
+
 use SendGrid\Mail\Mail;
 
 

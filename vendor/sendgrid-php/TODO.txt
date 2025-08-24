@@ -1,0 +1,10 @@
+This may be a breaking change, if so, I should change the signature for passing in dynamic templates and merge the other ticket that throws exceptions.
+
+When we include dynamic_template_data we should not also include substitutions
+
+Update unit tests
+Update all Use Cases
+
+git checkout master
+git merge --no-ff mwillbanks-dynamic-templates
+git push origin master
