@@ -100,11 +100,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
 
         require_once __DIR__ . '/../vendor/autoload.php';
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
         $dotenv->load();
 
         $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
-        
+
         try {
             $response = $sendgrid->send($emailObj);
             echo "<script>alert('Registration successful! Please check your email to verify your account.'); window.location.href='/Login';</script>";
