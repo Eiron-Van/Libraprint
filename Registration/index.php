@@ -180,10 +180,12 @@ $conn->close();
                                 <div class="relative w-full mb-4">
                                     <input required type="text" placeholder="Type or select..." id="city" name="city" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
                                     <div class="hidden absolute w-full max-h-50 overflow-y-auto mb-2 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full" id="city-dropdown"></div>
+                                    <label for="city">City</label>
                                 </div>
                                 <div class="relative w-full">
                                     <input required type="text" placeholder="Type or select..." id="barangay" name="barangay" class="w-full px-4 py-2 rounded-3xl bg-white text-black">
                                     <div class="hidden absolute w-full max-h-50 overflow-y-auto mb-2 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full" id="barangay-dropdown"></div>
+                                    <label for="barangay">Barangay</label>
                                 </div>
                             </div>
                         </div>
