@@ -7,8 +7,6 @@ include("../connection.php");
 include("../function.php");
 
 require '../vendor/autoload.php';
-require '../vendor/sendgrid-php/sendgrid-php.php';
-
 use SendGrid\Mail\Mail;
 
 
@@ -101,7 +99,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Thank you!"
         );
 
-        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        require_once __DIR__ . '/../vendor/autoload.php';
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->load();
+
+        $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
+        
         try {
             $response = $sendgrid->send($emailObj);
             echo "<script>alert('Registration successful! Please check your email to verify your account.'); window.location.href='/Login';</script>";

@@ -1,7 +1,7 @@
 <?php
 
 // send_otp.php
-require '../vendor/autoload.php'; // only if you used Composer
+require '../vendor/autoload.php';
 
 use SendGrid\Mail\Mail;
 
