@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
+        // Check if account is verified
+        if ($user['is_verified'] == 0) {
+            echo "<script>alert('Please check your email to verify your account.'); window.location.href='/Login';</script>";
+            exit();
+        }
+
         // Use password_verify to check the hashed password
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];

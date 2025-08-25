@@ -115,15 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "An error occurred while registering. Please try again.";
     }
 
-    // // Execute the statement
-    // if ($stmt->execute()) {
-    //     // Redirect after successful registration
-    //     header("Location: /Login");
-    //     exit();
-    // } else {
-    //     echo "An error occurred while registering. Please try again.";
-    // }
-
     // Close the statement
     $stmt->close();
 }
