@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../asset/fingerprint.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/style.css?v=1.5">
+    <script src="script.js"></script>
+
+    <title>Libraprint|Admin</title>
+
+</head>
+<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed overflow-hidden min-h-screen">
+    <header class="bg-gray-900 text-white sticky top-0 z-10">
+        <section class="max-w-[100rem] mx-auto p-3 lg:p-2 flex justify-between items-center">
+            <div class="flex items-center mx-4 space-x-6">
+                <div>
+                    <button id="menu" class="text-[30px] focus:outline-none cursor-pointer hover:opacity-60 active:opacity-40 transition-opacity duration-200 p-2">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <div id="brand" class="flex flex-row items-center space-x-1.5">
+                    <img src="/asset/fingerprint.png" class="w-15">
+                    <a class="text-2xl font-serif pt-2" href="https://libraprintlucena.com">Libraprint</a>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <div class="flex">
+        <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] w-fit top-19 fixed z-[9] inset-y-0">
+            <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
+                <ul>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/dashboard.png">Dashboard</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/users.png">Users</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 bg-slate-200 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/inventory.png">Inventory</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/reports.png">Reports</a></li>
+                    <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="/asset/about_us.png">About Us</a></li>
+                    <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/ContactUs"><img class="w-8 m-2" src="/asset/contact_us.png">Contact Us</a></li>
+                    <!-- <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="../asset/setting.png">Settings</a></li> -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <main class="mt-6 flex justify-center">
+        <h1 class="text-6xl font-serif text-white">Book Inventory Management</h1>
+    </main>
+</body>
+</html>
