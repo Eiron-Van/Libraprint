@@ -1,11 +1,12 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
  
-$servername = "DB_HOST";
-$username = "DB_USER";
-$password = "DB_PASS";
-$dbname = "DB_NAME";
+$servername = $_ENV['DB_HOST'];
+$username   = $_ENV['DB_USER'];
+$password   = $_ENV['DB_PASS'];
+$dbname     = $_ENV['DB_NAME'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
