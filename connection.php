@@ -1,8 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "u817157843_evr";
-$password = "Red59854";
-$dbname = "u817157843_login_db";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$servername = "DB_HOST";
+$username = "DB_USER";
+$password = "DB_PASS";
+$dbname = "DB_NAME";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
