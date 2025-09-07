@@ -93,7 +93,7 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['date_acquired']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm whitespace-nowrap'>".$row['status']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap'>
+                            <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
                                 <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
                                 <button class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</button>
                             </td>
