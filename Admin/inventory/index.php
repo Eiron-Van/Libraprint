@@ -77,7 +77,6 @@
                     }
 
 
-
                     $row_class = true; // for alternating colors
                     // read data of each row
                     while($row = $result->fetch_assoc()){
