@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <main class="mt-6 flex flex-col p-15">
+    <main class="mt-4 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
 
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
@@ -85,11 +85,11 @@
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['title']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['property_no']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit_value']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['accession_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['class_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['date_acquired']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['remarks']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap justify-center'>".$row['unit_value']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap justify-center'>".$row['accession_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap justify-center'>".$row['class_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap justify-center'>".$row['date_acquired']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap justify-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['status']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                 <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
@@ -98,9 +98,6 @@
                         </tr>";
                     }
                     ?>
-
-
-
 
 
 
@@ -118,22 +115,6 @@
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                             <button class="bg-amber-500 px-2 py-1 rounded-2xl inline-block">Edit</button>
                             <button class="bg-amber-500 px-2 py-1 rounded-2xl inline-block">Delete</button>
-                        </td>
-                    </tr>
-                    <tr class="bg-white">
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Eliot, George</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Silas Marner</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1 cp</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">6.95</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">4</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">El42si</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1984-02-24</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">RB</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Available</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                            <button class="bg-green-300 px-2 py-1 rounded-2xl inline-block">Edit</button>
-                            <button class="bg-red-300 px-2 py-1 rounded-2xl inline-block">Delete</button>
                         </td>
                     </tr>
                 </tbody>
