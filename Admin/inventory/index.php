@@ -47,7 +47,7 @@
 
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
-                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50">
+                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky">
                     <tr>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Author</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
@@ -80,7 +80,7 @@
                     $row_class = true; // for alternating colors
                     // read data of each row
                     while($row = $result->fetch_assoc()){
-                        $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#7581a6] text-gray-50';
+                        $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#98a8d8] text-gray-50';
                         $row_class = !$row_class;
                         echo"<tr class='$bg_color'>
                             <td class='p-3 text-sm whitespace-nowrap'>".$row['author']."</td>
