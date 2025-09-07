@@ -1051,6 +1051,16 @@
       font-size: .8rem;
     }
   }
+  .odd\:bg-white {
+    &:nth-child(odd) {
+      background-color: var(--color-white);
+    }
+  }
+  .even\:bg-\[\#7581a6\] {
+    &:nth-child(even) {
+      background-color: #7581a6;
+    }
+  }
   .hover\:scale-105 {
     &:hover {
       @media (hover: hover) {

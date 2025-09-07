@@ -80,16 +80,16 @@
 
                     // read data of each row
                     while($row = $result->fetch_assoc()){
-                        echo"<tr class='bg-white'>
+                        echo"<tr class='odd:bg-white even:bg-[#7581a6]'>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['author']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['title']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['property_no']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['unit_value']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['accession_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['class_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['date_acquired']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['remarks']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>".$row['unit_value']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>".$row['accession_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>".$row['class_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>".$row['date_acquired']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['status']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                 <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
