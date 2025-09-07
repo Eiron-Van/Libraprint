@@ -74,6 +74,11 @@
                         die("Invalid query: " . $conn->error);
                     }
 
+                    if ($result->num_rows === 0) {
+                        echo "<tr><td colspan='11' class='text-center text-white'>No books found in inventory.</td></tr>";
+                    }
+
+
                     // read data of each row
                     while($row = $result->fetch_assoc()){
                         echo"
@@ -94,31 +99,7 @@
                             </td>
                         </tr>";
                     }
-
                     ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
