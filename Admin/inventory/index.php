@@ -42,10 +42,10 @@
         </div>
     </div>
 
-    <main class="mt-6 flex flex-col p-5">
+    <main class="mt-6 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
 
-        <div class="overflow-auto rounded-2xl shadow">
+        <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
                 <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50">
                     <tr>
@@ -92,8 +92,8 @@
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['remarks']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['status']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                <button class='bg-amber-500 px-2 py-1 rounded-2xl inline-block'>Edit</button>
-                                <button class='bg-amber-500 px-2 py-1 rounded-2xl inline-block'>Delete</button>
+                                <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
+                                <button class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</button>
                             </td>
                         </tr>";
                     }
@@ -104,7 +104,7 @@
 
 
 
-                    <!-- <tr class="bg-white">
+                    <tr class="bg-white">
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Carnegie, Dale</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">How to win friends and influence people</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
@@ -132,10 +132,10 @@
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">RB</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Available</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                            <button class="bg-yellow-300 px-2 py-1 rounded-2xl inline-block">Edit</button>
+                            <button class="bg-green-300 px-2 py-1 rounded-2xl inline-block">Edit</button>
                             <button class="bg-red-300 px-2 py-1 rounded-2xl inline-block">Delete</button>
                         </td>
-                    </tr> -->
+                    </tr>
                 </tbody>
     
             </table>
