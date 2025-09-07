@@ -703,6 +703,9 @@
   .border-slate-600 {
     border-color: var(--color-slate-600);
   }
+  .bg-\[\#8f9ecc\] {
+    background-color: #8f9ecc;
+  }
   .bg-\[\#033ff3\] {
     background-color: #033ff3;
   }
