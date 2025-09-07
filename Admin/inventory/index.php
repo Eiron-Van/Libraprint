@@ -66,7 +66,7 @@
                     <?php
                     error_reporting(E_ALL);
                     ini_set('display_errors', 1);
-                    include 'connection.php';
+                    include '../../connection.php';
 
                     // read all row from database
                     $sql = "SELECT * FROM book_inventory";
