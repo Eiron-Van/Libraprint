@@ -64,6 +64,8 @@
                 </thead>
                 <tbody class="divide-y divide-[#5a6480]">
                     <?php
+                    error_reporting(E_ALL);
+                    ini_set('display_errors', 1);
                     include 'connection.php';
 
                     // read all row from database
