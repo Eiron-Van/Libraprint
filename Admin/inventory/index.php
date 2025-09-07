@@ -78,19 +78,18 @@
 
                     // read data of each row
                     while($row = $result->fetch_assoc()){
-                        echo"
-                        <tr class='bg-white'>
-                            <td>".$row['author']."</td>
-                            <td>".$row['title']."</td>
-                            <td>".$row['property_no']."</td>
-                            <td>".$row['unit']."</td>
-                            <td>".$row['unit_value']."</td>
-                            <td>".$row['accession_no']."</td>
-                            <td>".$row['class_no']."</td>
-                            <td>".$row['date_acquired']."</td>
-                            <td>".$row['remarks']."</td>
-                            <td>".$row['status']."</td>
-                            <td>
+                        echo"<tr class='bg-white'>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['author']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['title']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['property_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit_value']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['accession_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['class_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['date_acquired']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['remarks']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['status']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                 <button class='bg-amber-500 px-2 py-1 rounded-2xl inline-block'>Edit</button>
                                 <button class='bg-amber-500 px-2 py-1 rounded-2xl inline-block'>Delete</button>
                             </td>
