@@ -74,6 +74,12 @@
                         die("Invalid query: " . $conn->error);
                     }
 
+                    if (!$result) {
+                        die("Query failed: " . $conn->error);
+                    } else {
+                        echo "Rows found: " . $result->num_rows . "<br>";
+                    }
+
                     if ($result->num_rows === 0) {
                         echo "<tr><td colspan='11' class='text-center text-white'>No books found in inventory.</td></tr>";
                     }
