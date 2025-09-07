@@ -85,11 +85,11 @@
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['title']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['property_no']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['unit']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap flex items-center'>".$row['unit_value']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap flex items-center'>".$row['accession_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap flex items-center'>".$row['class_no']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap flex items-center'>".$row['date_acquired']."</td>
-                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap flex items-center'>".$row['remarks']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['unit_value']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['accession_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['class_no']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['date_acquired']."</td>
+                            <td class='p-3 text-sm text-gray-700 whitespace-nowrap items-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['status']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                 <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
