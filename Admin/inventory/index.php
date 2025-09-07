@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/style.css?v=1.5">
     <script src="/Admin/script.js"></script>
+    <script src="edit_delete.js"></script>
 
     <title>Libraprint|Admin|Inventory</title>
 
@@ -94,16 +95,13 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm whitespace-nowrap'>".$row['status']."</td>
                             <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
-                                <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</button>
-                                <button class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</button>
+                                <button class='bg-green-300 px-2 py-1 rounded-2xl inline-block edit-btn' data-id='".$row['item_id']."'>Edit</button>
+                                <button class='bg-red-300 px-2 py-1 rounded-2xl inline-block delete-btn' data-id='".$row['item_id']."'>Delete</button>
                             </td>
                         </tr>";
                     }
                     ?>
-
-
-
-                    <tr class="bg-white">
+                    <!-- <tr class="bg-white">
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Carnegie, Dale</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">How to win friends and influence people</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
@@ -118,11 +116,76 @@
                             <button class="bg-amber-500 px-2 py-1 rounded-2xl inline-block">Edit</button>
                             <button class="bg-amber-500 px-2 py-1 rounded-2xl inline-block">Delete</button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
-    
             </table>
         </div>
+        <!-- Edit Modal -->
+        <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white p-6 rounded-2xl w-96">
+                <h2 class="text-2xl mb-4">Edit Book</h2>
+                <input id="editAuthor" type="text" placeholder="Author" class="border p-2 w-full mb-2">
+                <input id="editTitle" type="text" placeholder="Title" class="border p-2 w-full mb-2">
+                <!-- add other fields similarly -->
+                <button id="saveEdit" class="bg-green-500 text-white px-4 py-2 rounded">Save</button>
+                <button onclick="closeModal('editModal')" class="bg-red-500 text-white px-4 py-2 rounded">Cancel</button>
+            </div>
+        </div>
     </main>
+    <script>
+    function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+    }
+
+    // Edit Button
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const bookId = btn.dataset.id;
+
+            fetch(`/Admin/getBook.php?id=${bookId}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('editAuthor').value = data.author;
+                document.getElementById('editTitle').value = data.title;
+                // populate other fields
+                document.getElementById('editModal').classList.remove('hidden');
+                
+                document.getElementById('saveEdit').onclick = () => {
+                    const updatedData = {
+                        id: bookId,
+                        author: document.getElementById('editAuthor').value,
+                        title: document.getElementById('editTitle').value
+                    };
+                    
+                    fetch('/Admin/updateBook.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedData)
+                    })
+                    .then(res => res.json())
+                    .then(resp => {
+                        if(resp.success) location.reload();
+                        else alert('Update failed');
+                    });
+                };
+            });
+        });
+    });
+
+    // Delete Button
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const bookId = btn.dataset.id;
+            if(confirm('Are you sure you want to delete this book?')) {
+                fetch(`/Admin/deleteBook.php?id=${bookId}`, { method: 'POST' })
+                .then(res => res.json())
+                .then(resp => {
+                    if(resp.success) location.reload();
+                    else alert('Delete failed');
+                });
+            }
+        });
+    });
+    </script>
 </body>
 </html>
