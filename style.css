@@ -733,6 +733,9 @@
   .bg-cyan-700 {
     background-color: var(--color-cyan-700);
   }
+  .bg-gray-100 {
+    background-color: var(--color-gray-100);
+  }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
   }

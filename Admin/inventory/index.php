@@ -80,7 +80,9 @@
 
                     // read data of each row
                     while($row = $result->fetch_assoc()){
-                        echo"<tr class='odd:bg-white even:bg-[#7581a6]'>
+                        $bg_color = $row_class ? 'bg-white' : 'bg-gray-100';
+                        $row_class = !$row_class;
+                        echo"<tr class='bg-white'>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['author']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['title']."</td>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['property_no']."</td>
