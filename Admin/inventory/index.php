@@ -78,9 +78,10 @@
 
 
 
+                    $row_class = true; // for alternating colors
                     // read data of each row
                     while($row = $result->fetch_assoc()){
-                        $bg_color = $row_class ? 'bg-white' : 'bg-gray-100';
+                        $bg_color = $row_class ? 'bg-white' : 'bg-[#7581a6]';
                         $row_class = !$row_class;
                         echo"<tr class='bg-white'>
                             <td class='p-3 text-sm text-gray-700 whitespace-nowrap'>".$row['author']."</td>
