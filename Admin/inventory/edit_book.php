@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("ssssssssssi", $author, $title, $property_no, $unit, $unit_value, $accession_no, $class_no, $date_acquired, $remarks, $status, $id);
     $stmt->execute();
 
-    header("Location: index.php");
+    header("Location: https://libraprintlucena.com/Admin/inventory");
     exit;
 }
 ?>

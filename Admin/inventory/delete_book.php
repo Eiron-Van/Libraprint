@@ -13,6 +13,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 
-header("Location: index.php");
+header("Location: https://libraprintlucena.com/Admin/inventory");
 exit;
 ?>

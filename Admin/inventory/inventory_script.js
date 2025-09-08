@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("searchInput");
-    const table = document.querySelector("table tbody");
+    const tableBody = document.querySelector("table tbody");
 
     searchInput.addEventListener("keyup", function () {
-        const filter = searchInput.value.toLowerCase();
-        const rows = table.getElementsByTagName("tr");
+        const filter = searchInput.value.toLowerCase().trim();
+        const rows = tableBody.getElementsByTagName("tr");
 
         Array.from(rows).forEach(row => {
-            const text = row.innerText.toLowerCase();
-            if (text.includes(filter)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(filter) ? "" : "none";
         });
     });
+});
+
 });
 
 function confirmDelete() {
