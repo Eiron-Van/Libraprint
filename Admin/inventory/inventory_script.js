@@ -5,14 +5,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     searchInput.addEventListener("keyup", function () {
         const filter = searchInput.value.toLowerCase().trim();
-        const rows = tableBody.getElementsByTagName("tr");
+        const rows = tableBody.querySelectorAll("tr");
 
-        Array.from(rows).forEach(row => {
-            const rowText = row.innerText.toLowerCase();
-            row.style.display = rowText.includes(filter) ? "" : "none";
+        rows.forEach(row => {
+            // Get plain text of row, strip extra spaces
+            const rowText = row.textContent.toLowerCase().replace(/\s+/g, " ");
+            if (rowText.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
         });
     });
 });
+
 
 });
 
