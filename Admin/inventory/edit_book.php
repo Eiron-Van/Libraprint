@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 class="w-full shadow px-3 py-1 rounded-lg">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="class_no" value="<?php echo $book['class_no']; ?>">
+                                <input type="text" name="class_no" value="<?php echo $book['class_no']; ?>"
                                 class="w-full shadow px-3 py-1 rounded-lg">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
