@@ -59,7 +59,7 @@
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-23">Class No.</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Date Acquired</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-10">Remarks</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-15">Status</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-center w-15">Status</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-35"></th>
                     </tr>
                 </thead>
@@ -88,16 +88,16 @@
                         $status_class = '';
                         switch (strtolower($row['status'])) {
                             case 'available':
-                                $status_class = 'text-green-600 font-semibold';
+                                $status_class = 'bg-green-300 px-2 py-1 rounded-2xl font-semibold';
                                 break;
                             case 'checked out':
-                                $status_class = 'text-yellow-600 font-semibold';
+                                $status_class = 'bg-yellow-300 px-2 py-1 rounded-2xl font-semibold';
                                 break;
                             case 'missing':
-                                $status_class = 'text-red-600 font-semibold';
+                                $status_class = 'bg-red-300 px-2 py-1 rounded-2xl font-semibold';
                                 break;
                             case 'reserved':
-                                $status_class = 'text-blue-600 font-semibold';
+                                $status_class = 'bg-blue-300 px-2 py-1 rounded-2xl font-semibold';
                                 break;
                             default:
                                 $status_class = 'text-gray-600';
@@ -114,7 +114,7 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['class_no']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['date_acquired']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap $status_class'>".$row['status']."</td>
+                            <td class='text-sm whitespace-nowrap text-center $status_class'>".$row['status']."</td>
                             <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
                                 <a href='' class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
                                 <a href='' class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
