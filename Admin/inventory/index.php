@@ -45,7 +45,10 @@
 
     <main class="mt-4 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
-
+        <div class="mb-4">
+            <input type="text" id="search" placeholder="Search..."
+            class="w-1/3 px-4 py-1.5 rounded-md focus:outline-none bg-white">
+        </div>
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
                 <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
