@@ -88,16 +88,16 @@
                         $status_class = '';
                         switch (strtolower($row['status'])) {
                             case 'available':
-                                $status_class = 'bg-green-300 px-2 py-1 rounded-2xl font-semibold';
+                                $status_class = 'bg-green-300 rounded font-semibold';
                                 break;
                             case 'checked out':
-                                $status_class = 'bg-yellow-300 px-2 py-1 rounded-2xl font-semibold';
+                                $status_class = 'bg-yellow-300 rounded font-semibold';
                                 break;
                             case 'missing':
-                                $status_class = 'bg-red-300 px-2 py-1 rounded-2xl font-semibold';
+                                $status_class = 'bg-red-300 rounded font-semibold';
                                 break;
                             case 'reserved':
-                                $status_class = 'bg-blue-300 px-2 py-1 rounded-2xl font-semibold';
+                                $status_class = 'bg-blue-300 rounded font-semibold';
                                 break;
                             default:
                                 $status_class = 'text-gray-600';
