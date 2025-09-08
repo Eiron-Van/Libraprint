@@ -48,7 +48,7 @@
 
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
-                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-10">
+                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
                     <tr>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Author</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
@@ -77,12 +77,33 @@
                         die("Invalid query: " . $conn->error);
                     }
 
-
                     $row_class = true; // for alternating colors
+
                     // read data of each row
                     while($row = $result->fetch_assoc()){
                         $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#8f9ecc] text-gray-700';
                         $row_class = !$row_class;
+
+                        // Assign status color
+                        $status_class = '';
+                        switch (strtolower($row['status'])) {
+                            case 'available':
+                                $status_class = 'text-green-600 font-semibold';
+                                break;
+                            case 'checked out':
+                                $status_class = 'text-yellow-600 font-semibold';
+                                break;
+                            case 'missing':
+                                $status_class = 'text-red-600 font-semibold';
+                                break;
+                            case 'reserved':
+                                $status_class = 'text-blue-600 font-semibold';
+                                break;
+                            default:
+                                $status_class = 'text-gray-600';
+                                break;
+                        }
+
                         echo"<tr class='$bg_color'>
                             <td class='p-3 text-sm whitespace-nowrap'>".$row['author']."</td>
                             <td class='p-3 text-sm whitespace-nowrap'>".$row['title']."</td>
@@ -93,7 +114,7 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['class_no']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['date_acquired']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap'>".$row['status']."</td>
+                            <td class='p-3 text-sm whitespace-nowrap $status_class'>".$row['status']."</td>
                             <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
                                 <a href='' class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
                                 <a href='' class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
