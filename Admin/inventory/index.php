@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/style.css?v=1.5">
     <script src="/Admin/script.js"></script>
-    <script src="edit_delete.js"></script>
+    <script src="inventory_script.js"></script>
 
     <title>Libraprint|Admin|Inventory</title>
 
@@ -116,8 +116,8 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'><span class='$status_class'>".$row['status']."</span></td>
                             <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
-                                <a href='' class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
-                                <a href='' class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
+                                <a href='edit_book.php?id=".$row['item_id']."' class='bg-green-300 hover:bg-green-400 active:bg-green-500 px-2 py-1 rounded-2xl inline-block'>Edit</a>
+                                <a href='delete_book.php?id=".$row['id']."' onclick='return confirmDelete();' class='bg-red-300 hover:bg-red-400 active:bg-red-500 px-2 py-1 rounded-2xl inline-block'>Delete</a>
                             </td>
                         </tr>";
                     }
