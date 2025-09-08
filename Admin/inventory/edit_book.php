@@ -4,13 +4,13 @@ ini_set('display_errors', 1);
 include '../../connection.php';
 
 // Get book ID
-$id = $_GET['id'] ?? null;
+$id = $_GET['item_id'] ?? null;
 if (!$id) {
     die("Invalid book ID.");
 }
 
 // Fetch book details
-$sql = "SELECT * FROM book_inventory WHERE id=?";
+$sql = "SELECT * FROM book_inventory WHERE item_id=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
