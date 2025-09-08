@@ -114,7 +114,7 @@
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['class_no']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['date_acquired']."</td>
                             <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
-                            <td class='text-sm whitespace-nowrap text-center $status_class'>".$row['status']."</td>
+                            <td class='p-3 text-sm whitespace-nowrap text-center'><span class='$status_class'>".$row['status']."</span></td>
                             <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
                                 <a href='' class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
                                 <a href='' class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
@@ -122,7 +122,7 @@
                         </tr>";
                     }
                     ?>
-                    <!-- <tr class="bg-white">
+                    <tr class="bg-white">
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Carnegie, Dale</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">How to win friends and influence people</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
@@ -137,7 +137,7 @@
                             <a href="" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
                             <a href="" class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
                         </td>
-                    </tr> -->
+                    </tr>
                 </tbody>
             </table>
         </div>
