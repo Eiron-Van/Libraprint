@@ -3,8 +3,27 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include '../../connection.php';
 
-// read all row from database
-$sql = "SELECT * FROM book_inventory WHERE author LIKE '%search%' OR title LIKE '%search%' OR property_no LIKE '%search%' OR unit LIKE '%search%' OR unit_value LIKE '%search%' OR accession_no LIKE '%search%' OR class_no LIKE '%search%' OR date_acquired LIKE '%search%' OR remarks LIKE '%search%' OR status LIKE '%search%'";
+// get search input (if any)
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// build SQL query
+if (!empty($search)) {
+    $search = $conn->real_escape_string($search); // prevent SQL injection
+    $sql = "SELECT * FROM book_inventory 
+            WHERE author LIKE '%$search%' 
+            OR title LIKE '%$search%' 
+            OR property_no LIKE '%$search%' 
+            OR unit LIKE '%$search%' 
+            OR unit_value LIKE '%$search%' 
+            OR accession_no LIKE '%$search%' 
+            OR class_no LIKE '%$search%' 
+            OR date_acquired LIKE '%$search%' 
+            OR remarks LIKE '%$search%' 
+            OR status LIKE '%$search%'";
+} else {
+    // if no search term, just show all books
+    $sql = "SELECT * FROM book_inventory";
+}
 $result = $conn->query($sql);
 
 if (!$result){
