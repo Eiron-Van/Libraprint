@@ -25,7 +25,7 @@ if (!empty($search)) {
     $sql = "SELECT * FROM book_inventory";
 }
 $result = $conn->query($sql);
-$num_rows = mysqli_num_rows($sql);
+$num_rows = $result->num_rows;
 
 if (!$result){
 die("Invalid query: " . $conn->error);
