@@ -1,3 +1,21 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include '../../connection.php';
+
+// read all row from database
+$sql = "SELECT * FROM book_inventory WHERE author LIKE '%search%' OR title LIKE '%search%' OR property_no LIKE '%search%' OR unit LIKE '%search%' OR unit_value LIKE '%search%' OR accession_no LIKE '%search%' OR class_no LIKE '%search%' OR date_acquired LIKE '%search%' OR remarks LIKE '%search%' OR status LIKE '%search%'";
+$result = $conn->query($sql);
+
+if (!$result){
+die("Invalid query: " . $conn->error);
+}
+
+$row_class = true; // for alternating colors
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,11 +63,19 @@
 
     <main class="mt-4 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
-        <div class="mb-4">
-            <input type="text" id="search" placeholder="Search..."
-            class="w-1/3 px-4 py-1.5 rounded-md focus:outline-none bg-white">
-            <button type="submit">go</button>
-        </div>
+        
+        <form action="index.php" method="get" class="w-1/3">
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
+                <input type="search" id="search" name="search" placeholder="Search..." class="block w-full p-4 ps-10 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"/>
+                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-[#23304e] hover:bg-[#5c6072] focus:ring-3 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+            </div>
+        </form>
+
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
                 <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
@@ -69,19 +95,7 @@
                 </thead>
                 <tbody class="divide-y divide-[#5a6480]">
                     <?php
-                    error_reporting(E_ALL);
-                    ini_set('display_errors', 1);
-                    include '../../connection.php';
-
-                    // read all row from database
-                    $sql = "SELECT * FROM book_inventory";
-                    $result = $conn->query($sql);
-
-                    if (!$result){
-                        die("Invalid query: " . $conn->error);
-                    }
-
-                    $row_class = true; // for alternating colors
+                    
 
                     // read data of each row
                     while($row = $result->fetch_assoc()){
