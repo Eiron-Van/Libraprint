@@ -48,6 +48,7 @@
         <div class="mb-4">
             <input type="text" id="search" placeholder="Search..."
             class="w-1/3 px-4 py-1.5 rounded-md focus:outline-none bg-white">
+            <button type="submit">go</button>
         </div>
         <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
             <table class="w-full">
