@@ -52,7 +52,7 @@ function highlightTerms(string $text, string $search): string {
 }
 
 // output table
-echo "<div id='results-count' class='m-2 text-white'>
+echo "<div id='results-count'>
         <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
       </div>";
 
