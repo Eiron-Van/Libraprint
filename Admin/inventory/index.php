@@ -101,7 +101,8 @@ $row_class = true; // for alternating colors
             </div>
         </form>
 
-        <div id="results" class="max-h-[600px] rounded-lg shadow text-white">
+        <?php echo "<p class='m-2'><strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'</p>"; ?>
+        <div id="results" class="overflow-auto max-h-[600px] rounded-lg shadow text-white">
             Loading...
         </div>
     </main>
