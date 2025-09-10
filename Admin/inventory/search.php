@@ -53,7 +53,7 @@ function highlightTerms(string $text, string $search): string {
 
 // output table
 echo "<p class='m-2'><strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'</p>";
-echo "<table class='w-full'>";
+echo "<table class='w-full overflow-auto'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>

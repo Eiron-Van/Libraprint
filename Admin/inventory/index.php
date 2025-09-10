@@ -101,7 +101,7 @@ $row_class = true; // for alternating colors
             </div>
         </form>
 
-        <div id="results" class="overflow-auto max-h-[600px] rounded-lg shadow text-white">
+        <div id="results" class="max-h-[600px] rounded-lg shadow text-white">
             Loading...
         </div>
     </main>
