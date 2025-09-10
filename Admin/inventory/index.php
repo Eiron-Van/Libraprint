@@ -5,38 +5,6 @@ include '../../connection.php';
 
 // get search input (if any)
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-
-// build SQL query
-if (!empty($search)) {
-    $sql = "SELECT * FROM book_inventory 
-            WHERE author LIKE ? 
-            OR title LIKE ? 
-            OR property_no LIKE ? 
-            OR unit LIKE ? 
-            OR unit_value LIKE ? 
-            OR accession_no LIKE ? 
-            OR class_no LIKE ? 
-            OR date_acquired LIKE ? 
-            OR remarks LIKE ? 
-            OR status LIKE ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssss", $search, $search, $search, $search, $search, $search, $search, $search, $search, $search);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} else {
-    // if no search term, just show all books
-    $sql = "SELECT * FROM book_inventory";
-}
-$result = $conn->query($sql);
-$num_rows = $result->num_rows;
-
-if (!$result){
-die("Invalid query: " . $conn->error);
-}
-
-$row_class = true; // for alternating colors
-
-
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +69,6 @@ $row_class = true; // for alternating colors
             </div>
         </form>
 
-        <?php echo "<p class='m-2'><strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'</p>"; ?>
         <div id="results" class="overflow-auto max-h-[600px] rounded-lg shadow text-white">
             Loading...
         </div>
