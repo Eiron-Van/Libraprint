@@ -52,7 +52,11 @@ function highlightTerms(string $text, string $search): string {
 }
 
 // output table
-echo "<p class='m-2'><strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'</p>";
+echo "<div id='results-count' class='m-2 text-white'>
+        <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
+      </div>";
+
+echo "<div class='overflow-auto max-h-[600px] rounded-lg shadow text-white'>";
 echo "<table class='w-full'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
@@ -102,5 +106,5 @@ while ($row = $result->fetch_assoc()) {
       </td>
     </tr>";
 }
-echo "</tbody></table>";
+echo "</tbody></table></div>";
 ?>

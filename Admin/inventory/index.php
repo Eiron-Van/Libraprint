@@ -69,6 +69,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             </div>
         </form>
 
+        <div id="results-count"></div>
         <div id="results" class="overflow-auto max-h-[600px] rounded-lg shadow text-white">
             Loading...
         </div>

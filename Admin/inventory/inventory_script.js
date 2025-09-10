@@ -7,7 +7,17 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.open("GET", "search.php?search=" + encodeURIComponent(query), true);
     xhr.onload = function () {
       if (xhr.status === 200) {
-        resultsDiv.innerHTML = xhr.responseText;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xhr.responseText, "text/html");
+
+        // Extract results count and table
+        const count = doc.getElementById("results-count");
+        const table = doc.querySelector("div.overflow-auto");
+
+        if (count) document.getElementById("results-count").innerHTML = count.innerHTML;
+        if (table) document.getElementById("results").innerHTML = table.innerHTML;
+
+        // resultsDiv.innerHTML = xhr.responseText;
       }
     };
     xhr.send();
