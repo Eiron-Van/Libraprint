@@ -8,18 +8,21 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 // build SQL query
 if (!empty($search)) {
-    $search = $conn->real_escape_string($search); // prevent SQL injection
     $sql = "SELECT * FROM book_inventory 
-            WHERE author LIKE '%$search%' 
-            OR title LIKE '%$search%' 
-            OR property_no LIKE '%$search%' 
-            OR unit LIKE '%$search%' 
-            OR unit_value LIKE '%$search%' 
-            OR accession_no LIKE '%$search%' 
-            OR class_no LIKE '%$search%' 
-            OR date_acquired LIKE '%$search%' 
-            OR remarks LIKE '%$search%' 
-            OR status LIKE '%$search%'";
+            WHERE author LIKE ? 
+            OR title LIKE ? 
+            OR property_no LIKE ? 
+            OR unit LIKE ? 
+            OR unit_value LIKE ? 
+            OR accession_no LIKE ? 
+            OR class_no LIKE ? 
+            OR date_acquired LIKE ? 
+            OR remarks LIKE ? 
+            OR status LIKE ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssss", $search, $search, $search, $search, $search, $search, $search, $search, $search, $search);
+    $stmt->execute();
+    $result = $stmt->get_result();
 } else {
     // if no search term, just show all books
     $sql = "SELECT * FROM book_inventory";
@@ -44,6 +47,8 @@ $row_class = true; // for alternating colors
     <link rel="icon" href="../asset/fingerprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/style.css?v=1.5">
+    <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 2px; border-radius: 3px;}
+  </style>
     <script src="/Admin/script.js"></script>
     <script src="inventory_script.js"></script>
 
@@ -84,8 +89,8 @@ $row_class = true; // for alternating colors
     <main class="mt-4 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
         
-        <form action="index.php" method="get" class="w-1/3">
-            <div class="relative mb-2">
+        <form onsubmit="return false;" class="w-1/3">
+            <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -96,92 +101,9 @@ $row_class = true; // for alternating colors
             </div>
         </form>
 
-        <p class="text-white m-2"><strong><?php echo $num_rows;?></strong> results for '<?php echo $search; ?>'</p>
-
-        <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
-            <table class="w-full">
-                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
-                    <tr>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Author</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-5">Unit</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit Value</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Accession No.</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-23">Class No.</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Date Acquired</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-10">Remarks</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-center w-15">Status</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-35"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-[#5a6480]">
-                    <?php
-                    
-
-                    // read data of each row
-                    while($row = $result->fetch_assoc()){
-                        $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#8f9ecc] text-gray-700';
-                        $row_class = !$row_class;
-
-                        // Assign status color
-                        $status_class = '';
-                        switch (strtolower($row['status'])) {
-                            case 'available':
-                                $status_class = 'bg-green-300 px-2 py-1 rounded font-semibold';
-                                break;
-                            case 'checked out':
-                                $status_class = 'bg-yellow-300 px-2 py-1 rounded font-semibold';
-                                break;
-                            case 'missing':
-                                $status_class = 'bg-red-300 px-2 py-1 rounded font-semibold';
-                                break;
-                            case 'reserved':
-                                $status_class = 'bg-blue-300 px-2 py-1 rounded font-semibold';
-                                break;
-                            default:
-                                $status_class = 'text-gray-600';
-                                break;
-                        }
-
-                        echo"<tr class='$bg_color'>
-                            <td class='p-3 text-sm whitespace-nowrap'>".$row['author']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap'>".$row['title']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap'>".$row['property_no']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap'>".$row['unit']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['unit_value']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['accession_no']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['class_no']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['date_acquired']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'>".$row['remarks']."</td>
-                            <td class='p-3 text-sm whitespace-nowrap text-center'><span class='$status_class'>".$row['status']."</span></td>
-                            <td class='p-3 text-gray-700 text-sm whitespace-nowrap'>
-                                <a href='edit_book.php?item_id=".$row['item_id']."' class='bg-green-300 hover:bg-green-400 active:bg-green-500 px-2 py-1 rounded-2xl inline-block'>Edit</a>
-                                <a href='delete_book.php?item_id=".$row['item_id']."' onclick='return confirmDelete();' class='bg-red-300 hover:bg-red-400 active:bg-red-500 px-2 py-1 rounded-2xl inline-block'>Delete</a>
-                            </td>
-                        </tr>";
-                    }
-                    ?>
-                    <!-- <tr class="bg-white">
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Carnegie, Dale</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">How to win friends and influence people</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1 cp</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">17.95</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">177.6</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1984-02-24</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">RB</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Available</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                            <a href="" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
-                            <a href="" class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
-                        </td>
-                    </tr> -->
-                </tbody>
-            </table>
+        <div id="results" class="overflow-auto max-h-[600px] rounded-lg shadow text-white">
+            Loading...
         </div>
-
-    
+    </main>
 </body>
 </html>

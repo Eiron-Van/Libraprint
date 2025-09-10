@@ -1,25 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("searchInput");
-    const tableBody = document.querySelector("table tbody");
+  const searchInput = document.getElementById("search");
+  const resultsDiv = document.getElementById("results");
 
-    searchInput.addEventListener("keyup", function () {
-        const filter = searchInput.value.toLowerCase().trim();
-        const rows = tableBody.querySelectorAll("tr");
+  function fetchResults(query) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "search.php?search=" + encodeURIComponent(query), true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        resultsDiv.innerHTML = xhr.responseText;
+      }
+    };
+    xhr.send();
+  }
 
-        rows.forEach(row => {
-            // Get plain text of row, strip extra spaces
-            const rowText = row.textContent.toLowerCase().replace(/\s+/g, " ");
-            if (rowText.includes(filter)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    });
-});
+  // fetch on page load (with current value)
+  fetchResults(searchInput.value);
 
-
+  // live search with delay
+  let timer;
+  searchInput.addEventListener("input", function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fetchResults(this.value);
+    }, 300); // wait 300ms after typing stops
+  });
 });
 
 function confirmDelete() {
