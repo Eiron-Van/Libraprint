@@ -56,19 +56,20 @@ echo "<p><strong>$num_rows</strong> results for '" . htmlspecialchars($search) .
 echo "<table class='w-full'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
-          <th class='p-3'>Author</th>
-          <th class='p-3'>Title</th>
-          <th class='p-3'>Property No.</th>
-          <th class='p-3'>Unit</th>
-          <th class='p-3'>Unit Value</th>
-          <th class='p-3'>Accession No.</th>
-          <th class='p-3'>Class No.</th>
-          <th class='p-3'>Date Acquired</th>
-          <th class='p-3'>Remarks</th>
-          <th class='p-3'>Status</th>
-          <th class='p-3'></th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-28'>Property No.</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-5'>Unit</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Unit Value</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-30'>Accession No.</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-23'>Class No.</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-30'>Date Acquired</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-10'>Remarks</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-center w-15'>Status</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-35'></th>
         </tr>
-      </thead><tbody>";
+      </thead>
+      <tbody class='divide-y divide-[#5a6480]'>";
 
 $row_class = true;
 while ($row = $result->fetch_assoc()) {
@@ -85,16 +86,16 @@ while ($row = $result->fetch_assoc()) {
     }
 
     echo "<tr class='$bg_color'>
-      <td class='p-3'>" . highlightTerms($row['author'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['title'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['property_no'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['unit'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['unit_value'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['accession_no'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['class_no'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['date_acquired'], $search) . "</td>
-      <td class='p-3'>" . highlightTerms($row['remarks'], $search) . "</td>
-      <td class='p-3'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
+      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['author'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['title'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['unit'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['unit_value'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['accession_no'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['class_no'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['date_acquired'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
+      <td class='p-3 text-sm whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
       <td class='p-3'>
         <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
         <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
