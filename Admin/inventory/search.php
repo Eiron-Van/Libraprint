@@ -7,18 +7,21 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // query
 if (!empty($search)) {
-    $safe_search = $conn->real_escape_string($search);
     $sql = "SELECT * FROM book_inventory 
-            WHERE author LIKE '%$safe_search%' 
-            OR title LIKE '%$safe_search%' 
-            OR property_no LIKE '%$safe_search%' 
-            OR unit LIKE '%$safe_search%' 
-            OR unit_value LIKE '%$safe_search%' 
-            OR accession_no LIKE '%$safe_search%' 
-            OR class_no LIKE '%$safe_search%' 
-            OR date_acquired LIKE '%$safe_search%' 
-            OR remarks LIKE '%$safe_search%' 
-            OR status LIKE '%$safe_search%'";
+            WHERE author LIKE ? 
+            OR title LIKE ? 
+            OR property_no LIKE ? 
+            OR unit LIKE ? 
+            OR unit_value LIKE ? 
+            OR accession_no LIKE ? 
+            OR class_no LIKE ? 
+            OR date_acquired LIKE ? 
+            OR remarks LIKE ? 
+            OR status LIKE ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssss", $search, $search, $search, $search, $search, $search, $search, $search, $search, $search);
+    $stmt->execute();
+    $result = $stmt->get_result();
 } else {
     $sql = "SELECT * FROM book_inventory";
 }
