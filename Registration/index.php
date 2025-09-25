@@ -189,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     flex flex-col items-center gap-4 p-6 w-96 rounded-3xl bg-gradient-to-b from-[#304475] to-[#0c0c0c]
     text-white text-center shadow-2xl z-50">
         <h1 class="text-3xl">Enroll Fingerprint</h1>
-        <a href="libraprint-e://" class="bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-xl">Open Fingerprint Scanner</a>
+        <a href="libraprint-e://enroll?session=<?=session_id()?>" class="bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-xl">Open Fingerprint Scanner</a>
         <p>Onced scanned, your registration will be completed automatically</p>
     </section>
     
