@@ -70,7 +70,7 @@ if ($stmt->execute()) {
     );
 
     require_once __DIR__ . '/../vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
     $dotenv->load();
     $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
 
