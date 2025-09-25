@@ -1,11 +1,13 @@
 <?php
-if (isset($_GET['session'])) {
-    session_id($_GET['session']);  // Force PHP to resume that session
-}
+session_id($_POST['session'] ?? '');
 session_start();
 if (!isset($_SESSION['pending_registration'])) {
     echo "No registration data found.";
     exit();
+}
+if (!isset($_POST['fingerprint_data'])) {
+    echo "No fingerprint data received";
+    exit;
 }
 
 require '../vendor/autoload.php';
