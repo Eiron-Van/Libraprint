@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="libraprint-e://" class="bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-xl">Open Fingerprint Scanner</a>
         <p>Onced scanned, your registration will be completed automatically</p>
     </section>
-    <script src="address.js"></script>
+    
     <script>
         const form = document.getElementById("registrationForm");
         form.addEventListener("submit", function(e) {
@@ -214,5 +214,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             .catch(err => alert("Request failed: " + err));
         });
     </script>
+    <script src="address.js"></script>
 </body>
 </html>
