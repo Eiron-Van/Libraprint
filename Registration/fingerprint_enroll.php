@@ -17,13 +17,14 @@ if (!isset($_POST['fingerprint_data'])) {
     exit;
 }
 
+include "../connection.php";
+include "../function.php";
 require '../vendor/autoload.php';
 use SendGrid\Mail\Mail;
 
 $data = $_SESSION['pending_registration'];
 
-include "../connection.php";
-include "../function.php";
+
 
 $user_id = random_num(20);
 $token = bin2hex(random_bytes(32));
@@ -70,15 +71,21 @@ if ($stmt->execute()) {
     );
 
     require_once __DIR__ . '/../vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
+    $dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
     $dotenv->load();
     $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
 
     try {
-        $sendgrid->send($emailObj);
+        $response = $sendgrid->send($emailObj);
 
-        unset($_SESSION['pending_registration']); // clear session
-        echo json_encode(["status" => "success", "message" => "Registration successful! Please verify your email."]);
+        if ($response->statusCode() >= 400) {
+            error_log("SendGrid error: " . $response->statusCode() . " " . $response->body());
+            echo "Email sending failed. Check logs.";
+        } else {
+            unset($_SESSION['pending_registration']); // clear session
+            echo json_encode(["status" => "success", "message" => "Registration successful! Please verify your email."]);
+        }
+        
     } catch (Exception $e) {
         echo json_encode(["status" => "error", "message" => "Email sending failed: ".$e->getMessage()]);
     }
