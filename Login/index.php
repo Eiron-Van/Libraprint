@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Incorrect password.'); window.location.href='/Login';</script>";
         }
     } else {
-        echo "<script>alert('No user found with that username/email/contact number.'); window.location.href='login.html';</script>";
+        echo "<script>alert('No user found with that username/email/contact number.'); window.location.href='https://libraprintlucena.com/Login';</script>";
     }
 }
 ?>
