@@ -78,16 +78,30 @@ if ($stmt->execute()) {
     try {
         $response = $sendgrid->send($emailObj);
 
+        // Debug output to log
+        error_log("SendGrid Status: " . $response->statusCode());
+        error_log("SendGrid Body: " . $response->body());
+        error_log("SendGrid Headers: " . print_r($response->headers(), true));
+
         if ($response->statusCode() >= 400) {
-            error_log("SendGrid error: " . $response->statusCode() . " " . $response->body());
-            echo json_encode(["status" => "error", "message" => "Email sending failed: ".$e->getMessage()]);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Email sending failed: " . $response->statusCode() . " - " . $response->body()
+            ]);
         } else {
-            unset($_SESSION['pending_registration']); // clear session
-            echo json_encode(["status" => "success", "message" => "Registration successful! Please verify your email."]);
+            unset($_SESSION['pending_registration']);
+            echo json_encode([
+                "status" => "success",
+                "message" => "Registration successful! Please check your email to verify your account."
+            ]);
         }
         
     } catch (Exception $e) {
-        echo json_encode(["status" => "error", "message" => "Email sending failed: ".$e->getMessage()]);
+        error_log("SendGrid Exception: " . $e->getMessage());
+        echo json_encode([
+            "status" => "error",
+            "message" => "Email sending failed: " . $e->getMessage()
+        ]);
     }
 } else {
     error_log("DB insert error: " . $stmt->error);
