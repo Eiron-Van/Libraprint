@@ -78,22 +78,16 @@ if ($stmt->execute()) {
     try {
         $response = $sendgrid->send($emailObj);
 
-        // Debug output to log
-        error_log("SendGrid Status: " . $response->statusCode());
-        error_log("SendGrid Body: " . $response->body());
-        error_log("SendGrid Headers: " . print_r($response->headers(), true));
+        // ✅ Show full SendGrid response for debugging
+        echo json_encode([
+            "status"   => "debug",
+            "code"     => $response->statusCode(),
+            "headers"  => $response->headers(),
+            "body"     => $response->body()
+        ]);
 
-        if ($response->statusCode() >= 400) {
-            echo json_encode([
-                "status" => "error",
-                "message" => "Email sending failed: " . $response->statusCode() . " - " . $response->body()
-            ]);
-        } else {
+        if ($response->statusCode() < 400) {
             unset($_SESSION['pending_registration']);
-            echo json_encode([
-                "status" => "success",
-                "message" => "Registration successful! Please check your email to verify your account."
-            ]);
         }
         
     } catch (Exception $e) {
