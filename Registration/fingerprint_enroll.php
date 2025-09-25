@@ -80,7 +80,7 @@ if ($stmt->execute()) {
 
         if ($response->statusCode() >= 400) {
             error_log("SendGrid error: " . $response->statusCode() . " " . $response->body());
-            echo "Email sending failed. Check logs.";
+            echo json_encode(["status" => "error", "message" => "Email sending failed: ".$e->getMessage()]);
         } else {
             unset($_SESSION['pending_registration']); // clear session
             echo json_encode(["status" => "success", "message" => "Registration successful! Please verify your email."]);
