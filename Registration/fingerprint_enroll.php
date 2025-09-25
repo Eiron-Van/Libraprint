@@ -23,7 +23,7 @@ use SendGrid\Mail\Mail;
 $data = $_SESSION['pending_registration'];
 
 include "../connection.php";
-include "../functions.php";
+include "../function.php";
 
 $user_id = random_num(20);
 $token = bin2hex(random_bytes(32));
