@@ -1,4 +1,8 @@
 <?php
+file_put_contents("debug_log.txt", print_r($_POST, true), FILE_APPEND);
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_id($_POST['session'] ?? '');
 session_start();
 
