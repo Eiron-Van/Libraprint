@@ -67,8 +67,8 @@ if (!isset($_SESSION['user_id'])) {
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
                 <ul>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/profile.png">Profile</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/book_r.png">Book Reservation</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/book_b.png">Book Borrowing</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/Reservation"><img class="w-8 m-2" src="asset/book_r.png">Book Reservation</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/Borrowing"><img class="w-8 m-2" src="asset/book_b.png">Book Borrowing</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/setting.png">Settings</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/AboutUs"><img class="w-8 m-2" src="asset/about_us.png">About Us</a></li>
                     <li><a class="sm:hidden  text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/ContactUs"><img class="w-8 m-2" src="asset/contact_us.png">Contact Us</a></li>
