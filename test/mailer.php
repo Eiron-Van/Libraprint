@@ -4,14 +4,14 @@ use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . '/../vendor/autoload.php'; // adjust path
 
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..'); 
+$dotenv->load();
+
 function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
     $mail = new PHPMailer(true);
 
     try {
-        require __DIR__ . '/../vendor/autoload.php';
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
-
         // SMTP settings
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
