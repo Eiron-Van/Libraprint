@@ -2,15 +2,16 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 require __DIR__ . '/../vendor/autoload.php'; // adjust path
 
 function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
     $mail = new PHPMailer(true);
 
     try {
+        require __DIR__ . '/../vendor/autoload.php';
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->load();
+
         // SMTP settings
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
