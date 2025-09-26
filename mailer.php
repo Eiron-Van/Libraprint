@@ -2,10 +2,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../vendor/autoload.php'; // adjust path
+require __DIR__ . 'vendor/autoload.php'; // adjust path
 
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..'); 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); 
 $dotenv->load();
 
 function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
@@ -33,10 +33,10 @@ function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
         $mail->Body    = $bodyHtml;
 
         $mail->send();
-        return true;
+        return ["status" => "success"];
 
     } catch (Exception $e) {
-        error_log("Email error: {$mail->ErrorInfo}");
-        return false;
+        error_log("PHPMailer error: " . $mail->ErrorInfo);
+        return ["status" => "error", "message" => $mail->ErrorInfo];
     }
 }

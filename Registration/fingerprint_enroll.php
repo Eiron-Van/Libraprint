@@ -1,6 +1,4 @@
 <?php
-file_put_contents("debug_log.txt", print_r($_POST, true), FILE_APPEND);
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_id($_POST['session'] ?? '');
@@ -19,14 +17,9 @@ if (!isset($_POST['fingerprint_data'])) {
 
 include "../connection.php";
 include "../function.php";
-require '../vendor/autoload.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+require_once __DIR__ . '/../mailer.php';
 
 $data = $_SESSION['pending_registration'];
-
-
 
 $user_id = random_num(20);
 $token = bin2hex(random_bytes(32));
@@ -61,48 +54,26 @@ if ($stmt->execute()) {
     // Send verification email
     $verifyLink = "https://libraprintlucena.com/Registration/verify.php?token=" . $token;
 
-    $emailObj = new Mail();
-    $emailObj->setFrom("20220321@cstc.edu.ph", "Libraprint");
-    $emailObj->setSubject("Verify your email address");
-    $emailObj->addTo($data['email'], $data['firstname'] . " " . $data['lastname']);
-    $emailObj->addContent("text/html",
+    $result = sendEmail(
+        $data['email'],
+        $data['firstname'] . " " . $data['lastname'],
+        "Verify your email address",
         "Hello <b>" . htmlspecialchars($data['firstname']) . "</b>,<br><br>
         Please verify your email by clicking the link below:<br>
         <a href='$verifyLink'>$verifyLink</a><br><br>
         Thank you!"
     );
 
-    require_once __DIR__ . '/../vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
-    $dotenv->load();
-    $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
-
-    try {
-        $response = $sendgrid->send($emailObj);
-
-        // ✅ Show full SendGrid response for debugging
-        echo json_encode([
-            "status"   => "debug",
-            "code"     => $response->statusCode(),
-            "headers"  => $response->headers(),
-            "body"     => $response->body()
-        ]);
-
-        if ($response->statusCode() < 400) {
-            unset($_SESSION['pending_registration']);
-        }
-        
-    } catch (Exception $e) {
-        error_log("SendGrid Exception: " . $e->getMessage());
-        echo json_encode([
-            "status" => "error",
-            "message" => "Email sending failed: " . $e->getMessage()
-        ]);
+    if ($result['status'] === "success") {
+        unset($_SESSION['pending_registration']);
+        echo json_encode(["status" => "success", "message" => "Registration successful! Please check your email."]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Email sending failed: " . $result['message']]);
     }
-} else {
-    error_log("DB insert error: " . $stmt->error);
-    echo json_encode(["status" => "error", "message" => "Database insert failed."]);
-}
+    } else {
+        error_log("DB insert error: " . $stmt->error);
+        echo json_encode(["status" => "error", "message" => "Database insert failed."]);
+    }
 
 $stmt->close();
 $conn->close();
