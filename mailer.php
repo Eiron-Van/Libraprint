@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . 'vendor/autoload.php'; // adjust path
+require __DIR__ . '/vendor/autoload.php'; // adjust path
 
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__); 
