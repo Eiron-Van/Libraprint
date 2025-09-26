@@ -20,7 +20,9 @@ if (!isset($_POST['fingerprint_data'])) {
 include "../connection.php";
 include "../function.php";
 require '../vendor/autoload.php';
-use SendGrid\Mail\Mail;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $data = $_SESSION['pending_registration'];
 
@@ -104,3 +106,6 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
+
+
+
