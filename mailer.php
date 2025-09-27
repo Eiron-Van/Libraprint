@@ -33,7 +33,10 @@ function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
         $mail->Body    = $bodyHtml;
 
         $mail->send();
-        return ["status" => "success"];
+        return [
+            "status" => "success",
+            "message" => "Email sent successfully."
+        ];
 
     } catch (Exception $e) {
         error_log("PHPMailer error: " . $mail->ErrorInfo);
