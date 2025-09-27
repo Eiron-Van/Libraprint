@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require __DIR__ . '../mailer.php'; // ✅ use your centralized mailer
+require __DIR__ . '/../mailer.php'; // ✅ use your centralized mailer
 include("../connection.php"); // DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
