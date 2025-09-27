@@ -1,5 +1,8 @@
 <?php
-require __DIR__ . '/../mailer.php'; // ✅ use your centralized mailer
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require __DIR__ . '../mailer.php'; // ✅ use your centralized mailer
 include("../connection.php"); // DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,8 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Hello <b>" . htmlspecialchars($users['first_name']) . "</b>,<br><br>
             Your OTP is: <b>$otp</b><br>
             This code is valid for 10 minutes.<br><br>
-            If you did not request this, please ignore this email.
-        ";
+            If you did not request this, please ignore this email.";
 
         // Send email using Gmail SMTP via mailer.php
         $result = sendEmail($email, $users['first_name'], $subject, $bodyHtml);
