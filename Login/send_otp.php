@@ -35,10 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Send email using Gmail SMTP via mailer.php
         $result = sendEmail($email, $users['first_name'], $subject, $bodyHtml);
 
-        if ($result['success']) {
+        if ($result['status'] === "success") {
             echo "<script>alert('OTP sent to your email!'); window.location.href='verify_otp.html';</script>";
         } else {
-            echo "Failed to send email: " . $result['error'];
+            echo "Failed to send email: " . $result['message'];
         }
 
     } else {
