@@ -1,52 +1,44 @@
 <?php
-
-// send_otp.php
-require '../vendor/autoload.php';
-
-use SendGrid\Mail\Mail;
-
-include("../connection.php"); // your DB connection
+require __DIR__ . '/../mailer.php'; // ✅ use your centralized mailer
+include("../connection.php"); // DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    
-    // Check if email exists
-    $query = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
-    $result = mysqli_query($conn, $query);
+    $email = trim($_POST["email"]);
 
-    if ($result && mysqli_num_rows($result) == 1) {
-        $users = mysqli_fetch_assoc($result);
+    // Prevent SQL Injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows === 1) {
+        $users = $result->fetch_assoc();
         $otp = rand(100000, 999999); // 6-digit OTP
         $created_at = date("Y-m-d H:i:s");
 
         // Save OTP in DB
-        $update = "UPDATE users SET reset_otp='$otp', otp_created_at='$created_at' WHERE email='$email'";
-        mysqli_query($conn, $update);
+        $update = $conn->prepare("UPDATE users SET reset_otp = ?, otp_created_at = ? WHERE email = ?");
+        $update->bind_param("sss", $otp, $created_at, $email);
+        $update->execute();
 
-        // Send email via SendGrid
-        $email_to_send = new Mail();
-        $email_to_send->setFrom("20220321@cstc.edu.ph", "LibraPrint");
-        $email_to_send->setSubject("Your OTP Code for Password Reset");
-        $email_to_send->addTo($email, $users['first_name']);
-        $email_to_send->addContent("text/plain", "Your OTP is: $otp");
+        // Build email
+        $subject = "Your OTP Code for Password Reset";
+        $bodyHtml = "
+            Hello <b>" . htmlspecialchars($users['first_name']) . "</b>,<br><br>
+            Your OTP is: <b>$otp</b><br>
+            This code is valid for 10 minutes.<br><br>
+            If you did not request this, please ignore this email.
+        ";
 
-        require_once __DIR__ . '/../vendor/autoload.php';
+        // Send email using Gmail SMTP via mailer.php
+        $result = sendEmail($email, $users['first_name'], $subject, $bodyHtml);
 
-        $dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
-        $dotenv->load();
-
-        $sendgrid = new \SendGrid($_ENV['SENDGRID_API_KEY']);
-
-        try {
-            $response = $sendgrid->send($email_to_send);
-            if ($response->statusCode() == 202) {
-                echo "<script>alert('OTP sent to your email!'); window.location.href='verify_otp.html';</script>";
-            } else {
-                echo "Failed to send email.";
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: '. $e->getMessage();
+        if ($result['success']) {
+            echo "<script>alert('OTP sent to your email!'); window.location.href='verify_otp.html';</script>";
+        } else {
+            echo "Failed to send email: " . $result['error'];
         }
+
     } else {
         echo "Email not found.";
     }
