@@ -1,4 +1,10 @@
 <?php
+// Configure session settings for better security and reliability
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_secure', 1); // Use HTTPS only
+ini_set('session.cookie_samesite', 'Lax');
+
 session_start();
 include '../connection.php';
 
@@ -27,13 +33,21 @@ if ($result->num_rows === 1) {
         exit();
     }
 
+    // Set session variables
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
+    $_SESSION['logged_in'] = true;
+    $_SESSION['login_time'] = time();
 
-    // ✅ Return the session ID in redirect URL
+    // Regenerate session ID for security
+    session_regenerate_id(true);
+
+    // Return session information for the C# app to handle
     echo json_encode([
         'success' => true,
-        'redirect' => 'https://libraprintlucena.com/?PHPSESSID=' . session_id()
+        'session_id' => session_id(),
+        'redirect' => 'https://libraprintlucena.com/',
+        'message' => 'Login successful'
     ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'User not found']);
