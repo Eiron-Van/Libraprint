@@ -1,35 +1,41 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-header('Content-Type: application/json');
-  
-
 session_start();
 include '../connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
- 
-    // Find the user
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Only accept POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+    exit();
+}
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
+// Get user_id from POST (sent by Windows app after fingerprint verification)
+$user_id = $_POST['user_id'] ?? null;
 
-        if ($user['is_verified'] == 0) {
-            echo json_encode(['success' => false, 'message' => 'Please verify your email first.']);
-            exit();
-        }
+if (!$user_id) {
+    echo json_encode(['success' => false, 'message' => 'No user id provided']);
+    exit();
+}
 
-        // Create session
-        $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['username'] = $user['username'];
+// Find the user in DB
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-        echo json_encode(['success' => true, 'redirect' => 'https://libraprintlucena.com']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'User not found']);
+if ($result->num_rows === 1) {
+    $user = $result->fetch_assoc();
+
+    // If you require email verification, check it
+    if (isset($user['is_verified']) && $user['is_verified'] == 0) {
+        echo json_encode(['success' => false, 'message' => 'Please verify your email first.']);
+        exit();
     }
+
+    // Set session variables
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+
+    echo json_encode(['success' => true, 'redirect' => 'https://libraprintlucena.com']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'User not found']);
 }
