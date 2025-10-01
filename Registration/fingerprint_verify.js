@@ -10,19 +10,7 @@ function startCapture() {
 
 sdk.onSamplesAcquired = async function (s) {
     try {
-        // Fetch the PHP data
-        let response = await fetch("fingerprint_verify.php");
-        let result = await response.json();
-
-        if (result.success) {
-            // Encode data so it can be passed in URL
-            let encoded = encodeURIComponent(JSON.stringify(result.data));
-
-            // Send it to your custom protocol handler
-            window.location.href = "libraprint-e://session?data=" + encoded;
-        } else {
-            console.error("No fingerprint data found");
-        }
+        window.location.href = "libraprint-v://session";
     } catch (ex) {
         console.error("Scan Again", ex);
     }
