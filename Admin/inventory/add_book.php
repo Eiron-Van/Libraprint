@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed overflow-hidden min-h-screen">
-    <main class="mt-4 flex flex-col p-15">
+    <main class="mt-2 flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Add Book</h1>
 
         <form method="post">
