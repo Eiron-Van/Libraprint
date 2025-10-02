@@ -55,6 +55,29 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     </div>
 
     <main class=" flex flex-col p-15">
+        <?php if (isset($_GET['added']) && ctype_digit($_GET['added']) && (int)$_GET['added'] > 0): ?>
+            <div id="success-banner" class="mx-auto mb-4 w-full max-w-[100rem] bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded relative">
+                <span class="font-semibold"><?php echo (int)$_GET['added']; ?></span> book(s) added successfully.
+                <button type="button" id="dismiss-banner" class="absolute top-1/2 -translate-y-1/2 right-3 text-green-900/60 hover:text-green-900">&times;</button>
+            </div>
+            <script>
+                (function(){
+                    var btn = document.getElementById('dismiss-banner');
+                    var banner = document.getElementById('success-banner');
+                    if (btn && banner) {
+                        btn.addEventListener('click', function(){ banner.remove(); });
+                        // Auto-dismiss after 5s
+                        setTimeout(function(){ if (banner) banner.remove(); }, 5000);
+                    }
+                    // Clean URL (remove query string) without reload
+                    if (window.history && window.history.replaceState) {
+                        var url = new URL(window.location.href);
+                        url.searchParams.delete('added');
+                        window.history.replaceState({}, document.title, url.pathname + (url.search ? '?' + url.search : '') + url.hash);
+                    }
+                })();
+            </script>
+        <?php endif; ?>
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
         
         <div class="flex flex-row items-center gap-4">

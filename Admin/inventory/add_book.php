@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include '../../connection.php';
 
-// Handle submission
+ // Handle submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Expect arrays for each field
     $authors = $_POST['author'] ?? [];
@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         count($accessionNos), count($classNos), count($dates), count($remarksArr), count($statuses)
     );
 
-    if ($count > 0) {
+     $inserted = 0;
+     if ($count > 0) {
         $sql = "INSERT INTO book_inventory (author, title, property_no, unit, unit_value, accession_no, class_no, date_acquired, remarks, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         for ($i = 0; $i < $count; $i++) {
@@ -55,12 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $remarks,
                 $status
             );
-            $stmt->execute();
+             if ($stmt->execute()) {
+                 $inserted++;
+             }
         }
         $stmt->close();
     }
 
-    header('Location: https://libraprintlucena.com/Admin/inventory');
+     $qs = $inserted > 0 ? ('?added=' . $inserted) : '';
+     header('Location: https://libraprintlucena.com/Admin/inventory' . $qs);
     exit;
 }
 ?>
