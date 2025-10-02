@@ -54,7 +54,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         </div>
     </div>
 
-    <main class="mt-2 flex flex-col p-15">
+    <main class=" flex flex-col p-15">
         <h1 class="text-6xl font-serif text-white text-center p-4">Book Inventory Management</h1>
         
         <div class="flex flex-row items-center gap-4">
