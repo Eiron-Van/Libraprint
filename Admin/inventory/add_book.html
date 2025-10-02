@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../asset/fingerprint.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/style.css?v=1.5">
+
+    <title>Libraprint|Admin|Inventory|Add</title>
+
+</head>
+<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
+    <main class="mt-4 flex flex-col p-15">
+        <h1 class="text-6xl font-serif text-white text-center p-4">Add Book</h1>
+
+        <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
+            <table class="w-full">
+                <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
+                    <tr>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit Value</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Accession No.</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-23">Class No.</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Date Acquired</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-10">Remarks</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-center w-40">Status</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-35"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#5a6480]">
+
+                    <form method="post">
+                        <tr class="bg-white">
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="author" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="title" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="property_no" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="unit" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="unit_value" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="accession_no" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="class_no" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="date" name="date_acquired" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="remarks" value=""
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                <select name="status" class="w-full shadow px-3 py-1 rounded-lg">
+                                    <option>Available</option> 
+                                    <option>Checked Out</option>
+                                    <option>Missing</option>
+                                    <option>Reserved</option>
+                                </select>
+                            </td">
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                <button type="submit" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Save</button>
+                            </td>
+                        </tr>
+                    </form>
+                </tbody>
+            </table>
+        </div>
+        <button class='bg-[#7581a6] px-2 py-1 rounded-xl font-semibold text-white w-35 mt-4'>Add More Books</button>
+    
+</body>
+</html>
