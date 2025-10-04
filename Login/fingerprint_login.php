@@ -20,8 +20,8 @@ if (!$user_id) {
     exit();
 }
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+$stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -34,7 +34,7 @@ if ($result->num_rows === 1) {
     }
 
     // Set session variables
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_id'] = $user['user_id']; // Use user_id field to match regular login
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
