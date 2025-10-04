@@ -24,6 +24,9 @@ if ($result->num_rows > 0) {
     $last_initial = strtoupper(substr($user['last_name'], 0, 1));
     $initials = $first_initial . $last_initial;
     
+    // Generate dynamic colors based on initials
+    $avatar_colors = generateAvatarColors($initials);
+    
     // Format full name
     $full_name = $user['first_name'] . ' ' . $user['last_name'];
     
@@ -36,6 +39,59 @@ if ($result->num_rows > 0) {
 }
 
 $stmt->close();
+
+// Function to generate avatar colors based on initials
+function generateAvatarColors($initials) {
+    // Create a hash from initials for consistent colors
+    $hash = crc32($initials);
+    
+    // Define pleasant color palettes (avoiding very dark colors)
+    $colorPalettes = [
+        // Blue tones
+        ['bg' => '#3B82F6', 'text' => '#FFFFFF'], // Blue-500
+        ['bg' => '#60A5FA', 'text' => '#FFFFFF'], // Blue-400
+        ['bg' => '#93C5FD', 'text' => '#1E40AF'], // Blue-300
+        
+        // Green tones
+        ['bg' => '#10B981', 'text' => '#FFFFFF'], // Emerald-500
+        ['bg' => '#34D399', 'text' => '#064E3B'], // Emerald-400
+        ['bg' => '#6EE7B7', 'text' => '#064E3B'], // Emerald-300
+        
+        // Purple tones
+        ['bg' => '#8B5CF6', 'text' => '#FFFFFF'], // Violet-500
+        ['bg' => '#A78BFA', 'text' => '#4C1D95'], // Violet-400
+        ['bg' => '#C4B5FD', 'text' => '#4C1D95'], // Violet-300
+        
+        // Pink tones
+        ['bg' => '#EC4899', 'text' => '#FFFFFF'], // Pink-500
+        ['bg' => '#F472B6', 'text' => '#831843'], // Pink-400
+        ['bg' => '#F9A8D4', 'text' => '#831843'], // Pink-300
+        
+        // Orange tones
+        ['bg' => '#F59E0B', 'text' => '#FFFFFF'], // Amber-500
+        ['bg' => '#FBBF24', 'text' => '#92400E'], // Amber-400
+        ['bg' => '#FCD34D', 'text' => '#92400E'], // Amber-300
+        
+        // Teal tones
+        ['bg' => '#14B8A6', 'text' => '#FFFFFF'], // Teal-500
+        ['bg' => '#5EEAD4', 'text' => '#134E4A'], // Teal-400
+        ['bg' => '#99F6E4', 'text' => '#134E4A'], // Teal-300
+        
+        // Indigo tones
+        ['bg' => '#6366F1', 'text' => '#FFFFFF'], // Indigo-500
+        ['bg' => '#818CF8', 'text' => '#312E81'], // Indigo-400
+        ['bg' => '#A5B4FC', 'text' => '#312E81'], // Indigo-300
+        
+        // Rose tones
+        ['bg' => '#F43F5E', 'text' => '#FFFFFF'], // Rose-500
+        ['bg' => '#FB7185', 'text' => '#881337'], // Rose-400
+        ['bg' => '#FDA4AF', 'text' => '#881337'], // Rose-300
+    ];
+    
+    // Use hash to select a consistent color for these initials
+    $colorIndex = abs($hash) % count($colorPalettes);
+    return $colorPalettes[$colorIndex];
+}
 ?>
 
 
@@ -70,7 +126,7 @@ $stmt->close();
             <ul class="md:flex md:flex-col lg:flex-row md:text-sm sm:text-center space-x-6">
               <li><a href="https://libraprintlucena.com" class="hover:opacity-60 transition-opacity duration-200">Home</a></li>
                <li><a href="../AboutUs" class="hover:opacity-60 transition-opacity duration-200">About Us</a></li>
-               <li><a href="../ContactUs" class="hover:opacity-60 transition-opacity duration-200">Contact Us</a>/li>
+               <li><a href="../ContactUs" class="hover:opacity-60 transition-opacity duration-200">Contact Us</a></li>
 
                </ul>
           </nav>
@@ -100,7 +156,8 @@ $stmt->close();
       <!-- Profile Card Container -->
       <div class="relative w-full max-w-2xl xl:max-w-4xl bg-white text-black rounded-2xl shadow-lg pt-20 pb-8 px-8 text-center">
         <!-- Avatar Circle -->
-        <div class="absolute -top-14 left-1/2 transform -translate-x-1/2 w-28 h-28 bg-blue-500 text-white flex items-center justify-center text-4xl font-bold rounded-full border-4 border-white shadow">
+        <div class="absolute -top-14 left-1/2 transform -translate-x-1/2 w-28 h-28 flex items-center justify-center text-4xl font-bold rounded-full border-4 border-white shadow" 
+             style="background-color: <?php echo $avatar_colors['bg']; ?>; color: <?php echo $avatar_colors['text']; ?>;">
           <?php echo $initials; ?>
         </div>
 
