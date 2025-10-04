@@ -72,7 +72,7 @@ if (!isset($_SESSION['user_id'])) {
         <div id ="side-menu" class="hidden flex-col bg-[#F4F4F4] w-fit z-10">
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
                 <ul>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/profile.png">Profile</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/User"><img class="w-8 m-2" src="asset/profile.png">Profile</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/Reservation"><img class="w-8 m-2" src="asset/book_r.png">Book Reservation</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/Borrowing"><img class="w-8 m-2" src="asset/book_b.png">Book Borrowing</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="asset/setting.png">Settings</a></li>
