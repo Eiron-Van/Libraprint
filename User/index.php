@@ -151,7 +151,7 @@ $stmt->close();
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6 w-full max-w-2xl xl:max-w-4xl text-center">
         <!-- Book Reservation -->
         <button
-          onclick="window.location.href='#'"
+          onclick="window.location.href='../Reservation'"
           class="hover:bg-gray-300 active:bg-gray-400 bg-white rounded-2xl p-5 flex flex-col items-center hover:shadow-lg transition">
           <img
             src="../asset/calendar.png"
@@ -170,7 +170,7 @@ $stmt->close();
         </button>
 
         <!--Book borrowing-->
-        <button onclick="window.location.href='#'"class="hover:bg-gray-300 active:bg-gray-400 bg-white rounded-2xl p-5 flex flex-col items-center hover:shadow-lg transition">
+        <button onclick="window.location.href='../Borrowing'"class="hover:bg-gray-300 active:bg-gray-400 bg-white rounded-2xl p-5 flex flex-col items-center hover:shadow-lg transition">
           <img src="https://cdn-icons-png.flaticon.com/512/2983/2983787.png" 
               class="h-14 mb-2" 
               alt="Book Borrowing"/>
