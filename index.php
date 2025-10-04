@@ -86,7 +86,7 @@ if (!isset($_SESSION['user_id'])) {
             <section class=" relative w-full h-full flex justify-center items-center px-10 sm:px-32 gap-8 flex-col sm:flex-row">
                 <div class="flex flex-col items-center w-fit">
                     <img draggable="false" class=" pointer-events-nonew-full lg:w-2/3" src="asset/Welcome.png" alt="Welcome to Libraprint">
-                    <a class="block bg-cyan-700 rounded-full px-4 py-2 mt-4 text-white hover:bg-cyan-800 active:bg-cyan-900" href="">Reserve Books Now!</a>
+                    <a class="block bg-cyan-700 rounded-full px-4 py-2 mt-4 text-white hover:bg-cyan-800 active:bg-cyan-900" href="/Reservation">Reserve Books Now!</a>
                 </div>
                 <div class="hidden lg:block">
                     <img draggable="false" class="w-full h-[800px] object-contain pointer-events-none" src="asset/books.png" alt="">
