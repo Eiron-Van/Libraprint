@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
     $birthday = date('F j, Y', strtotime($user['birthday']));
 } else {
     // User not found, redirect to login
-    header("Location: ../Login/index.php");
+    header("Location: ../Login");
     exit();
 }
 
