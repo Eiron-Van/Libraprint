@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$user_id = $_POST['id'] ?? null;
+$user_id = $_POST['user_id'] ?? null;
 
 if (!$user_id) {
     echo json_encode(['success' => false, 'message' => 'No user id provided']);
@@ -35,7 +35,7 @@ if ($result->num_rows === 1) {
     }
 
     // Set session variables
-    $_SESSION['user_id'] = $user['id']; // Use user_id field to match regular login
+    $_SESSION['user_id'] = $user['user_id']; // Use user_id field to match regular login
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
