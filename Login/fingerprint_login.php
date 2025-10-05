@@ -21,7 +21,7 @@ if (!$user_id) {
 }
 
 // The C# app sends the database 'id' field, but we need to find the user by 'id' and get their 'user_id'
-$stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
