@@ -54,7 +54,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         </div>
     </div>
 
-    <main class=" flex flex-col p-15">
+    <main class=" flex flex-col p-10">
         <?php if (isset($_GET['added']) && ctype_digit($_GET['added']) && (int)$_GET['added'] > 0): ?>
             <div id="success-banner" class="mx-auto mb-4 w-full max-w-[100rem] bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded relative">
                 <span class="font-semibold"><?php echo (int)$_GET['added']; ?></span> book(s) added successfully.
