@@ -61,7 +61,7 @@ echo "<table class='w-full'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-100'>Title</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-28'>Property No.</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-5'>Unit</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Unit Value</th>
