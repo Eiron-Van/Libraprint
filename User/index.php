@@ -113,7 +113,7 @@ function generateAvatarColors($initials) {
 <body class="min-h-screen bg-gradient-to-b from-[#304475] to-[#0c0c0c]">
     <!-- Header-->
   <header class="bg-gray-900 text-white sticky top-0 z-60">
-    <section class="mx-auto p-3 lg:p-2 flex justify-between items-center">
+    <section class="max-w-[100rem] mx-auto p-3 lg:p-2 flex justify-between items-center">
       <div class="flex items-center mx-4 space-x-6">
         <button id="menu" class="text-[30px] p-2 hover:opacity-60 z-40 active:opacity-40">
           <i class="fas fa-bars"></i> 
