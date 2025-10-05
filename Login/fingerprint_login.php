@@ -13,15 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$id = $_POST['user_id'] ?? null;
+$user_id = $_POST['user_id'] ?? null;
 
-if (!$id) {
+if (!$user_id) {
     echo json_encode(['success' => false, 'message' => 'No user id provided']);
     exit();
 }
 
+// The C# app sends the database 'id' field, but we need to find the user by 'id' and get their 'user_id'
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->bind_param("i", $id);
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -34,7 +35,7 @@ if ($result->num_rows === 1) {
     }
 
     // Set session variables
-    $_SESSION['id'] = $user['id'];
+    $_SESSION['user_id'] = $user['user_id']; // Use user_id field to match regular login
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
@@ -46,8 +47,14 @@ if ($result->num_rows === 1) {
     echo json_encode([
         'success' => true,
         'session_id' => session_id(),
-        'redirect' => 'https://libraprintlucena.com/User',
-        'message' => 'Login successful'
+        'redirect' => 'https://libraprintlucena.com/User/',
+        'message' => 'Login successful',
+        'user_data' => [
+            'user_id' => $user['user_id'],
+            'username' => $user['username'],
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name']
+        ]
     ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'User not found']);
