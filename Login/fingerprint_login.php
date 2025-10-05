@@ -46,7 +46,7 @@ if ($result->num_rows === 1) {
     echo json_encode([
         'success' => true,
         'session_id' => session_id(),
-        'redirect' => 'https://libraprintlucena.com/User/',
+        'redirect' => 'https://libraprintlucena.com/User',
         'message' => 'Login successful'
     ]);
 } else {
