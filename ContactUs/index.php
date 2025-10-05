@@ -46,16 +46,9 @@ if (!isset($_SESSION['user_id'])) {
                         </ul>
                     </nav>
                 </div>
-                <div id="mobile-search" class="relative hidden sm:block">
-                        <input id="search-input" type="search"
-                            placeholder="Search..."
-                            class="pl-3 pr-8 py-1 rounded-full w-full bg-white text-black focus:outline-none appearance-none border-none outline-none" />
-                        <i class="fas fa-search absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
                 <div>
-                    <button id="search-toggle" class="cursor-pointer hover:opacity-60 active:opacity-40 block p-2 sm:hidden">
-                        <i class="fas fa-search text-white text-2xl"></i>
-                    </button>
+                    <a href="../Login/logout.php" class="hidden lg:block bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded">Logout</a>
+                    <a href="../Login/logout.php" class="block lg:hidden active:opacity-60 transition-opacity duration-200 px-2 py-1 rounded"><i class="fas fa-sign-out-alt text-3xl"></i></a>
                 </div>
             </div>
 

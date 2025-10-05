@@ -58,11 +58,8 @@ if (!isset($_SESSION['user_id'])) {
                     </nav>
                 </div>
                 <div>
-                    <a href="/Login/logout.php"
-                        class="hidden lg:block bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded">Logout</a>
-                    <a href="/Login/logout.php"
-                        class="block lg:hidden active:opacity-60 transition-opacity duration-200 px-2 py-1 rounded"><i
-                            class="fas fa-sign-out-alt text-3xl"></i></a>
+                    <a href="/Login/logout.php" class="hidden lg:block bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded">Logout</a>
+                    <a href="/Login/logout.php" class="block lg:hidden active:opacity-60 transition-opacity duration-200 px-2 py-1 rounded"><i class="fas fa-sign-out-alt text-3xl"></i></a>
                 </div>
             </div>
 
