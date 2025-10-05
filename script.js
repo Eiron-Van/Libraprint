@@ -1,24 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById('search-toggle');
-  const mobileSearch = document.getElementById('mobile-search');
-  const brand = document.getElementById('brand');
-  const searchInput = document.getElementById('search-input');
   const menuButton = document.getElementById('menu');
   const sideMenu = document.getElementById('side-menu');
 
-  // Mobile searchbar toggle
-  toggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    mobileSearch.classList.toggle('hidden');
-    brand.classList.toggle('hidden');
-    toggleBtn.classList.toggle('hidden');
-    if (!mobileSearch.classList.contains('hidden')) {
-      searchInput.focus();
-    }
-  });
 
-  // Prevent clicks inside searchbar from closing it
-  mobileSearch.addEventListener('click', (e) => e.stopPropagation());
+
 
   // Side menu toggle
   menuButton.addEventListener('click', (e) => {
