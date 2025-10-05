@@ -56,7 +56,7 @@ echo "<div id='results-count'>
         <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
       </div>";
 
-echo "<div class='overflow-auto max-h-100 rounded-lg shadow text-white'>";
+echo "<div class='overflow-auto max-h-80 rounded-lg shadow text-white'>";
 echo "<table class='w-full'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
