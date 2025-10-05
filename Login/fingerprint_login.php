@@ -20,7 +20,6 @@ if (!$user_id) {
     exit();
 }
 
-// The C# app sends the database 'id' field, but we need to find the user by 'id' and get their 'user_id'
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -39,6 +38,11 @@ if ($result->num_rows === 1) {
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
+
+    // ✅ Record login event
+    $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
+    $log->bind_param("i", $user['id']);
+    $log->execute();
 
     // Regenerate session ID for security
     session_regenerate_id(true);
