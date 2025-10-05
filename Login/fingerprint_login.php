@@ -13,15 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$user_id = $_POST['user_id'] ?? null;
+$id = $_POST['user_id'] ?? null;
 
-if (!$user_id) {
+if (!$id) {
     echo json_encode(['success' => false, 'message' => 'No user id provided']);
     exit();
 }
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -34,7 +34,7 @@ if ($result->num_rows === 1) {
     }
 
     // Set session variables
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
