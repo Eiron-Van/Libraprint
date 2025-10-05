@@ -61,7 +61,7 @@ echo "<table class='w-full'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-90'>Title</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-28'>Property No.</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-5'>Unit</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Unit Value</th>
@@ -90,19 +90,19 @@ while ($row = $result->fetch_assoc()) {
     }
 
     echo "<tr class='$bg_color'>
-      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['author'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['title'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap'>" . highlightTerms($row['unit'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['unit_value'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['accession_no'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['class_no'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['date_acquired'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
-      <td class='p-3 text-sm whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
+      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['author'], $search) . "</td>
+      <td class='p-3 text-xs'>" . highlightTerms($row['title'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['unit'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['unit_value'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['accession_no'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['class_no'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['date_acquired'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
       <td class='p-3'>
-        <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl inline-block text-sm'>Edit</a>
-        <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl inline-block text-sm'>Delete</a>
+        <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl inline-block text-xs'>Edit</a>
+        <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl inline-block text-xs'>Delete</a>
       </td>
     </tr>";
 }
