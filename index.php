@@ -1,5 +1,5 @@
 <?php
-include("/Login/session_check.php")
+require("/Login/session_check.php")
 
 ?>
 
