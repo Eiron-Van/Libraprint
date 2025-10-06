@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,12 +48,9 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="hidden sm:block">
                     <nav>
                         <ul class="md:flex md:flex-col lg:flex-row md:text-sm space-x-6">
-                            <li><a href="https://libraprintlucena.com"
-                                    class="font-bold hover:opacity-60 transition-opacity duration-200">Home</a></li>
-                            <li><a href="/AboutUs" class="hover:opacity-60 transition-opacity duration-200">About Us</a>
-                            </li>
-                            <li><a href="/ContactUs" class="hover:opacity-60 transition-opacity duration-200">Contact
-                                    Us</a></li>
+                            <li><a href="https://libraprintlucena.com" class="font-bold hover:opacity-60 transition-opacity duration-200">Home</a></li>
+                            <li><a href="/AboutUs" class="hover:opacity-60 transition-opacity duration-200">About Us</a></li>
+                            <li><a href="/ContactUs" class="hover:opacity-60 transition-opacity duration-200">ContactUs</a></li>
                         </ul>
                     </nav>
                 </div>

@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="w-full md:w-[50rem] flex justify-center md:justify-start md:bg-[url(/asset/books_login.jpg)] md:bg-cover rounded-3xl py-10 px-2 md:px-10">
             <div class="flex justify-center items-center border border-[#F5DEB3] rounded-4xl w-full max-w-md h-125 shadow-2xl text text-center py-4 px-6 sm:px-10 md:px-15 text-white bg-transparent backdrop-blur-xs">
                 <form action="" method="POST" class="w-full select-none">
-                    <h1 class="font-bold text-xl">Sign In</h1>
+                    <h1 class="font-bold text-xl">Log In</h1>
                     <p class="text-sm">Enter valid details to continue</p>
     
                     <div class="text-black flex flex-col gap-3 mt-5">
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="forgot_password.html" class="hover:underline">Forgot Password?</a>
                     </div>
     
-                    <button type="submit" class="cursor-pointer textcenter bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Sign In</button>
+                    <button type="submit" class="cursor-pointer textcenter bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-2xl mt-5">Log In</button>
                 </form>
             </div>
         </div>

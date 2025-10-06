@@ -125,14 +125,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <select name="gender" id="gender" required
                                         class="w-62.5 bg-white rounded-3xl text-black px-4 py-2">
                                         <option value="">Select a Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="lesbian">Lesbian</option>
-                                        <option value="gay">Gay</option>
-                                        <option value="bisexual">Bisexual</option>
-                                        <option value="transgender">Transgender</option>
-                                        <option value="queer">Queer/Questioning</option>
-                                        <option value="other">Other</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Lesbian">Lesbian</option>
+                                        <option value="Gay">Gay</option>
+                                        <option value="Bisexual">Bisexual</option>
+                                        <option value="Transgender">Transgender</option>
+                                        <option value="Queer">Queer/Questioning</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                     <label for="gender">Gender</label>
                                 </div>
