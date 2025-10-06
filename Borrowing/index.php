@@ -6,7 +6,7 @@ include '../connection.php'; // ensure $conn is defined
 
 // ✅ Check login
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /login.php");
+    header("Location: ../Login");
     exit;
 }
 
