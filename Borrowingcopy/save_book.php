@@ -61,5 +61,19 @@ if ($stmt->execute()) {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $stmt->error]);
 }
 
+// Fetch book title for display
+$titleQuery = $conn->prepare("SELECT title FROM book_inventory WHERE book_id = ?");
+$titleQuery->bind_param("i", $book_id);
+$titleQuery->execute();
+$titleQuery->bind_result($book_title);
+$titleQuery->fetch();
+$titleQuery->close();
+
+echo json_encode([
+  'success' => true,
+  'title' => $book_title,
+  'barcode' => $barcode
+]);
+
 $stmt->close();
 $conn->close();

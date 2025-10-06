@@ -137,11 +137,18 @@ if (!isset($_SESSION['user_id'])) {
                 <h2 class="text-2xl font-bold mb-4">Scan Book Barcode</h2>
                 <input type="text" id="barcodeInput" placeholder="Scan or type barcode..." class="border rounded-md p-2 w-full mb-4 text-center focus:outline-none">
                 <button id="saveBookBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Save Book</button>
+
+                <!-- ✅ Success message -->
+                <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md mb-4">
+                    ✅ Book successfully recorded!
+                </div>
+
                 <button id="closeOverlayBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>
 
+                <!-- ✅ Live scanned book list -->
                 <div id="bookList" class="mt-4 text-left">
-                    <h3 class="font-semibold mb-2">Books scanned:</h3>
-                    <ul id="bookListItems" class="text-sm text-gray-700"></ul>
+                    <h3 class="font-semibold mb-2">Books scanned this session:</h3>
+                    <ul id="bookListItems" class="text-sm text-gray-700 list-disc pl-5 space-y-1"></ul>
                 </div>
             </div>
         </div>

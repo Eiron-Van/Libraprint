@@ -5,9 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveBookBtn = document.getElementById("saveBookBtn");
   const barcodeInput = document.getElementById("barcodeInput");
   const bookListItems = document.getElementById("bookListItems");
+  const successMsg = document.getElementById("successMsg");
+
   let scannedBooks = [];
 
-  // Open overlay when "Read a Book" button is clicked
+  // ✅ Open overlay
   readBookBtn.addEventListener("click", (e) => {
     e.preventDefault();
     overlay.classList.remove("hidden");
@@ -15,42 +17,51 @@ document.addEventListener("DOMContentLoaded", () => {
     barcodeInput.focus();
   });
 
-  // Close overlay
+  // ✅ Close overlay
   closeOverlayBtn.addEventListener("click", () => {
     overlay.classList.add("hidden");
   });
 
-  // Save book barcode
+  // ✅ Save book
   saveBookBtn.addEventListener("click", async () => {
     const barcode = barcodeInput.value.trim();
     if (!barcode) return alert("Please scan or type a barcode first.");
 
-    // Add to local list (for display)
-    scannedBooks.push(barcode);
-    const li = document.createElement("li");
-    li.textContent = barcode;
-    bookListItems.appendChild(li);
+    // Send barcode to backend
+    try {
+      const response = await fetch("save_book.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ barcode }),
+      });
 
+      const result = await response.json();
+      console.log("Response:", result);
 
-    console.log("Sending barcode:", barcode); //for testing
+      if (result.success) {
+        // ✅ Show success message briefly
+        successMsg.classList.remove("hidden");
+        setTimeout(() => successMsg.classList.add("hidden"), 1500);
 
-    // Send to PHP (backend)
-    const response = await fetch("save_book.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ barcode }),
-    });
+        // ✅ Add scanned book to the list
+        scannedBooks.push(barcode);
+        const li = document.createElement("li");
+        li.textContent = `${result.title ? result.title + " – " : ""}Barcode: ${barcode}`;
+        bookListItems.appendChild(li);
 
-    const result = await response.json();
-    if (result.success) {
-      barcodeInput.value = "";
-      barcodeInput.focus();
-    } else {
-      alert("Error saving book: " + result.message);
+        // Clear input for next scan
+        barcodeInput.value = "";
+        barcodeInput.focus();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      alert("Connection error while saving book.");
     }
   });
 
-  // Auto submit on barcode scan (scanner acts like keyboard)
+  // ✅ Auto-submit on Enter key
   barcodeInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") saveBookBtn.click();
   });
