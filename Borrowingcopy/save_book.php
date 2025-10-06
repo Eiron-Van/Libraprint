@@ -62,7 +62,7 @@ if ($stmt->execute()) {
 }
 
 // Fetch book title for display
-$titleQuery = $conn->prepare("SELECT title FROM book_inventory WHERE book_id = ?");
+$titleQuery = $conn->prepare("SELECT title FROM book_inventory WHERE item_id = ?");
 $titleQuery->bind_param("i", $book_id);
 $titleQuery->execute();
 $titleQuery->bind_result($book_title);
