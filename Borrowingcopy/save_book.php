@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
  
 session_start();
 require '../connection.php'; // adjust path
-
+ 
 if (!isset($_SESSION['id'])) {
     echo json_encode(['success' => false, 'message' => 'User not logged in']);
     exit;
