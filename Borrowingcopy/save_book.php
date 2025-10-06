@@ -52,7 +52,7 @@ if (empty($book_id)) {
 }
 
 // ✅ 5. Insert into book_readings
-$stmt = $conn->prepare("INSERT INTO book_readings (user_id, book_id) VALUES (?, ?)");
+$stmt = $conn->prepare("INSERT INTO book_record (user_id, book_id) VALUES (?, ?)");
 $stmt->bind_param("ii", $user_id, $book_id);
 
 if ($stmt->execute()) {
