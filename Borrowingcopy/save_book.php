@@ -5,25 +5,27 @@ ini_set('display_errors', 1); //temporary
 header('Content-Type: application/json');
 
 session_start();
-require '../connection.php'; // adjust path
+require '../connection.php'; // adjust path if needed
 
-// ✅ Check if user is logged in
+// ✅ 1. Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'User not logged in']);
     exit;
 }
 
-$user_identifier = $_SESSION['user_id']; // this is your users.user_id (string)
+// Session contains user_id (string), not numeric id
+$user_identifier = $_SESSION['user_id'];
+
+// ✅ 2. Get JSON data
 $data = json_decode(file_get_contents("php://input"), true);
 $barcode = trim($data['barcode'] ?? '');
 
-// ✅ Validate input
 if (empty($barcode)) {
     echo json_encode(['success' => false, 'message' => 'No barcode provided']);
     exit;
 }
 
-// ✅ 1. Find actual user database id
+// ✅ 3. Find the user's numeric ID
 $findUser = $conn->prepare("SELECT id FROM users WHERE user_id = ?");
 $findUser->bind_param("s", $user_identifier);
 $findUser->execute();
@@ -36,8 +38,8 @@ if (empty($user_id)) {
     exit;
 }
 
-// ✅ 2. Find the book in book_inventory
-$findBook = $conn->prepare("SELECT id FROM book_inventory WHERE class_no = ?");
+// ✅ 4. Find the book in the inventory
+$findBook = $conn->prepare("SELECT id FROM book_inventory WHERE barcode = ?");
 $findBook->bind_param("s", $barcode);
 $findBook->execute();
 $findBook->bind_result($book_id);
@@ -49,7 +51,7 @@ if (empty($book_id)) {
     exit;
 }
 
-// ✅ 3. Save to book_readings table
+// ✅ 5. Insert into book_readings
 $stmt = $conn->prepare("INSERT INTO book_readings (user_id, book_id) VALUES (?, ?)");
 $stmt->bind_param("ii", $user_id, $book_id);
 
