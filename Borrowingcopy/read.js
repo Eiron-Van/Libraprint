@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     li.textContent = barcode;
     bookListItems.appendChild(li);
 
+
+    console.log("Sending barcode:", barcode); //for testing
+
     // Send to PHP (backend)
     const response = await fetch("save_book.php", {
       method: "POST",
