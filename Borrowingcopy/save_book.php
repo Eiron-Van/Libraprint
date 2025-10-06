@@ -1,6 +1,8 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+error_reporting(E_ALL); //temporary
+ini_set('display_errors', 1); //temporary
+
+header('Content-Type: application/json');
 
 session_start();
 require '../connection.php'; // adjust path
