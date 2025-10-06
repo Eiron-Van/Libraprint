@@ -33,7 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // ✅ Record login event
             $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
             $log->bind_param("i", $user['id']);
-            $log->execute();
+            if ($log->execute()) {
+                // success
+            } else {
+                echo "Login record failed: " . $log->error;
+            }
 
             // Redirect to your dashboard or home
             header("Location: https://libraprintlucena.com");
