@@ -273,7 +273,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="p-6 bg-gray-100 flex flex-col space-y-4">
                     <div class="flex items-start space-x-2">
                         <input type="checkbox" id="agreeCheckbox" class="w-4 h-4 mt-1" disabled>
-                        <label for="agreeCheckbox" class="text-sm text-gray-700">
+                        <label id="agreementLabel" for="agreeCheckbox" class="text-sm text-gray-400">
                         I have read and agree to the Terms & Conditions.
                         </label>
                     </div>

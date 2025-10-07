@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const continueBtn = document.getElementById("continueBtn");
   const agreeCheckbox = document.getElementById("agreeCheckbox");
   const termsContent = document.getElementById("termsContent");
+  const agreementLabel = document.getElementById("agreementLabel");
 
   // Find the "Borrow a Book" button
   document.querySelectorAll("button").forEach(btn => {
@@ -36,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const { scrollTop, scrollHeight, clientHeight } = termsContent;
     if (scrollTop + clientHeight >= scrollHeight - 10) {
       agreeCheckbox.disabled = false;
+      agreementLabel.classList.remove("text-gray-400");
+      agreementLabel.classList.add("text-gray-700");
     }
   });
 
