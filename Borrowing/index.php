@@ -25,8 +25,8 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=1.5">
     <script src="../script.js"></script>
-    <script src="/Borrowingcopy/script/read.js"></script>
-    <script src="/Borrowingcopy/script/terms.js"></script>
+    <script src="/Borrowing/script/read.js"></script>
+    <script src="/Borrowing/script/terms.js"></script>
     
     <title>Libraprint | Borrowing</title>
 </head>
