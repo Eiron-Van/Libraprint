@@ -124,7 +124,7 @@ $availableBooks = $conn->query("
             </div>
 
             <!-- Table -->
-            <div class="p-4 text-gray-700 text-sm leading-relaxed space-y-4 flex-1">
+            <div class="overflow-y-auto p-4 text-gray-700 text-sm leading-relaxed space-y-4 flex-1">
 
                 <table class="w-full table-auto border-gray-300 rounded-xl">
                     <thead class="text-gray-50 sticky top-0 z-[8]">
@@ -135,7 +135,7 @@ $availableBooks = $conn->query("
                             <th class="col-span-1"></th>
                         </tr>
                     </thead>
-                    <tbody class="overflow-y-auto">
+                    <tbody>
                         <?php if ($reservedResult->num_rows > 0): ?>
                                 <tr class="bg-blue-800 text-white sticky top-0 z-[8]">
                                     <td colspan="9" class="px-6 py-2 text-left font-semibold">Your Reserved Books</td>
