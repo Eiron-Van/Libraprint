@@ -129,8 +129,8 @@ $availableBooks = $conn->query("
                 <table class="w-full table-auto border-gray-300 rounded-xl">
                     <thead class="text-gray-50 sticky top-0 z-[8]">
                         <tr class="bg-gray-800 text-white rounded-lg grid grid-cols-9 gap-2">
-                            <th class="px-6 py-3 text-left col-span-4">Title</th>
-                            <th class="px-6 py-3 text-center col-span-2">Author</th>
+                            <th class="px-6 py-3 col-span-4">Title</th>
+                            <th class="px-6 py-3 col-span-2">Author</th>
                             <th class="px-6 py-3 text-center col-span-2">Status</th>
                             <th class="col-span-1"></th>
                         </tr>
@@ -143,10 +143,10 @@ $availableBooks = $conn->query("
 
                                 <?php while ($row = $reservedResult->fetch_assoc()): ?>
                                 <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-9 gap-2 border-b border-gray-200 items-center">
-                                    <td class="px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
-                                    <td class="px-6 py-3 text-center col-span-1">
+                                    <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
+                                    <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
+                                    <td class="flex items-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
+                                    <td class="flex items-center px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
                                             <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
                                             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1.5 rounded-lg shadow">
@@ -165,10 +165,10 @@ $availableBooks = $conn->query("
                             <?php if ($availableBooks->num_rows > 0): ?>
                                 <?php while ($row = $availableBooks->fetch_assoc()): ?>
                                 <tr class="bg-gray-100 hover:bg-gray-200 grid grid-cols-9 gap-2 border-b border-gray-200">
-                                    <td class="px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
-                                    <td class="px-6 py-3 text-center col-span-1">
+                                    <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
+                                    <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
+                                    <td class="flex items-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
+                                    <td class="flex items-center px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
                                             <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
                                             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg shadow">
