@@ -145,7 +145,7 @@ $availableBooks = $conn->query("
                                 <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-9 gap-2 border-b border-gray-200 items-center">
                                     <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
                                     <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="flex items-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
+                                    <td class="flex items-center justify-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
                                     <td class="flex items-center px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
                                             <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
@@ -158,7 +158,7 @@ $availableBooks = $conn->query("
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
-                            <tr class="bg-gray-600 text-white sticky top-0 z-[10] rounded-xl">
+                            <tr class="bg-gray-500 text-white sticky top-0 z-[10] rounded-xl">
                                 <td colspan="9" class="px-6 py-2 text-left font-semibold">Available Books</td>
                             </tr>
 
@@ -167,7 +167,7 @@ $availableBooks = $conn->query("
                                 <tr class="bg-gray-100 hover:bg-gray-200 grid grid-cols-9 gap-2 border-b border-gray-200">
                                     <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
                                     <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="flex items-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
+                                    <td class="flex items-center justify-center      px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
                                     <td class="flex items-center px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
                                             <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
