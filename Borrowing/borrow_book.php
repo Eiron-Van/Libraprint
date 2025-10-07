@@ -144,7 +144,7 @@ $availableBooks = $conn->query("
                                 <?php while ($row = $reservedResult->fetch_assoc()): ?>
                                 <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-9 gap-2 border-b border-gray-200 items-center">
                                     <td class="px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['author']) ?></td>
+                                    <td class="px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
                                     <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
                                     <td class="px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
@@ -166,7 +166,7 @@ $availableBooks = $conn->query("
                                 <?php while ($row = $availableBooks->fetch_assoc()): ?>
                                 <tr class="bg-gray-100 hover:bg-gray-200 grid grid-cols-9 gap-2 border-b border-gray-200">
                                     <td class="px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['author']) ?></td>
+                                    <td class="px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
                                     <td class="px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
                                     <td class="px-6 py-3 text-center col-span-1">
                                         <form method="POST" action="">
