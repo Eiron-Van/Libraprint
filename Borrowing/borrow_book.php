@@ -124,7 +124,7 @@ $availableBooks = $conn->query("
             </div>
 
             <!-- Table -->
-            <div class="overflow-y-auto text-gray-700 text-sm leading-relaxed">
+            <div class="overflow-y-auto text-gray-700 text-sm leading-relaxed space-y-4 flex-1">
 
                 <table class="w-full table-auto border-gray-300 rounded-xl">
                     <thead class="text-gray-50 sticky top-0 z-[8]">
