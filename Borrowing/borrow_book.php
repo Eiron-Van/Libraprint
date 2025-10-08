@@ -124,48 +124,64 @@ $availableBooks = $conn->query("
             </div>
 
             <!-- Table -->
-            <div class="overflow-y-auto text-gray-700 text-sm leading-relaxed space-y-4 flex-1">
+            <!-- Scrollable Container -->
+            <div class="overflow-y-auto max-h-[70vh] rounded-xl bg-white text-sm text-gray-800">
 
-                <table class="w-full table-auto border-gray-300 rounded-xl">
-                    <thead class="text-gray-50 sticky top-0 z-[8]">
-                        <tr class="bg-gray-800 text-white rounded-lg grid grid-cols-8 gap-2">
-                            <th class="px-6 py-3 text-left col-span-4">Title</th>
-                            <th class="px-6 py-3 text-left col-span-2">Author</th>
-                            <th class="px-6 py-3 text-center col-span-2">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($reservedResult->num_rows > 0): ?>
-                                <tr class="bg-blue-700 text-white sticky top-0 z-[9] rounded-xl">
-                                    <td colspan="9" class="px-6 py-3 text-left font-semibold">Your Reserved Books</td>
-                                </tr>
+                <!-- Header Row -->
+                <div class="grid grid-cols-9 gap-2 bg-gray-800 text-white sticky top-0 z-10 px-6 py-3 font-semibold">
+                    <div class="col-span-4">Title</div>
+                    <div class="col-span-2">Author</div>
+                    <div class="col-span-2 text-center">Status</div>
+                    <div class="col-span-1"></div>
+                </div>
 
-                                <?php while ($row = $reservedResult->fetch_assoc()): ?>
-                                <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-8 gap-2 border-b border-gray-200 items-center">
-                                    <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="flex items-center justify-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
-                                </tr>
-                                <?php endwhile; ?>
-                            <?php endif; ?>
+                <!-- Reserved Section Label -->
+                <?php if ($reservedResult->num_rows > 0): ?>
+                    <div class="bg-blue-600 text-white sticky top-[3rem] z-10 px-6 py-2 font-semibold">
+                    Your Reserved Books
+                    </div>
 
-                            <tr class="bg-green-700 text-white sticky top-0 z-[10] rounded-xl">
-                                <td colspan="8" class="px-6 py-3 text-left font-semibold">Available Books</td>
-                            </tr>
+                    <?php while ($row = $reservedResult->fetch_assoc()): ?>
+                    <div class="grid grid-cols-9 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
+                        <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
+                        <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
+                        <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</div>
+                        <div class="col-span-1 text-center">
+                        <form method="POST" action="">
+                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1.5 rounded-lg shadow">
+                            Borrow
+                            </button>
+                        </form>
+                        </div>
+                    </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
 
-                            <?php if ($availableBooks->num_rows > 0): ?>
-                                <?php while ($row = $availableBooks->fetch_assoc()): ?>
-                                <tr class="bg-gray-100 hover:bg-gray-200 grid grid-cols-8 gap-2 border-b border-gray-200">
-                                    <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
-                                    <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
-                                    <td class="flex items-center justify-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
-                                </tr>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <tr><td colspan="8" class="text-center py-4 text-gray-300">No available books at the moment.</td></tr>
-                            <?php endif; ?>
-                    </tbody>
-                </table>
+                <!-- Available Section Label -->
+                <div class="bg-gray-500 text-white sticky top-[6rem] z-10 px-6 py-2 font-semibold">
+                    Available Books
+                </div>
+
+                <?php if ($availableBooks->num_rows > 0): ?>
+                    <?php while ($row = $availableBooks->fetch_assoc()): ?>
+                    <div class="grid grid-cols-9 gap-2 border-b border-gray-200 bg-gray-100 hover:bg-gray-200 px-6 py-3 items-center">
+                        <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
+                        <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
+                        <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?></div>
+                        <div class="col-span-1 text-center">
+                        <form method="POST" action="">
+                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg shadow">
+                            Borrow
+                            </button>
+                        </form>
+                        </div>
+                    </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="text-center py-4 text-gray-400">No available books at the moment.</div>
+                <?php endif; ?>
             </div>
         </div>
     </main>

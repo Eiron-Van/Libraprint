@@ -310,6 +310,12 @@
   .top-21 {
     top: calc(var(--spacing) * 21);
   }
+  .top-\[3rem\] {
+    top: 3rem;
+  }
+  .top-\[6rem\] {
+    top: 6rem;
+  }
   .top-\[84px\] {
     top: 84px;
   }
@@ -375,6 +381,9 @@
   }
   .z-\[10\] {
     z-index: 10;
+  }
+  .col-span-1 {
+    grid-column: span 1 / span 1;
   }
   .col-span-2 {
     grid-column: span 2 / span 2;
@@ -546,6 +555,9 @@
   }
   .max-h-115 {
     max-height: calc(var(--spacing) * 115);
+  }
+  .max-h-\[70vh\] {
+    max-height: 70vh;
   }
   .max-h-\[90vh\] {
     max-height: 90vh;
@@ -727,6 +739,9 @@
   }
   .grid-cols-8 {
     grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .grid-cols-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
   }
   .flex-col {
     flex-direction: column;
@@ -1184,6 +1199,9 @@
   }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
