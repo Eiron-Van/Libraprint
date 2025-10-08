@@ -51,10 +51,10 @@ $findBook->bind_result($book_id, $book_title);
 $findBook->fetch();
 $findBook->close();
 
-if (empty($book_id)) {
-    echo json_encode(['success' => false, 'message' => 'Book not found in inventory']);
-    exit;
-}
+// if (empty($book_id)) {
+//     echo json_encode(['success' => false, 'message' => 'Book not found in inventory']);
+//     exit;
+// }
 
 // ✅ 5. Insert into book_record
 $stmt = $conn->prepare("INSERT INTO book_record (user_id, book_id) VALUES (?, ?)");
