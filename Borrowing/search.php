@@ -5,7 +5,7 @@ include '../connection.php';
 
 session_start();
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$user_id = $_SESSION['user_id'];
+$user_id = '904NTPSVFPHNP8FQ9UGM';
 
 // query
 if (!empty($search)) {

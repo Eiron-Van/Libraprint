@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resultsContainer.innerHTML = xhr.responseText;
       }
     };
-    resultsContainer.innerHTML = "<div>Loading...</div>";
+    resultsContainer.innerHTML = "<div class='text-center py-4 text-gray-100'>Loading...</div>";
     xhr.send();
   }
 
