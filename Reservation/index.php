@@ -79,7 +79,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     </div>
 
     <main class="flex justify-center items-center grow">
-        <div class=" max-w-6xl w-full p-5">
+        <div class=" max-w-7xl w-full p-5">
             <!-- Header Section -->
             <div class="w-full">
                 <div class="text-center mb-12">
