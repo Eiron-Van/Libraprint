@@ -136,7 +136,7 @@ $availableBooks = $conn->query("
                     </thead>
                     <tbody>
                         <?php if ($reservedResult->num_rows > 0): ?>
-                                <tr class="bg-blue-600 text-white sticky top-0 z-[9] rounded-xl">
+                                <tr class="bg-blue-700 text-white sticky top-0 z-[9] rounded-xl">
                                     <td colspan="9" class="px-6 py-3 text-left font-semibold">Your Reserved Books</td>
                                 </tr>
 
@@ -149,7 +149,7 @@ $availableBooks = $conn->query("
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
-                            <tr class="bg-gray-500 text-white sticky top-0 z-[10] rounded-xl">
+                            <tr class="bg-green-700 text-white sticky top-0 z-[10] rounded-xl">
                                 <td colspan="8" class="px-6 py-3 text-left font-semibold">Available Books</td>
                             </tr>
 
