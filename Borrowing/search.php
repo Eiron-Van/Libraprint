@@ -17,6 +17,13 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// ✅ 1. Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'User not logged in']);
+    exit;
+}
+
+
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 $user_id = $_SESSION['user_id'];
