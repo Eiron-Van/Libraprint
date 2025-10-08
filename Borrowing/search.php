@@ -1,11 +1,19 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
 include '../connection.php';
 
 session_start();
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$user_id = '904NTPSVFPHNP8FQ9UGM';
+
+$user_id = $_SESSION['user_id'] ?? null;
+if (!$user_id) {
+    die("User ID not found in session.");
+}
+
+
+
 
 // query
 if (!empty($search)) {
