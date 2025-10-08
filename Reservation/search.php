@@ -60,8 +60,8 @@ function highlightTerms(string $text, string $search): string {
 }
 
 echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border border-gray-700 bg-white'>
-        <div class='w-full grid grid-cols-6 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center sticky top-0 z-10'>
-            <div class='px-4 py-3 col-span-2'>Title</div>
+        <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center sticky top-0 z-10'>
+            <div class='px-4 py-3 col-span-3'>Title</div>
             <div class='px-4 py-3 col-span-1'>Author</div>
             <div class='px-4 py-3 col-span-2 text-center'>Date Borrowed</div>
             <div class='px-4 py-3 col-span-1'></div>
@@ -69,10 +69,10 @@ echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border borde
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='w-full grid grid-cols-6 bg-white text-gray-700 border-b border-gray-200 items-center'>
+        echo "<div class='w-full grid grid-cols-7 bg-white text-gray-700 border-b border-gray-200 items-center'>
                 <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
                 <div class='col-span-1 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
-                <div class='col-span-1 px-2 py-1'></div>
+                <div class='col-span-2 px-2 py-1'></div>
                 <div class='col-span-1 px-2 py-1'>
                     <button class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-xs text-white'>Reserve</button>
                 </div>
