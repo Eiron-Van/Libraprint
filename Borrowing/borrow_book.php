@@ -150,7 +150,7 @@ $availableBooks = $conn->query("
                 <?php endif; ?>
 
                 <!-- Available Section Label -->
-                <div class="bg-gray-500 text-white sticky top-[5.5rem] z-10 px-6 py-2 font-semibold">
+                <div class="bg-gray-500 text-white sticky top-[5rem] z-10 px-6 py-2 font-semibold">
                     Available Books
                 </div>
 
