@@ -27,6 +27,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <link rel="icon" href="asset/fingerprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=1.5">
+    <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}</style>
     <script src="../script.js"></script>
     <script src="script/book_search.js"></script>
     <script src="script/borrow.js"></script>
@@ -85,7 +86,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 <h1 class="text-3xl font-bold text-white mb-2 text-center">📚 List of Reserved/Available Books</h1>
             </div>
 
-
+            <!-- Search Bar -->
             <div class="flex flex-row items-center justify-between mb-2 px-0.5">
                 <div class="relative w-1/3">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

@@ -27,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../script.js"></script>
     <script src="/Borrowing/script/read.js"></script>
     <script src="/Borrowing/script/terms.js"></script>
-    
+
     <title>Libraprint | Borrowing</title>
 </head>
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed max-h-dvh h-screen">
@@ -60,7 +60,8 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
             </section>
         </header>
-
+        
+        <!-- Sidenav -->
         <div id="side-menu" class="hidden fixed flex-col bg-[#F4F4F4] w-fit z-11">
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
                 <ul>

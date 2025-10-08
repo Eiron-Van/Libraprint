@@ -15,8 +15,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <link rel="icon" href="../asset/fingerprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/style.css?v=1.5">
-    <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}
-  </style>
+    <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}</style>
     <script src="/Admin/script.js"></script>
     <script src="inventory_script.js"></script>
 
