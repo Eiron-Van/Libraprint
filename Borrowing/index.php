@@ -89,34 +89,34 @@ if (!isset($_SESSION['user_id'])) {
                 <form method="POST" action="">
                     <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-14">
                         <!-- Read in Library -->
-                        <button class="bg-white bg-opacity-10 rounded-2xl p-8 border border-white border-opacity-20 hover:bg-opacity-20 transition-all duration-300 shadow-lg">
+                        <div class="bg-white bg-opacity-10 rounded-2xl p-8 border border-white border-opacity-20 hover:bg-opacity-20 transition-all duration-300 shadow-lg">
                             <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
                                 <i class="fas fa-book-open text-2xl text-white"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white mb-3">Read in Library</h3>
+                            <h3 class="text-xl font-bold text-gray-700 mb-3">Read in Library</h3>
                             <p class="text-gray-700 mb-6 text-sm leading-relaxed">
                                 Access books for reading within the library premises. Perfect for research and study sessions.
                             </p>
-                            <span class="w-full py-3 bg-green-500 hover:bg-green-600 text-black font-bold rounded-lg shadow-md transition duration-300 inline-block">
+                            <button id="readBtn" class="w-full py-3 bg-green-500 hover:bg-green-600 text-black font-bold rounded-lg shadow-md transition duration-300 inline-block">
                                 <i class="fas fa-book-reader mr-2"></i>
-                                Read a Book
-                            </span>
-                        </button>
+                                <span>Read a Book</span>
+                            </button>
+                        </div>
 
                         <!-- Borrow a Book -->
-                        <button id="borrowBtn" class="bg-white bg-opacity-10 rounded-2xl p-8 border border-white border-opacity-20 hover:bg-opacity-20 transition-all duration-300 shadow-lg">
+                        <div class="bg-white bg-opacity-10 rounded-2xl p-8 border border-white border-opacity-20 hover:bg-opacity-20 transition-all duration-300 shadow-lg">
                             <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
                                 <i class="fas fa-home text-2xl text-white"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white mb-3">Borrow for Home</h3>
+                            <h3 class="text-xl font-bold text-grsay-700 mb-3">Borrow for Home</h3>
                             <p class="text-gray-700 mb-6 text-sm leading-relaxed">
                                 Take books home for extended reading. Standard 7-day borrowing<br>period.
                             </p>
-                            <span class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-black font-bold rounded-lg shadow-md transition duration-300 inline-block">
+                            <button id="borrowBtn" class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-black font-bold rounded-lg shadow-md transition duration-300 inline-block">
                                 <i class="fas fa-book mr-2"></i>
-                                Borrow a Book
-                            </span>
-                        </button>
+                                <span>Borrow a Book</span>
+                            </button>
+                        </div>
                     </div>
                 </form>
                 <div class="grid md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto">
@@ -139,7 +139,7 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </main>
         <!-- Overlay for Reading a Book -->
-        <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center z-50">
+        <div id="overlay" class="fixed inset-0 bg-gray-900/80 hidden items-center justify-center z-50">
             <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
                 <h2 class="text-2xl font-bold mb-4">Scan Book Barcode</h2>
                 <input type="text" id="barcodeInput" placeholder="Scan or type barcode..." class="border rounded-md p-2 w-full mb-4 text-center focus:outline-none">
@@ -161,7 +161,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
         <!-- Terms and Conditions Overlay -->
-        <div id="termsOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-50">
+        <div id="termsOverlay" class="fixed inset-0 bg-gray-900/80 hidden items-center justify-center z-50">
             <div class="bg-white rounded-2xl shadow-2xl w-11/12 md:w-2/3 lg:w-1/2 max-h-[90vh] overflow-hidden flex flex-col">
 
                 <!-- Header -->

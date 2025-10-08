@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const borrowBtn = document.querySelectorAll("button span");
+  const borrowBtn = document.getElementById("borrowBtn");
   const termsOverlay = document.getElementById("termsOverlay");
   const closeTerms = document.getElementById("closeTerms");
   const cancelTerms = document.getElementById("cancelTerms");

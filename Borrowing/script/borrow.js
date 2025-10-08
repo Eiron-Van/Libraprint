@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("overlay");
-  const readBookBtn = document.getElementById("readBtn");
+  const borrowBookBtn = document.getElementById("borrowBookBtn");
   const closeOverlayBtn = document.getElementById("closeOverlayBtn");
   const saveBookBtn = document.getElementById("saveBookBtn");
   const barcodeInput = document.getElementById("barcodeInput");
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let scannedBooks = [];
 
   // ✅ Open overlay for index.php
-  readBookBtn.addEventListener("click", (e) => {
+  borrowBookBtn.addEventListener("click", (e) => {
     e.preventDefault();
     overlay.classList.remove("hidden");
     overlay.classList.add("flex");
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Send barcode to backend
     try {
-      const response = await fetch("save_book.php", {
+      const response = await fetch("borrow_book.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ barcode }),
