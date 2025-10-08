@@ -20,12 +20,6 @@ if (!isset($_SESSION['user_id'])) {
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 $user_id = $_SESSION['user_id'];
-if (!$user_id) {
-    die("User ID not found in session.");
-}
-
-
-
 
 // query
 if (!empty($search)) {
