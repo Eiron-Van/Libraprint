@@ -60,7 +60,7 @@ if (empty($book_id)) {
 
 // ✅ 5. Insert into book_record
 $stmt = $conn->prepare("INSERT INTO book_record (user_id, book_id) VALUES (?, ?)");
-$stmt->bind_param("ii", $user_id, $book_id);
+$stmt->bind_param("ii", $id, $book_id);
 
 if ($stmt->execute()) {
     echo json_encode([
@@ -84,7 +84,7 @@ $update->execute();
 
 // 2. Remove from reservation (if exists)
 $delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id = ?");
-$delete->bind_param("ii", $book_id, $user_id);
+$delete->bind_param("ii", $book_id, $id);
 $delete->execute();
 
 $stmt->close();
