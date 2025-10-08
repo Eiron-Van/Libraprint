@@ -25,10 +25,10 @@ $user_id = $_SESSION['user_id'];
 $data = json_decode(file_get_contents("php://input"), true);
 $barcode = trim($data['barcode'] ?? '');
 
-if (empty($barcode)) {
-    echo json_encode(['success' => false, 'message' => 'No barcode provided']);
-    exit;
-}
+// if (empty($barcode)) {
+//     echo json_encode(['success' => false, 'message' => 'No barcode provided']);
+//     exit;
+// }
 
 // ✅ 3. Find the user's numeric ID
 $findUser = $conn->prepare("SELECT id FROM users WHERE user_id = ?");
