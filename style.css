@@ -310,8 +310,14 @@
   .top-21 {
     top: calc(var(--spacing) * 21);
   }
+  .top-\[2\.75rem\] {
+    top: 2.75rem;
+  }
   .top-\[3rem\] {
     top: 3rem;
+  }
+  .top-\[5\.5rem\] {
+    top: 5.5rem;
   }
   .top-\[6rem\] {
     top: 6rem;

@@ -116,7 +116,7 @@ $availableBooks = $conn->query("
     </div>
 
     <!-- Reserved Books Table -->
-    <main class="flex items-center justify-center px-4">
+    <main class="flex items-center justify-center p-4">
         <div class="rounded-2xl w-11/12 md:w-2/3 lg:w-7/10 max-h-[90vh] overflow-hidden flex flex-col">
             <!-- Header -->
             <div class="text-center p-6 text-white">
@@ -128,55 +128,38 @@ $availableBooks = $conn->query("
             <div class="overflow-y-auto max-h-[70vh] rounded-xl bg-white text-sm text-gray-800">
 
                 <!-- Header Row -->
-                <div class="grid grid-cols-9 gap-2 bg-gray-800 text-white sticky top-0 z-10 px-6 py-3 font-semibold">
+                <div class="grid grid-cols-8 gap-2 bg-gray-800 text-white sticky top-0 z-10 px-6 py-3 font-semibold">
                     <div class="col-span-4">Title</div>
                     <div class="col-span-2">Author</div>
                     <div class="col-span-2 text-center">Status</div>
-                    <div class="col-span-1"></div>
                 </div>
 
                 <!-- Reserved Section Label -->
                 <?php if ($reservedResult->num_rows > 0): ?>
-                    <div class="bg-blue-600 text-white sticky top-[3rem] z-10 px-6 py-2 font-semibold">
+                    <div class="bg-blue-600 text-white sticky top-[2.75rem] z-10 px-6 py-2 font-semibold">
                     Your Reserved Books
                     </div>
 
                     <?php while ($row = $reservedResult->fetch_assoc()): ?>
-                    <div class="grid grid-cols-9 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
+                    <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
                         <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
                         <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
                         <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</div>
-                        <div class="col-span-1 text-center">
-                        <form method="POST" action="">
-                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1.5 rounded-lg shadow">
-                            Borrow
-                            </button>
-                        </form>
-                        </div>
                     </div>
                     <?php endwhile; ?>
                 <?php endif; ?>
 
                 <!-- Available Section Label -->
-                <div class="bg-gray-500 text-white sticky top-[6rem] z-10 px-6 py-2 font-semibold">
+                <div class="bg-gray-500 text-white sticky top-[5.5rem] z-10 px-6 py-2 font-semibold">
                     Available Books
                 </div>
 
                 <?php if ($availableBooks->num_rows > 0): ?>
                     <?php while ($row = $availableBooks->fetch_assoc()): ?>
-                    <div class="grid grid-cols-9 gap-2 border-b border-gray-200 bg-gray-100 hover:bg-gray-200 px-6 py-3 items-center">
+                    <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-gray-100 hover:bg-gray-200 px-6 py-3 items-center">
                         <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
                         <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
                         <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?></div>
-                        <div class="col-span-1 text-center">
-                        <form method="POST" action="">
-                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
-                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg shadow">
-                            Borrow
-                            </button>
-                        </form>
-                        </div>
                     </div>
                     <?php endwhile; ?>
                 <?php else: ?>
