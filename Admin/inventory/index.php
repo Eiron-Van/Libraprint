@@ -96,7 +96,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         </div>
 
         <div id="results-count" class="m-2 text-white"></div>
-        <div id="results" class="overflow-auto max-h-115 rounded-lg shadow text-white">
+        <div id="results" class="overflow-auto max-h-[90vh] rounded-lg shadow text-white">
             Loading...
         </div>
     </main>

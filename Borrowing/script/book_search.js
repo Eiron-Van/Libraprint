@@ -14,9 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.send();
   }
 
-  xhr.onerror = function () {
-   resultsContainer.innerHTML = "<div class='text-red-500'>Failed to load results.</div>";
-  };
+  
 
   // Initial load
   fetchResults("");
