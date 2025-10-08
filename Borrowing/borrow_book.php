@@ -116,11 +116,11 @@ $availableBooks = $conn->query("
     </div>
 
     <!-- Reserved Books Table -->
-    <main class="flex items-center justify-center px-4 py-12">
+    <main class="flex items-center justify-center px-4">
         <div class="rounded-2xl w-11/12 md:w-2/3 lg:w-7/10 max-h-[90vh] overflow-hidden flex flex-col">
             <!-- Header -->
             <div class="text-center p-6 text-white">
-                <h1 class="text-3xl font-bold text-white mb-6 text-center">📚 List of Reserved/Available Books</h1>
+                <h1 class="text-3xl font-bold text-white mb-2 text-center">📚 List of Reserved/Available Books</h1>
             </div>
 
             <!-- Table -->
