@@ -16,7 +16,6 @@ if (!isset($_SESSION['user_id'])) {
 
 // get search input (if any)
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$_SESSION['user_id'] = $user_id;
 
 
 // --- Borrow action ---
