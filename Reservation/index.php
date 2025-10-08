@@ -29,6 +29,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <link rel="stylesheet" href="../style.css?v=1.5">
     <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}</style>
     <script src="/script.js"></script>
+    <script src="script/book_search.js"></script>
 
     <title>Libraprint | Reservation</title>
 </head>
