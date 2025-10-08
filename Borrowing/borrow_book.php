@@ -124,7 +124,7 @@ $availableBooks = $conn->query("
             </div>
 
 
-            <div class="flex flex-row items-center justify-between mb-2">
+            <div class="flex flex-row items-center justify-between mb-2 px-0.5">
                 <div class="relative w-1/3">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -151,7 +151,7 @@ $availableBooks = $conn->query("
                 <div class="bg-blue-600 text-white sticky top-[2.75rem] z-10 px-6 py-2 font-semibold">
                     Your Reserved Books
                 </div>
-                
+
                 <?php if ($reservedResult->num_rows > 0): ?>
                     <?php while ($row = $reservedResult->fetch_assoc()): ?>
                     <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
