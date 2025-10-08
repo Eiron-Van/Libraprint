@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: application/json');
-
 // Handle session ID from URL parameter (for fingerprint login)
 if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
     session_id($_GET['PHPSESSID']);
