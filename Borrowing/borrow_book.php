@@ -14,7 +14,10 @@ if (!isset($_SESSION['user_id'])) {
 
 require '../connection.php';
 
-$user_id = $_SESSION['user_id'];
+// get search input (if any)
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$_SESSION['user_id'] = $user_id;
+
 
 // --- Borrow action ---
 if (isset($_POST['borrow_item_id'])) {
@@ -68,6 +71,7 @@ $availableBooks = $conn->query("
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=1.5">
     <script src="../script.js"></script>
+    <script src="script/book_search.js"></script>
     
     <title>Libraprint | Borrowing</title>
 </head>
@@ -138,49 +142,8 @@ $availableBooks = $conn->query("
             </div>
             
             <!-- Table -->
-            <div class="overflow-y-auto max-h-[70vh] rounded-xl bg-white text-sm text-gray-800">
+            <div id="results">Loading...</div>
 
-                <!-- Header Row -->
-                <div class="grid grid-cols-8 gap-2 bg-gray-800 text-white sticky top-0 z-10 px-6 py-3 font-semibold">
-                    <div class="col-span-4">Title</div>
-                    <div class="col-span-2">Author</div>
-                    <div class="col-span-2 text-center">Status</div>
-                </div>
-
-                <!-- Reserved Section Label -->
-                <div class="bg-blue-600 text-white sticky top-[2.75rem] z-10 px-6 py-2 font-semibold">
-                    Your Reserved Books
-                </div>
-
-                <?php if ($reservedResult->num_rows > 0): ?>
-                    <?php while ($row = $reservedResult->fetch_assoc()): ?>
-                    <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
-                        <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
-                        <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
-                        <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</div>
-                    </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="text-center py-4 text-gray-400">No reserved books at the moment.</div>
-                <?php endif; ?>
-
-                <!-- Available Section Label -->
-                <div class="bg-gray-500 text-white sticky top-[5rem] z-10 px-6 py-2 font-semibold">
-                    Available Books
-                </div>
-
-                <?php if ($availableBooks->num_rows > 0): ?>
-                    <?php while ($row = $availableBooks->fetch_assoc()): ?>
-                    <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-gray-100 hover:bg-gray-200 px-6 py-3 items-center">
-                        <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
-                        <div class="col-span-2"><?= htmlspecialchars($row['author']) ?></div>
-                        <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?></div>
-                    </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="text-center py-4 text-gray-400">No available books at the moment.</div>
-                <?php endif; ?>
-            </div>
         </div>
     </main>
 </body>

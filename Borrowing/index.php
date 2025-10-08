@@ -110,7 +110,7 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <h3 class="text-xl font-bold text-white mb-3">Borrow for Home</h3>
                             <p class="text-gray-700 mb-6 text-sm leading-relaxed">
-                                Take books home for extended reading. Standard 7-day borrowing period.
+                                Take books home for extended reading. Standard 7-day borrowing<br>period.
                             </p>
                             <span class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-black font-bold rounded-lg shadow-md transition duration-300 inline-block">
                                 <i class="fas fa-book mr-2"></i>
