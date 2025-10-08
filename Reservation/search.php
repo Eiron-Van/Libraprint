@@ -74,7 +74,7 @@ if ($result->num_rows > 0) {
                 <div class='col-span-1 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
                 <div class='col-span-1 px-2 py-1'></div>
                 <div class='col-span-1 px-2 py-1'>
-                    <button class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-xs'>Reserve</button>
+                    <button class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-xs text-white'>Reserve</button>
                 </div>
             </div>";
     }
