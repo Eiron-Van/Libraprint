@@ -61,10 +61,10 @@ function highlightTerms(string $text, string $search): string {
 
 echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border border-gray-700 bg-white'>
         <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center sticky top-0 z-10'>
-            <div class='px-4 py-3 col-span-3'>Title</div>
-            <div class='px-4 py-3 col-span-1'>Author</div>
-            <div class='px-4 py-3 col-span-2 text-center'>Date Borrowed</div>
-            <div class='px-4 py-3 col-span-1'></div>
+            <div class='px-2 py-3 col-span-3'>Title</div>
+            <div class='px-2 py-3 col-span-1'>Author</div>
+            <div class='px-2 py-3 col-span-2 text-center'>Date Borrowed</div>
+            <div class='px-2 py-3 col-span-1'></div>
         </div>";
 
 if ($result->num_rows > 0) {
