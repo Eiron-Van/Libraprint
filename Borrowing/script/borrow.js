@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Send barcode to backend
     try {
-      const response = await fetch("borrow_book.php", {
+      const response = await fetch("borrow_function.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ barcode }),
