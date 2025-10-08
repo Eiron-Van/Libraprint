@@ -148,11 +148,11 @@ $availableBooks = $conn->query("
                 </div>
 
                 <!-- Reserved Section Label -->
-                <?php if ($reservedResult->num_rows > 0): ?>
-                    <div class="bg-blue-600 text-white sticky top-[2.75rem] z-10 px-6 py-2 font-semibold">
+                <div class="bg-blue-600 text-white sticky top-[2.75rem] z-10 px-6 py-2 font-semibold">
                     Your Reserved Books
-                    </div>
-
+                </div>
+                
+                <?php if ($reservedResult->num_rows > 0): ?>
                     <?php while ($row = $reservedResult->fetch_assoc()): ?>
                     <div class="grid grid-cols-8 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center">
                         <div class="col-span-4"><?= htmlspecialchars($row['title']) ?></div>
