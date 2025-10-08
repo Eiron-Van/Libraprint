@@ -1,10 +1,22 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-session_start();
-include '../connection.php';
+// Handle session ID from URL parameter (for fingerprint login)
+if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
+    session_id($_GET['PHPSESSID']);
+}
 
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Login");
+    exit();
+}
+
+
+include '../connection.php';
+
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 $user_id = $_SESSION['user_id'] ?? null;
