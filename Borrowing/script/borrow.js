@@ -52,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Clear input for next scan
         barcodeInput.value = "";
         barcodeInput.focus();
+
+        // window.location.href = "borrow_book.php?success=1";
+
       } else {
         alert("Error: " + result.message);
       }

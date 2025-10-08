@@ -87,7 +87,5 @@ $delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id 
 $delete->bind_param("ii", $book_id, $user_id);
 $delete->execute();
 
-header("Location: borrow_book.php?success=1");
-
 $stmt->close();
 $conn->close();
