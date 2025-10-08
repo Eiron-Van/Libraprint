@@ -138,28 +138,20 @@ $availableBooks = $conn->query("
                     <tbody>
                         <?php if ($reservedResult->num_rows > 0): ?>
                                 <tr class="bg-blue-600 text-white sticky top-0 z-[9] rounded-xl">
-                                    <td colspan="9" class="px-6 py-2 text-left font-semibold">Your Reserved Books</td>
+                                    <td colspan="9" class="px-6 py-3 text-left font-semibold">Your Reserved Books</td>
                                 </tr>
 
                                 <?php while ($row = $reservedResult->fetch_assoc()): ?>
-                                <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-9 gap-2 border-b border-gray-200 items-center">
+                                <tr class="bg-blue-100 hover:bg-blue-200 grid grid-cols-8 gap-2 border-b border-gray-200 items-center">
                                     <td class="flex items-center px-6 py-3 col-span-4"><?= htmlspecialchars($row['title']) ?></td>
                                     <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
                                     <td class="flex items-center justify-center px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</td>
-                                    <td class="flex items-center px-6 py-3 text-center col-span-1">
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
-                                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1.5 rounded-lg shadow">
-                                                Borrow
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 <?php endwhile; ?>
                             <?php endif; ?>
 
                             <tr class="bg-gray-500 text-white sticky top-0 z-[10] rounded-xl">
-                                <td colspan="9" class="px-6 py-2 text-left font-semibold">Available Books</td>
+                                <td colspan="9" class="px-6 py-3 text-left font-semibold">Available Books</td>
                             </tr>
 
                             <?php if ($availableBooks->num_rows > 0): ?>
@@ -169,13 +161,6 @@ $availableBooks = $conn->query("
                                     <td class="flex items-center px-6 py-3 col-span-2"><?= htmlspecialchars($row['author']) ?></td>
                                     <td class="flex items-center justify-center      px-6 py-3 text-center col-span-2"><?= htmlspecialchars($row['status']) ?></td>
                                     <td class="flex items-center px-6 py-3 text-center col-span-1">
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="borrow_item_id" value="<?= $row['item_id'] ?>">
-                                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg shadow">
-                                                Borrow
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 <?php endwhile; ?>
                             <?php else: ?>
@@ -183,7 +168,6 @@ $availableBooks = $conn->query("
                             <?php endif; ?>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </main>
