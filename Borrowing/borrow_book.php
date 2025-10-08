@@ -160,6 +160,8 @@ $availableBooks = $conn->query("
                         <div class="col-span-2 text-center"><?= htmlspecialchars($row['status']) ?> (<?= htmlspecialchars($row['purpose']) ?>)</div>
                     </div>
                     <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="text-center py-4 text-gray-400">No reserved books at the moment.</div>
                 <?php endif; ?>
 
                 <!-- Available Section Label -->
