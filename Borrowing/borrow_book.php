@@ -6,13 +6,13 @@ if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
 
 session_start();
 
+require '../connection.php';
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: /Login");
     exit();
 }
-
-require '../connection.php';
 
 // get search input (if any)
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -41,25 +41,6 @@ if (isset($_POST['borrow_item_id'])) {
     header("Location: borrow_book.php?success=1");
     exit();
 }
-
-// --- Get Reserved Books ---
-$reservedBooks = $conn->prepare("
-    SELECT bi.item_id, bi.title, bi.author, bi.status, r.purpose
-    FROM reservation r
-    INNER JOIN book_inventory bi ON r.item_id = bi.item_id
-    WHERE r.user_id = ?
-");
-$reservedBooks->bind_param("s", $user_id);
-$reservedBooks->execute();
-$reservedResult = $reservedBooks->get_result();
-
-// --- Get Available Books ---
-$availableBooks = $conn->query("
-    SELECT item_id, title, author, status
-    FROM book_inventory
-    WHERE status = 'Available'
-");
-
 ?>  
 
 <!DOCTYPE html>

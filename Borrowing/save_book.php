@@ -5,8 +5,20 @@ ini_set('display_errors', 1);
 
 header('Content-Type: application/json');
 
+// Handle session ID from URL parameter (for fingerprint login)
+if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
+    session_id($_GET['PHPSESSID']);
+}
+
 session_start();
-require '../connection.php'; // adjust path if needed
+
+require '../connection.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Login");
+    exit();
+}
 
 // ✅ 1. Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
