@@ -73,10 +73,6 @@ if (!empty($search)) {
         WHERE status = 'Available'
     ");
 }
-$result = $conn->query($sql);
-if (!$result) {
-    die("Invalid query: " . $conn->error);
-}
 
 // helper
 function highlightTerms(string $text, string $search): string {
