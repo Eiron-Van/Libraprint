@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.getElementById("overlay");
     const closeOverlayBtn = document.getElementById("closeOverlayBtn");
-    const reserveBookBtn = document.getElementById("reserve-btn");
+    const reserveBookBtn = document.querySelectorAll(".reserve-btn");
     const readBookBtn = document.getElementById("read-btn");
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
 
     let selectedItemId = null; // store the clicked book’s ID
 
-        // ✅ Open overlay for index.php
-        reserveBookBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            overlay.classList.remove("hidden");
-            overlay.classList.add("flex");
-            barcodeInput.focus();
-        });
+    // ✅ Open overlay for index.php
+    reserveBookBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+    });
 
     // ✅ 2. Function to handle reservation (Borrow or Read)
     function reserveBook(purpose) {
