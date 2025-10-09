@@ -37,7 +37,7 @@ if (!empty($search)) {
             OR r.purpose LIKE ?
         )
     ");
-    $reservedBooks->bind_param("ssssss", $user_id, $safe_search, $safe_search, $safe_search, $safe_search);
+    $reservedBooks->bind_param("sssss", $user_id, $safe_search, $safe_search, $safe_search, $safe_search);
     $reservedBooks->execute();
     $reservedResult = $reservedBooks->get_result();
 
