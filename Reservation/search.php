@@ -125,7 +125,7 @@ if ($reservedResult->num_rows > 0) {
 }
 
 echo "  <!-- Available Section Label -->
-        <div class='bg-green-500 text-black sticky top-[5rem] z-10 px-6 py-2 font-semibold'>
+        <div class='bg-green-500 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
                 Available Books
         </div>
 
