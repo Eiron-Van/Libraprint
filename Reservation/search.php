@@ -104,10 +104,10 @@ echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border borde
         </div>
 
         <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-9'>
-            <div class='px-2 py-3 col-span-3'>Title</div>
-            <div class='px-2 py-3 col-span-2'>Author</div>
-            <div class='px-2 py-3 col-span-1 text-center'>Date Borrowed</div>
-            <div class='px-2 py-3 col-span-1 text-center'>Purpose</div>
+            <div class='px-2 py-1 col-span-3'>Title</div>
+            <div class='px-2 py-1 col-span-2'>Author</div>
+            <div class='px-2 py-1 col-span-1 text-center'>Date Borrowed</div>
+            <div class='px-2 py-1 col-span-1 text-center'>Purpose</div>
         </div>
         ";
 
