@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.getElementById("overlay");
     const closeOverlayBtn = document.getElementById("closeOverlayBtn");
+    const reserveBookBtn = document.getElementById("reserve-btn");
     const readBookBtn = document.getElementById("read-btn");
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
