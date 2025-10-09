@@ -99,7 +99,7 @@ function highlightTerms(string $text, string $search): string {
 
 echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border border-gray-700 bg-white'>
         <!-- Reserved Section Label -->
-        <div class='bg-blue-600 text-white sticky top-0 z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-blue-600 text-white sticky top-0 z-10 px-6 py-2 font-semibold'>
                 Your Reserved Books
         </div>
 
@@ -125,7 +125,7 @@ if ($reservedResult->num_rows > 0) {
 }
 
 echo "  <!-- Available Section Label -->
-        <div class='bg-green-500 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-green-600 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
                 Available Books
         </div>
 
