@@ -106,8 +106,8 @@ echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border borde
         <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-9'>
             <div class='px-2 py-3 col-span-3'>Title</div>
             <div class='px-2 py-3 col-span-2'>Author</div>
-            <div class='px-2 py-3 col-span-1'>Date Borrowed</div>
-            <div class='px-2 py-3 col-span-1'>Purpose</div>
+            <div class='px-2 py-3 col-span-1 text-center'>Date Borrowed</div>
+            <div class='px-2 py-3 col-span-1 text-center'>Purpose</div>
         </div>
         ";
 
@@ -116,8 +116,8 @@ if ($reservedResult->num_rows > 0) {
         echo "<div class='w-full grid grid-cols-7 bg-white text-gray-700 border-b border-gray-200 items-center'>
                 <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
                 <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
-                <div class='col-span-1 px-2 py-1'>" . highlightTerms($row['date_reserved'], $search) . "</div>
-                <div class='col-span-1 px-2 py-1'>" . highlightTerms($row['purpose'], $search) . "</div>
+                <div class='col-span-1 px-2 py-1 text-center'>" . highlightTerms($row['date_reserved'], $search) . "</div>
+                <div class='col-span-1 px-2 py-1 text-center'>" . highlightTerms($row['purpose'], $search) . "</div>
             </div>";
     }
 }else{
