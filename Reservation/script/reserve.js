@@ -8,14 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let selectedItemId = null; // store the clicked book’s ID
 
-    // ✅ 1. Open overlay when "Reserve" button clicked
-    document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("reserve-btn")) {
-            selectedItemId = e.target.getAttribute("data-item-id");
+        // ✅ Open overlay for index.php
+        reserveBookBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             overlay.classList.remove("hidden");
             overlay.classList.add("flex");
-        }
-    });
+            barcodeInput.focus();
+        });
 
     // ✅ 2. Function to handle reservation (Borrow or Read)
     function reserveBook(purpose) {
