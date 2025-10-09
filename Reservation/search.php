@@ -142,7 +142,7 @@ echo "  <!-- Available Section Label -->
                 <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
                 <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
                 <div class='col-span-1 px-2 py-1 justify-center items-center'>
-                    <button id='reserve-btn' class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
+                    <button class='reserve-btn bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
                         data-item-id='" . $row["item_id"] . "'>Reserve
                     </button>
                 </div>

@@ -1,21 +1,27 @@
 document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.getElementById("overlay");
     const closeOverlayBtn = document.getElementById("closeOverlayBtn");
-    const reserveBookBtn = document.querySelectorAll(".reserve-btn");
     const readBookBtn = document.getElementById("read-btn");
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
 
     let selectedItemId = null; // store the clicked book’s ID
 
-    // ✅ Open overlay for index.php
-    reserveBookBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        overlay.classList.remove("hidden");
-        overlay.classList.add("flex");
-    });
+    // Delegate clicks from dynamically injected results container
+    const resultsContainer = document.getElementById("results");
+    if (resultsContainer) {
+        resultsContainer.addEventListener("click", function (e) {
+            const target = e.target;
+            if (target && target.classList && target.classList.contains("reserve-btn")) {
+                e.preventDefault();
+                selectedItemId = target.getAttribute("data-item-id");
+                if (!selectedItemId) return;
+                overlay.classList.remove("hidden");
+                overlay.classList.add("flex");
+            }
+        });
+    }
 
-    // ✅ 2. Function to handle reservation (Borrow or Read)
     function reserveBook(purpose) {
         if (!selectedItemId) return;
 
@@ -27,28 +33,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 purpose: purpose
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                successMsg.classList.remove("hidden");
-                setTimeout(() => {
-                    overlay.classList.add("hidden");
-                    successMsg.classList.add("hidden");
-                    location.reload(); // refresh to show update
-                }, 1500);
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(err => console.error(err));
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    successMsg.classList.remove("hidden");
+                    setTimeout(() => {
+                        overlay.classList.add("hidden");
+                        successMsg.classList.add("hidden");
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error(err));
     }
 
-    // ✅ 3. Bind click events for Borrow/Read buttons
-    readBookBtn.addEventListener("click", () => reserveBook("read"));
-    borrowBookBtn.addEventListener("click", () => reserveBook("borrow"));
+    if (readBookBtn) readBookBtn.addEventListener("click", () => reserveBook("read"));
+    if (borrowBookBtn) borrowBookBtn.addEventListener("click", () => reserveBook("borrow"));
 
-    // ✅ 4. Close overlay
-    closeOverlayBtn.addEventListener("click", () => {
-        overlay.classList.add("hidden");
-    });
+    if (closeOverlayBtn) {
+        closeOverlayBtn.addEventListener("click", () => {
+            overlay.classList.add("hidden");
+        });
+    }
 });
