@@ -136,8 +136,8 @@ echo "  <!-- Available Section Label -->
         </div>
         ";
 
-    if ($reservedResult->num_rows > 0) {
-    while ($row = $reservedResult->fetch_assoc()) {
+    if ($availableResult->num_rows > 0) {
+    while ($row = $availableResult->fetch_assoc()) {
     echo "<div class='w-full grid grid-cols-6 bg-white text-gray-700 border-b border-gray-200 items-center'>
             <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
             <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
