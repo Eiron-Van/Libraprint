@@ -30,6 +30,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}</style>
     <script src="/script.js"></script>
     <script src="script/book_search.js"></script>
+    <script src="script/reserve.js"></script>
 
     <title>Libraprint | Reservation</title>
 </head>
@@ -171,5 +172,21 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             </div>
         </div>
     </main>
+    <!-- Overlay for reservation -->
+    <div id="overlay" class="fixed inset-0 bg-gray-900/80 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
+            <h2 class="text-2xl font-bold mb-4">Read or Borrow</h2>
+                <div class="grid grid-cols-6 gap-4">
+                    <button id="read-btn" class="col-span-2 col-start-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Read</button>
+                    <button id="borrow-btn" class="col-span-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Borrow</button>
+                </div>
+            <!-- ✅ Success message -->
+            <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md mb-4">
+                ✅ Book successfully recorded!
+            </div>
+
+            <button id="closeOverlayBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>
+        </div>
+    </div>
 </body>
 </html>

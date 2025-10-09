@@ -43,7 +43,7 @@ if (!empty($search)) {
 
     // Available Books Query
     $availableBooks = $conn->prepare("
-        SELECT title, author
+        SELECT item_id, title, author
         FROM book_inventory
         WHERE status = 'Available'
         AND (
@@ -57,7 +57,7 @@ if (!empty($search)) {
 } else {
     // Reserved Books
     $reservedBooks = $conn->prepare("
-        SELECT bi.title, bi.author, r.date_reserved, r.purpose
+        SELECT bi.item_id, bi.title, bi.author, r.date_reserved, r.purpose
         FROM reservation r
         INNER JOIN book_inventory bi ON r.item_id = bi.item_id
         WHERE r.user_id = ?
@@ -68,7 +68,7 @@ if (!empty($search)) {
 
     // Available Books
     $availableResult = $conn->query("
-        SELECT title, author
+        SELECT item_id, title, author
         FROM book_inventory
         WHERE status = 'Available'
     ");
@@ -99,7 +99,7 @@ function highlightTerms(string $text, string $search): string {
 
 echo "<div class='max-h-[50vh] overflow-y-auto rounded-xl shadow-md border border-gray-700 bg-white'>
         <!-- Reserved Section Label -->
-        <div class='w-full bg-blue-600 text-white sticky top-0 z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-blue-200 text-black sticky top-0 z-10 px-6 py-2 font-semibold'>
                 Your Reserved Books
         </div>
 
@@ -125,7 +125,7 @@ if ($reservedResult->num_rows > 0) {
 }
 
 echo "  <!-- Available Section Label -->
-        <div class='w-full bg-green-600 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-green-200 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
                 Available Books
         </div>
 
@@ -137,15 +137,17 @@ echo "  <!-- Available Section Label -->
         ";
 
     if ($availableResult->num_rows > 0) {
-    while ($row = $availableResult->fetch_assoc()) {
-    echo "<div class='w-full grid grid-cols-6 bg-white text-gray-700 border-b border-gray-200 items-center'>
-            <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
-            <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
-            <div class='col-span-1 px-2 py-1 justify-center items-center'>
-                <button class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'>Reserve</button>
-            </div>
-        </div>";
-    }
+        while ($row = $availableResult->fetch_assoc()) {
+        echo "<div class='w-full grid grid-cols-6 bg-white text-gray-700 border-b border-gray-200 items-center'>
+                <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
+                <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
+                <div class='col-span-1 px-2 py-1 justify-center items-center'>
+                    <button id='reserve-btn' class='bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
+                        data-item-id='" . $row["item_id"] . "'>Reserve
+                    </button>
+                </div>
+            </div>";
+        }
     }else{
         echo "<div class='text-center py-4 text-gray-400'>You haven't reserved any books yet</div>";
     }
