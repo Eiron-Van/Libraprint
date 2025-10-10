@@ -11,7 +11,7 @@ require '../connection.php'; // adjust path if needed
 $query = "
 SELECT r.item_id
 FROM reservation r
-WHERE r.date_reserved < (NOW() - INTERVAL 24 HOUR)
+WHERE r.date_reserved < (NOW() - INTERVAL 2 MINUTE)
 ";
 
 $result = $conn->query($query);
