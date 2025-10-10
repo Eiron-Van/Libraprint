@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Check if account is verified
+        // Check if account is verifieds
         if ($user['is_verified'] == 0) {
             echo "<script>alert('Please check your email to verify your account.'); window.location.href='/Login';</script>";
             exit();
@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
 
-            // ✅ Record login event
-            $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
-            $log->bind_param("i", $user['id']);
-            $log->execute();
+            // // ✅ Record login event
+            // $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
+            // $log->bind_param("i", $user['id']);
+            // $log->execute();
 
             // Redirect to your dashboard or home
             header("Location: https://libraprintlucena.com");
