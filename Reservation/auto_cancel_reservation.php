@@ -28,7 +28,7 @@ if ($result && $result->num_rows > 0) {
     $conn->query("UPDATE book_inventory SET status='Available' WHERE item_id IN ($inIds)");
 
     // Delete expired reservations
-    $conn->query("DELETE FROM reservation WHERE date_reserved < (NOW() - INTERVAL 24 HOUR)");
+    $conn->query("DELETE FROM reservation WHERE date_reserved < (NOW() - INTERVAL 2 MINUTE)");
 
     echo "✅ " . count($itemIds) . " reservation(s) expired and were canceled.\n";
 } else {
