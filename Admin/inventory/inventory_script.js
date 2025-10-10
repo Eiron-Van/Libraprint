@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (count) document.getElementById("results-count").innerHTML = count.innerHTML;
         if (table) document.getElementById("results").innerHTML = table.innerHTML;
 
-        // resultsDiv.innerHTML = xhr.responseText;
       }
     };
     xhr.send();

@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 require '../connection.php';
 // Handle session ID from URL parameter (for fingerprint login)
 if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
