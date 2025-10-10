@@ -11,7 +11,7 @@ require __DIR__ . '/../connection.php';
 $query = "
 SELECT r.item_id
 FROM reservation r
-WHERE r.date_reserved < (NOW() - INTERVAL 2 MINUTE)
+WHERE r.date_reserved < (NOW() - INTERVAL 1 DAY)
 ";
 
 $result = $conn->query($query);
@@ -28,7 +28,7 @@ if ($result && $result->num_rows > 0) {
     $conn->query("UPDATE book_inventory SET status='Available' WHERE item_id IN ($inIds)");
 
     // Delete expired reservations
-    $conn->query("DELETE FROM reservation WHERE date_reserved < (NOW() - INTERVAL 2 MINUTE)");
+    $conn->query("DELETE FROM reservation WHERE date_reserved < (NOW() - INTERVAL 1 DAY)");
 
     echo "✅ " . count($itemIds) . " reservation(s) expired and were canceled.\n";
 } else {
