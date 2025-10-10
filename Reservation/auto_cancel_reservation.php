@@ -5,7 +5,7 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require '../connection.php'; // adjust path if needed
+require __DIR__ . '/../connection.php';
 
 // Find expired reservations (older than 24 hours)
 $query = "
@@ -34,3 +34,4 @@ if ($result && $result->num_rows > 0) {
 } else {
     echo "No expired reservations found.\n";
 }
+
