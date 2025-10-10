@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let scannedBooks = [];
 
-  // ✅ Open overlay for index.php
+  // Open overlay for index.php
   borrowBookBtn.addEventListener("click", (e) => {
     e.preventDefault();
     overlay.classList.remove("hidden");
@@ -17,12 +17,31 @@ document.addEventListener("DOMContentLoaded", () => {
     barcodeInput.focus();
   });
 
-  // ✅ Close overlay
-  closeOverlayBtn.addEventListener("click", () => {
+  // Close overlay → trigger email sending
+  closeOverlayBtn.addEventListener("click", async () => {
     overlay.classList.add("hidden");
+
+    try {
+      const formData = new FormData();
+      formData.append("finalBorrow", "true");
+
+      const res = await fetch("borrow_function.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        console.log("Borrowing email sent:", result.emailStatus);
+      } else {
+        console.warn("No email sent:", result.message);
+      }
+    } catch (err) {
+      console.error("Error sending final borrow email:", err);
+    }
   });
 
-  // ✅ Save book
+  // Save book
   saveBookBtn.addEventListener("click", async () => {
     const barcode = barcodeInput.value.trim();
     if (!barcode) return alert("Please scan or type a barcode first.");
@@ -36,14 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await response.json();
-      console.log("Response:", result);
+      // console.log("Response:", result);
 
       if (result.success) {
-        // ✅ Show success message briefly
+        // Show success message briefly
         successMsg.classList.remove("hidden");
         setTimeout(() => successMsg.classList.add("hidden"), 1500);
 
-        // ✅ Add scanned book to the list
+        // Add scanned book to the list
         scannedBooks.push(barcode);
         const li = document.createElement("li");
         li.textContent = `${result.title ? result.title + " – " : ""}Barcode: ${barcode}`;
