@@ -55,7 +55,7 @@ function sendPhilSMS(string $recipient_raw, string $message): array {
         // optionally: 'schedule_time' => '2025-10-15 14:00' (RFC3339-like), 'type' => 'sms' if needed
     ];
 
-    $ch = curl_init('https://app.philsms.com/api/v3/');
+    $ch = curl_init('https://app.philsms.com/api/v3/sms/send');
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
