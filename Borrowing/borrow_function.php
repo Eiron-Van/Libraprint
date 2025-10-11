@@ -119,10 +119,10 @@ if (empty($_SESSION['user_info'])) {
 }
 
 // Find the book in the inventory
-$findBook = $conn->prepare("SELECT item_id, title FROM book_inventory WHERE barcode = ?");
+$findBook = $conn->prepare("SELECT item_id, title, status FROM book_inventory WHERE barcode = ?");
 $findBook->bind_param("s", $barcode);
 $findBook->execute();
-$findBook->bind_result($book_id, $book_title);
+$findBook->bind_result($book_id, $book_title, $status);
 $findBook->fetch();
 $findBook->close();
 
@@ -131,11 +131,52 @@ if (empty($book_id)) {
     exit;
 }
 
+// ✅ Step 2: Check book restrictions
+if ($status === 'Missing') {
+    echo json_encode(['success' => false, 'message' => 'This book is marked as missing and cannot be borrowed.']);
+    exit;
+}
+
+if ($status === 'Checked Out') {
+    echo json_encode(['success' => false, 'message' => 'This book is currently checked out by another user.']);
+    exit;
+}
+
+// ✅ Step 3: Check reservation status
+$resCheck = $conn->prepare("SELECT user_id FROM reservation WHERE item_id = ?");
+$resCheck->bind_param("i", $book_id);
+$resCheck->execute();
+$resCheck->bind_result($reserved_user);
+$resCheck->fetch();
+$resCheck->close();
+
+if (!empty($reserved_user) && $reserved_user != $id) {
+    echo json_encode(['success' => false, 'message' => 'This book is reserved by another user.']);
+    exit;
+}
+
 // Insert into book_record
 $stmt = $conn->prepare("INSERT INTO book_record (user_id, book_id) VALUES (?, ?)");
 $stmt->bind_param("ii", $id, $book_id);
 
 if ($stmt->execute()) {
+    // --- Borrow action ---
+
+    // Update book status to Checked Out
+    $update = $conn->prepare("UPDATE book_inventory SET status = 'Checked Out' WHERE item_id = ?");
+    $update->bind_param("i", $book_id);
+    $update->execute();
+
+    // Remove from reservation (if exists)
+    $delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id = ?");
+    $delete->bind_param("ii", $book_id, $id);
+
+    // Log this borrowing
+    $log = $conn->prepare("INSERT INTO borrow_log (user_id, book_id, status) VALUES (?, ?, 'Borrowed')");
+    $log->bind_param("ii", $id, $book_id);
+    $log->execute();
+    $log->close();
+
     // Add to session borrow list
     if (!isset($_SESSION['borrowed_books'])) {
         $_SESSION['borrowed_books'] = [];
@@ -155,17 +196,8 @@ if ($stmt->execute()) {
 }
 
 
-// --- Borrow action ---
 
-// Update book status to Checked Out
-$update = $conn->prepare("UPDATE book_inventory SET status = 'Checked Out' WHERE item_id = ?");
-$update->bind_param("i", $book_id);
-$update->execute();
-
-// Remove from reservation (if exists)
-$delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id = ?");
-$delete->bind_param("ii", $book_id, $id);
-$delete->execute();
+// $delete->execute();
 
 $stmt->close();
 $conn->close();
