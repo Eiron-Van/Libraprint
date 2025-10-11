@@ -112,7 +112,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 <button id="saveBookBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Borrow Book</button>
 
                 <!-- ✅ Success message -->
-                <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md mb-4">
+                <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md my-2">
                     ✅ Borrowed successfully recorded!
                 </div>
 
