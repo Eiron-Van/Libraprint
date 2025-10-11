@@ -56,18 +56,18 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
         // Send email once
         $emailStatus = sendEmail($user['email'], "{$user['first_name']} {$user['last_name']}", $subject, $body);
 
-        // --- SEND SMS (once) ---
-        require_once __DIR__ . '/../philsms.php'; // path to philsms helper; adjust if needed
+        // // --- SEND SMS (once) ---
+        // require_once __DIR__ . '/../philsms.php'; // path to philsms helper; adjust if needed
 
-        $smsResult = ['status'=>'skipped','message'=>'no phone'];
-        $phone = $_SESSION['user_info']['contact_number'] ?? '';
+        // $smsResult = ['status'=>'skipped','message'=>'no phone'];
+        // $phone = $_SESSION['user_info']['contact_number'] ?? '';
 
-        if (!empty($phone)) {
-            // build a concise SMS (keep it short — SMS costs per 160 chars)
-            $titles = implode(', ', array_map(function($t){ return preg_replace('/\s+/', ' ', trim($t)); }, $borrowedBooks));
-            $smsMessage = "LibraPrint: Hi {$user['first_name']}, you borrowed ".count($borrowedBooks)." book(s) on {$borrowDate}. Due: {$returnDate}. Titles: {$titles}.";
-            $smsResult = sendPhilSMS($phone, $smsMessage);
-        }
+        // if (!empty($phone)) {
+        //     // build a concise SMS (keep it short — SMS costs per 160 chars)
+        //     $titles = implode(', ', array_map(function($t){ return preg_replace('/\s+/', ' ', trim($t)); }, $borrowedBooks));
+        //     $smsMessage = "LibraPrint: Hi {$user['first_name']}, you borrowed ".count($borrowedBooks)." book(s) on {$borrowDate}. Due: {$returnDate}. Titles: {$titles}.";
+        //     $smsResult = sendPhilSMS($phone, $smsMessage);
+        // }
 
         // Clear session borrow list
         unset($_SESSION['borrowed_books']);
@@ -76,7 +76,7 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
         echo json_encode([
             "success" => true, 
             "emailStatus" => $emailStatus,
-            "smsStatus" => $smsResult
+            // "smsStatus" => $smsResult
         ]);
     } else {
         echo json_encode(["success" => false, "message" => "No borrowed books to email."]);
@@ -119,7 +119,7 @@ if (empty($_SESSION['user_info'])) {
 }
 
 // Find the book in the inventory
-$findBook = $conn->prepare("SELECT item_id, title FROM book_inventory WHERE class_no = ?");
+$findBook = $conn->prepare("SELECT item_id, title FROM book_inventory WHERE barcode = ?");
 $findBook->bind_param("s", $barcode);
 $findBook->execute();
 $findBook->bind_result($book_id, $book_title);

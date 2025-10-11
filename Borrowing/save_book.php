@@ -48,7 +48,7 @@ if (empty($user_id)) {
 }
 
 // ✅ 4. Find the book in the inventory
-$findBook = $conn->prepare("SELECT item_id, title FROM book_inventory WHERE class_no = ?");
+$findBook = $conn->prepare("SELECT item_id, title FROM book_inventory WHERE barcode = ?");
 $findBook->bind_param("s", $barcode);
 $findBook->execute();
 $findBook->bind_result($book_id, $book_title);
