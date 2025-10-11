@@ -21,6 +21,10 @@ function sendEmail($toEmail, $toName, $subject, $bodyHtml) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
+        // ✅ Emoji-safe encoding
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
+
         // From
         $mail->setFrom('libraprint.lucena@gmail.com', 'Libraprint');
 
