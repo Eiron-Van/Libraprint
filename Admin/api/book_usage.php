@@ -38,7 +38,7 @@ while ($row = $topBooksResult->fetch_assoc()) {
 
 // 5️⃣ Most Borrowed Genres
 $genreQuery = "
-    SELECT b.class_no AS genre, COUNT(l.id) AS read_count
+    SELECT b.genre AS genre, COUNT(l.id) AS read_count
     FROM book_record l
     JOIN book_inventory b ON l.book_id = b.item_id
     GROUP BY genre

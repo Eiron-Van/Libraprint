@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 include '../../connection.php';
 header('Content-Type: application/json');
 
-// 1️⃣ Total Visitors This Month
+//  Total Visitors This Month
 $totalVisitorsQuery = "
     SELECT COUNT(DISTINCT user_id) AS total_visitors
     FROM login_record
@@ -13,7 +13,7 @@ $totalVisitorsQuery = "
 ";
 $totalVisitors = $conn->query($totalVisitorsQuery)->fetch_assoc()['total_visitors'] ?? 0;
 
-// 2️⃣ Daily Attendance Chart
+// Daily Attendance Chart
 $dailyQuery = "
     SELECT DATE(login_time) AS date, COUNT(*) AS count
     FROM login_record
@@ -28,7 +28,7 @@ while ($row = $dailyResult->fetch_assoc()) {
     $dailyData['counts'][] = (int)$row['count'];
 }
 
-// 3️⃣ Purpose Distribution
+//  Purpose Distribution
 $purposeQuery = "
     SELECT purpose, COUNT(*) AS count
     FROM login_record
@@ -42,7 +42,7 @@ while ($row = $purposeResult->fetch_assoc()) {
     $purposeData['counts'][] = (int)$row['count'];
 }
 
-// 4️⃣ Gender Breakdown (demographics)
+// Gender Breakdown (demographics)
 $genderQuery = "
     SELECT u.gender, COUNT(l.id) AS count
     FROM login_record l
