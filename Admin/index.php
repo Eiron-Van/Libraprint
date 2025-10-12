@@ -71,7 +71,7 @@
                     <h3 class="text-lg font-semibold mb-3">Daily Attendance</h3>
                     <canvas id="attendanceChart"></canvas>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl h-[20vh]">
+                <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[20vh]">
                     <h3 class="text-lg font-semibold mb-3">Visitor Purpose Distribution</h3>
                     <canvas id="purposeChart"></canvas>
                 </div>
