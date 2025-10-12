@@ -67,11 +67,11 @@
         <section class="mb-16">
             <h2 class="text-2xl font-semibold mb-4">🧍 Visitor Analytics</h2>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[20vh]">
+                <div class="bg-white/10 p-6 rounded-xl grid place-content-center">
                     <h3 class="text-lg font-semibold mb-3">Daily Attendance</h3>
                     <canvas id="attendanceChart"></canvas>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[20vh]">
+                <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[70vh]">
                     <h3 class="text-lg font-semibold mb-3">Visitor Purpose Distribution</h3>
                     <canvas id="purposeChart"></canvas>
                 </div>
