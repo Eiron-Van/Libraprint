@@ -38,4 +38,47 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     .catch(err => console.error("Analytics data error:", err));
 
+    fetch("api/book_usage.php")
+        .then(res => res.json())
+        .then(data => {
+            // Update KPI Cards
+            document.getElementById("totalBooks").textContent = data.totalBooks;
+            document.getElementById("borrowedBooks").textContent = data.borrowedMonth;
+            document.getElementById("usageRate").textContent = data.usageRate + "%";
+
+            // Most Borrowed Books (Bar Chart)
+            new Chart(document.getElementById("topBooksChart"), {
+            type: "bar",
+            data: {
+                labels: data.topBooks.labels,
+                datasets: [{
+                label: "Borrow Count",
+                data: data.topBooks.counts,
+                backgroundColor: "#36A2EB"
+                }]
+            },
+            options: {
+                indexAxis: "y", // horizontal bars
+                plugins: { legend: { display: false } }
+            }
+            });
+
+            // Most Borrowed Genres (Horizontal Bar)
+            new Chart(document.getElementById("genreChart"), {
+            type: "bar",
+            data: {
+                labels: data.genre.labels,
+                datasets: [{
+                label: "Borrow Count",
+                data: data.genre.counts,
+                backgroundColor: "#FFCE56"
+                }]
+            },
+            options: {
+                indexAxis: "y",
+                plugins: { legend: { display: false } }
+            }
+            });
+        })
+    .catch(err => console.error("Book Usage Analytics Error:", err));
 });
