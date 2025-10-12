@@ -69,11 +69,11 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white/10 p-6 rounded-xl">
                     <h3 class="text-lg font-semibold mb-3">Daily Attendance</h3>
-                    <canvas id="attendanceChart" class="h-[70vh]"></canvas>
+                    <canvas id="attendanceChart" class="h-[20vh]"></canvas>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl">
                     <h3 class="text-lg font-semibold mb-3">Visitor Purpose Distribution</h3>
-                    <canvas id="purposeChart" class="h-[70vh]"></canvas>
+                    <canvas id="purposeChart" class="h-[20vh]"></canvas>
                 </div>
             </div>
         </section>
