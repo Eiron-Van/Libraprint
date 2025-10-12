@@ -84,16 +84,16 @@
             
             <div class="grid md:grid-cols-3 gap-6 mb-10">
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                <h2 class="text-lg font-semibold">Total Books in Inventory</h2>
-                <p id="totalBooks" class="text-2xl font-bold mt-2">0</p>
+                    <h2 class="text-lg font-semibold">Total Books in Inventory</h2>
+                    <p id="totalBooks" class="text-2xl font-bold mt-2">0</p>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                <h2 class="text-lg font-semibold">Books Borrowed (This Month)</h2>
-                <p id="borrowedBooks" class="text-2xl font-bold mt-2">0</p>
+                    <h2 class="text-lg font-semibold">Books Borrowed (This Month)</h2>
+                    <p id="borrowedBooks" class="text-2xl font-bold mt-2">0</p>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                <h2 class="text-lg font-semibold">Book Usage Rate</h2>
-                <p id="usageRate" class="text-2xl font-bold mt-2">0%</p>
+                    <h2 class="text-lg font-semibold">Book Usage Rate</h2>
+                    <p id="usageRate" class="text-2xl font-bold mt-2">0%</p>
                 </div>
             </div>
 

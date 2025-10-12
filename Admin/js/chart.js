@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("api/book_usage.php")
         .then(res => res.json())
         .then(data => {
+            console.log("Data Recieved")
             // Update KPI Cards
             document.getElementById("totalBooks").textContent = data.totalBooks;
             document.getElementById("borrowedBooks").textContent = data.borrowedMonth;
