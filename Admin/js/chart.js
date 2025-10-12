@@ -21,10 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         fill: false,
                         tension: 0.3
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
                 }
             });
 
@@ -37,10 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     data: data.purpose.counts,
                     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
                 }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
                 }
             });
         })
