@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Fetching analytics data...");
+    Chart.defaults.color = 'white';
 
     fetch("api/visitor_data.php")
         .then(res => res.json())
