@@ -64,7 +64,7 @@
         </section>
 
         <!-- SECTION A: Visitor Analytics -->
-        <section class="mb-16 h-[20vh]">
+        <section class="mb-16 h-[100px]">
             <h2 class="text-2xl font-semibold mb-4">🧍 Visitor Analytics</h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white/10 p-6 rounded-xl">
