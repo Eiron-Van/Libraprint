@@ -38,7 +38,7 @@ while ($row = $quarterResult->fetch_assoc()) {
 $reserveQuery = "
     SELECT 
         (SELECT COUNT(*) FROM book_record WHERE YEAR(read_date)=YEAR(CURRENT_DATE())) AS read_count,
-        (SELECT COUNT(*) FROM reservation WHERE YEAR(reserve_date)=YEAR(CURRENT_DATE())) AS reserve_count
+        (SELECT COUNT(*) FROM reservation WHERE YEAR(date_reserved)=YEAR(CURRENT_DATE())) AS reserve_count
 ";
 $reserveResult = $conn->query($reserveQuery);
 if ($reserveResult) {
