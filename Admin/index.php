@@ -55,11 +55,11 @@
             </div>
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                 <h2 class="text-lg font-semibold">📚 Books Borrowed (This Month)</h2>
-                <p class="text-2xl font-bold mt-2">382</p>
+                <p id="readBooks" class="text-2xl font-bold mt-2">0</p>
             </div>
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                 <h2 class="text-lg font-semibold">🧾 Active Reservations</h2>
-                <p class="text-2xl font-bold mt-2">96</p>
+                <p class="text-2xl font-bold mt-2">0</p>
             </div>
         </section>
 
@@ -107,6 +107,43 @@
                     <h3 class="text-lg font-semibold mb-3">Most Read Genres</h3>
                     <canvas id="genreChart"></canvas>
                 </div>
+            </div>
+        </section>
+
+        <!-- SECTION C: Reading Trends -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-4">📈 Reading Trends & Engagement</h2>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
+                    <h2 class="text-lg font-semibold">📅 Average Monthly Reads</h2>
+                    <p id="avgMonthlyReads" class="text-2xl font-bold mt-2">0</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
+                    <h2 class="text-lg font-semibold">📚 Total Reads</h2>
+                    <p id="readCount" class="text-2xl font-bold mt-2">0</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
+                    <h2 class="text-lg font-semibold">🗂 Reservations</h2>
+                    <p id="reserveCount" class="text-2xl font-bold mt-2">0</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
+                    <h3 class="text-lg font-semibold mb-3">Monthly Reading Trend</h3>
+                    <canvas id="monthlyTrendChart"></canvas>
+                </div>
+
+                <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
+                    <h3 class="text-lg font-semibold mb-3">Quarterly Comparison</h3>
+                    <canvas id="quarterlyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-white/10 p-6 rounded-xl h-[70vh]">
+                <h3 class="text-lg font-semibold mb-3">Read vs Reservation Ratio</h3>
+                <canvas id="readReserveChart"></canvas>
             </div>
         </section>
     </main>

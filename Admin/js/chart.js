@@ -83,4 +83,67 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         })
     .catch(err => console.error("Book Usage Analytics Error:", err));
+
+    
+    fetch("/Admin/api/reading_trends.php")
+        .then(res => res.json())
+        .then(data => {
+            console.log("Data Recieved")
+            // KPI Cards
+            document.getElementById("avgMonthlyReads").textContent = data.avgMonthlyReads;
+            document.getElementById("readCount").textContent = data.readCount;
+            document.getElementById("reserveCount").textContent = data.reserveCount;
+
+            // Monthly Reading Trend (Line)
+            new Chart(document.getElementById("monthlyTrendChart"), {
+            type: "line",
+            data: {
+                labels: data.monthly.labels,
+                datasets: [{
+                label: "Books Read",
+                data: data.monthly.counts,
+                borderColor: "#36A2EB",
+                fill: false,
+                tension: 0.3
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+            });
+
+            // Quarterly Comparison (Bar)
+            new Chart(document.getElementById("quarterlyChart"), {
+            type: "bar",
+            data: {
+                labels: data.quarterly.labels,
+                datasets: [{
+                label: "Reads",
+                data: data.quarterly.counts,
+                backgroundColor: "#4BC0C0"
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+            });
+
+            // Read vs Reservation Ratio (Donut)
+            new Chart(document.getElementById("readReserveChart"), {
+            type: "doughnut",
+            data: {
+                labels: ["Read", "Reserved"],
+                datasets: [{
+                data: [data.readCount, data.reserveCount],
+                backgroundColor: ["#36A2EB", "#FFCE56"]
+                }]
+            },
+            options: {
+                plugins: { legend: { position: "bottom" } }
+            }
+            });
+        })
+    .catch(err => console.error("Reading Trends Error:", err));
 });
