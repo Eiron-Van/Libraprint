@@ -167,7 +167,7 @@ if ($stmt->execute()) {
 
     // Log this borrowing
     $log = $conn->prepare("INSERT INTO borrow_log (user_id, book_id, status) VALUES (?, ?, 'Borrowed')");
-    $log->bind_param("ii", $id, $book_id);
+    $log->bind_param("si", $id, $book_id);
     $log->execute();
     $log->close();
 
