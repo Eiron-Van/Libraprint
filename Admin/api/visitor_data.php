@@ -57,6 +57,35 @@ while ($row = $genderResult->fetch_assoc()) {
     $genderData['counts'][] = (int)$row['count'];
 }
 
+// Age Group Breakdown
+$ageQuery = "
+    SELECT 
+        CASE
+            WHEN TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) BETWEEN 0 AND 12 THEN 'Children (0-12)'
+            WHEN TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) BETWEEN 13 AND 21 THEN 'Adolescents (13-21)'
+            WHEN TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) BETWEEN 22 AND 35 THEN 'Young Adults (22-35)'
+            WHEN TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) BETWEEN 36 AND 59 THEN 'Adults (36-59)'
+            ELSE 'Seniors (60+)'
+        END AS age_group,
+        COUNT(l.id) AS count
+    FROM login_record l
+    JOIN users u ON l.user_id = u.user_id
+    WHERE MONTH(l.login_time) = MONTH(CURRENT_DATE())
+    GROUP BY age_group
+    ORDER BY FIELD(age_group, 
+        'Children (0-12)', 
+        'Adolescents (13-21)', 
+        'Young Adults (22-35)', 
+        'Adults (36-59)', 
+        'Seniors (60+)')
+";
+$ageResult = $conn->query($ageQuery);
+$ageData = ['labels' => [], 'counts' => []];
+while ($row = $ageResult->fetch_assoc()) {
+    $ageData['labels'][] = $row['age_group'];
+    $ageData['counts'][] = (int)$row['count'];
+}
+
 // Return as JSON
 echo json_encode([
     'totalVisitors' => $totalVisitors,

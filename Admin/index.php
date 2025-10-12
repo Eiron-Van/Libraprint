@@ -75,6 +75,14 @@
                     <h3 class="text-lg font-semibold mb-3">Visitor Purpose Distribution</h3>
                     <canvas id="purposeChart"></canvas>
                 </div>
+                <div class="bg-white/10 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3">Visitor Age Group Distribution</h3>
+                    <canvas id="ageGroupChart"></canvas>
+                </div>
+                <div class="bg-white/10 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3">Gender Distribution</h3>
+                    <canvas id="genderChart"></canvas>
+                </div>
             </div>
         </section>
 

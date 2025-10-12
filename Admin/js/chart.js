@@ -36,6 +36,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 }]
                 }
             });
+
+            // Age Group Distribution (Bar)
+            new Chart(document.getElementById("ageGroupChart"), {
+            type: "bar",
+            data: {
+                labels: data.age.labels,
+                datasets: [{
+                label: "Visitors",
+                data: data.age.counts,
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4BC0C0",
+                    "#9966FF"
+                ]
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+            });
         })
     .catch(err => console.error("Analytics data error:", err));
 
