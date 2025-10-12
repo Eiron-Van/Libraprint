@@ -46,7 +46,7 @@ while ($row = $purposeResult->fetch_assoc()) {
 $genderQuery = "
     SELECT u.gender, COUNT(l.id) AS count
     FROM login_record l
-    JOIN users u ON l.user_id = u.user_id
+    JOIN users u ON l.user_id = u.id
     WHERE MONTH(l.login_time) = MONTH(CURRENT_DATE())
     GROUP BY u.gender
 ";
@@ -69,7 +69,7 @@ $ageQuery = "
         END AS age_group,
         COUNT(l.id) AS count
     FROM login_record l
-    JOIN users u ON l.user_id = u.user_id
+    JOIN users u ON l.user_id = u.id
     WHERE MONTH(l.login_time) = MONTH(CURRENT_DATE())
     GROUP BY age_group
     ORDER BY FIELD(age_group, 
