@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("Book Usage Analytics Error:", err));
 
     
-    fetch("/Admin/api/reading_trends.php")
+    fetch("api/reading_trends.php")
         .then(res => res.json())
         .then(data => {
             console.log("Data Recieved")
