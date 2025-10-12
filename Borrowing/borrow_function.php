@@ -133,7 +133,7 @@ $resCheck->bind_result($reserved_user);
 $resCheck->fetch();
 $resCheck->close();
 
-if (!empty($reserved_user) && $reserved_user != $id) {
+if (!empty($reserved_user) && $reserved_user != $user_id) {
     echo json_encode(['success' => false, 'message' => 'This book is reserved by another user.']);
     exit;
 }
