@@ -44,11 +44,17 @@ while ($row = $purposeResult->fetch_assoc()) {
 
 // Gender Breakdown (demographics)
 $genderQuery = "
-    SELECT u.gender, COUNT(l.id) AS count
+    SELECT 
+        IFNULL(u.gender, 'Unknown') AS gender,
+        COUNT(l.id) AS count
     FROM login_record l
-    JOIN users u ON l.user_id = u.id
+    LEFT JOIN users u ON l.user_id = u.id
     WHERE MONTH(l.login_time) = MONTH(CURRENT_DATE())
-    GROUP BY u.gender
+      AND YEAR(l.login_time) = YEAR(CURRENT_DATE())
+    GROUP BY gender
+    ORDER BY FIELD(gender, 
+        'Male', 'Female', 'Lesbian', 'Gay', 'Bisexual', 
+        'Transgender', 'Queer/Questioning', 'Other', 'Unknown')
 ";
 $genderResult = $conn->query($genderQuery);
 $genderData = ['labels' => [], 'counts' => []];

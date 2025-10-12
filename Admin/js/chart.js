@@ -59,6 +59,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 scales: { y: { beginAtZero: true } }
             }
             });
+
+            // Gender Distribution (Pie Chart)
+            if (data.gender.labels.length > 0) {
+            new Chart(document.getElementById("genderChart"), {
+                type: "pie",
+                data: {
+                labels: data.gender.labels,
+                datasets: [{
+                    data: data.gender.counts,
+                    backgroundColor: [
+                    "#36A2EB", // Male
+                    "#FF6384", // Female
+                    "#FF9F40", // Lesbian
+                    "#9966FF", // Gay
+                    "#4BC0C0", // Bisexual
+                    "#C9CBCF", // Transgender
+                    "#FFCD56", // Queer/Questioning
+                    "#9AD0F5", // Other
+                    "#666666"  // Unknown
+                    ]
+                }]
+                },
+                options: {
+                plugins: {
+                    legend: {
+                    position: "bottom",
+                    labels: {
+                        color: "white",
+                        boxWidth: 15
+                    }
+                    },
+                    tooltip: {
+                    callbacks: {
+                        label: (ctx) => `${ctx.label}: ${ctx.formattedValue}`
+                    }
+                    }
+                }
+                }
+            });
+            } else {
+            console.warn("No gender data found this month.");
+            }
         })
     .catch(err => console.error("Analytics data error:", err));
 
