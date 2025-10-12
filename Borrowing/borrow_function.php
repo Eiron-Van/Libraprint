@@ -56,28 +56,12 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
         // Send email once
         $emailStatus = sendEmail($user['email'], "{$user['first_name']} {$user['last_name']}", $subject, $body);
 
-        // // --- SEND SMS (once) ---
-        // require_once __DIR__ . '/../philsms.php'; // path to philsms helper; adjust if needed
-
-        // $smsResult = ['status'=>'skipped','message'=>'no phone'];
-        // $phone = $_SESSION['user_info']['contact_number'] ?? '';
-
-        // if (!empty($phone)) {
-        //     // build a concise SMS (keep it short — SMS costs per 160 chars)
-        //     $titles = implode(', ', array_map(function($t){ return preg_replace('/\s+/', ' ', trim($t)); }, $borrowedBooks));
-        //     $smsMessage = "LibraPrint: Hi {$user['first_name']}, you borrowed ".count($borrowedBooks)." book(s) on {$borrowDate}. Due: {$returnDate}. Titles: {$titles}.";
-        //     $smsResult = sendPhilSMS($phone, $smsMessage);
-        // }
-
         // Clear session borrow list
         unset($_SESSION['borrowed_books']);
         unset($_SESSION['user_info']);
 
-        echo json_encode([
-            "success" => true, 
-            "emailStatus" => $emailStatus
-            // "smsStatus" => $smsResult
-        ]);
+        echo json_encode(["success" => true, "emailStatus" => $emailStatus]);
+
     } else {
         echo json_encode(["success" => false, "message" => "No borrowed books to email."]);
     }
@@ -95,10 +79,10 @@ if (empty($barcode)) {
 
 // Find user info once
 if (empty($_SESSION['user_info'])) {
-    $findUser = $conn->prepare("SELECT id, first_name, last_name, email, contact_number FROM users WHERE user_id = ?");
+    $findUser = $conn->prepare("SELECT id, first_name, last_name, email, FROM users WHERE user_id = ?");
     $findUser->bind_param("s", $user_id);
     $findUser->execute();
-    $findUser->bind_result($id, $first_name, $last_name, $email, $contact_number);
+    $findUser->bind_result($id, $first_name, $last_name, $email);
     $findUser->fetch();
     $findUser->close();
 
@@ -111,8 +95,7 @@ if (empty($_SESSION['user_info'])) {
         'id' => $id,
         'first_name' => $first_name,
         'last_name' => $last_name,
-        'email' => $email,
-        'contact_number' => $contact_number
+        'email' => $email
     ];
 } else {
     $id = $_SESSION['user_info']['id'];
