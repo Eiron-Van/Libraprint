@@ -75,7 +75,7 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
 
         echo json_encode([
             "success" => true, 
-            "emailStatus" => $emailStatus,
+            "emailStatus" => $emailStatus
             // "smsStatus" => $smsResult
         ]);
     } else {

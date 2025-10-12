@@ -144,7 +144,7 @@ function generateAvatarColors($initials) {
   </header>
 
   <!--Side Navigation--> 
-  <div id ="side-menu" class="hidden fixed top-[84px] left-0 bg-[#F4F4F4] w-fit z-50 h-[calc(100vh-84px)]">
+  <div id ="side-menu" class="hidden fixed top-[84px] left-0 bg-[#F4F4F4] w-fit z-50 h-[calc(100vh-76.9886px)]">
     <nav class="flex flex-col bg-[#F4F4F4] h-full justify-between">
         <ul>
             <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="../asset/profile.png">Profile</a></li>
