@@ -140,7 +140,7 @@
                     <canvas id="quarterlyChart"></canvas>
                 </div>
 
-                <div class="col-span-2 place-content-center mt-8 bg-white/10 p-6 rounded-xl h-[70vh]">
+                <div class="col-span-2 flex justify-center mt-8 bg-white/10 p-6 rounded-xl h-[70vh]">
                     <h3 class="text-lg font-semibold mb-3">Read vs Reservation Ratio</h3>
                     <canvas id="readReserveChart"></canvas>
                 </div>
