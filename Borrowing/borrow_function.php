@@ -79,7 +79,7 @@ if (empty($barcode)) {
 
 // Find user info once
 if (empty($_SESSION['user_info'])) {
-    $findUser = $conn->prepare("SELECT id, first_name, last_name, email, FROM users WHERE user_id = ?");
+    $findUser = $conn->prepare("SELECT id, first_name, last_name, email FROM users WHERE user_id = ?");
     $findUser->bind_param("s", $user_id);
     $findUser->execute();
     $findUser->bind_result($id, $first_name, $last_name, $email);
