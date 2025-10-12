@@ -91,5 +91,6 @@ echo json_encode([
     'totalVisitors' => $totalVisitors,
     'daily' => $dailyData,
     'purpose' => $purposeData,
-    'gender' => $genderData
+    'gender' => $genderData,
+    'age' => $ageData
 ]);
