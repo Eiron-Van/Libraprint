@@ -13,14 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
             new Chart(document.getElementById("attendanceChart"), {
                 type: "line",
                 data: {
-                labels: data.daily.dates,
-                datasets: [{
-                    label: "Visitors per Day",
-                    data: data.daily.counts,
-                    borderColor: "#00FFFF",
-                    fill: false,
-                    tension: 0.3
-                }]
+                    labels: data.daily.dates,
+                    datasets: [{
+                        label: "Visitors per Day",
+                        data: data.daily.counts,
+                        borderColor: "#00FFFF",
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
@@ -33,8 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     data: data.purpose.counts,
                     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
                 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
         })
     .catch(err => console.error("Analytics data error:", err));
+
 });

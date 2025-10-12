@@ -13,7 +13,7 @@
     <title>Libraprint|Admin|Dashboard</title>
 
 </head>
-<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] h-screen bg-fixed accent-cyan-600">
+<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] h-screen bg-fixed accent-emerald-500">
     <!-- Header -->
     <header class="bg-gray-900 text-white sticky top-0 z-10">
         <section class="max-w-[100rem] mx-auto p-3 lg:p-2 flex justify-between items-center">
@@ -64,14 +64,14 @@
         </section>
 
         <!-- SECTION A: Visitor Analytics -->
-        <section class="mb-16">
+        <section class="mb-16 h-[20vh]">
             <h2 class="text-2xl font-semibold mb-4">🧍 Visitor Analytics</h2>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white/10 p-6 rounded-xl h-[20vh]">
+                <div class="bg-white/10 p-6 rounded-xl">
                     <h3 class="text-lg font-semibold mb-3">Daily Attendance</h3>
                     <canvas id="attendanceChart"></canvas>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl h-[20vh]">
+                <div class="bg-white/10 p-6 rounded-xl">
                     <h3 class="text-lg font-semibold mb-3">Visitor Purpose Distribution</h3>
                     <canvas id="purposeChart"></canvas>
                 </div>
