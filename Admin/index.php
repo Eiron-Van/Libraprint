@@ -139,12 +139,14 @@
                     <h3 class="text-lg font-semibold mb-3">Quarterly Comparison</h3>
                     <canvas id="quarterlyChart"></canvas>
                 </div>
+
+                <div class="colspan-2 place-self-center mt-8 bg-white/10 p-6 rounded-xl h-[70vh]">
+                    <h3 class="text-lg font-semibold mb-3">Read vs Reservation Ratio</h3>
+                    <canvas id="readReserveChart"></canvas>
+                </div>
             </div>
 
-            <div class="colspan-2 place-self-center mt-8 bg-white/10 p-6 rounded-xl h-[70vh]">
-                <h3 class="text-lg font-semibold mb-3">Read vs Reservation Ratio</h3>
-                <canvas id="readReserveChart"></canvas>
-            </div>
+            
         </section>
     </main>
     
