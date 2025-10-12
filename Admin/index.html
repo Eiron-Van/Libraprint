@@ -6,6 +6,7 @@
     <link rel="icon" href="asset/fingerprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=1.5">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/Admin/js/script.js"></script>
 
     <title>Libraprint|Admin|Dashboard</title>
@@ -49,7 +50,7 @@
         <section class="grid md:grid-cols-3 gap-6 mb-10">
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                 <h2 class="text-lg font-semibold">👥 Total Visitors (This Month)</h2>
-                <p class="text-2xl font-bold mt-2">1,245</p>
+                <p id="totalVisitors" class="text-2xl font-bold mt-2">0</p>
             </div>
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                 <h2 class="text-lg font-semibold">📚 Books Borrowed (This Month)</h2>
