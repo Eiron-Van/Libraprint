@@ -130,12 +130,12 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
+                <div class="bg-white/10 p-6 rounded-xl h-[70vh] place-content-center">
                     <h3 class="text-lg font-semibold mb-3">Monthly Reading Trend</h3>
                     <canvas id="monthlyTrendChart"></canvas>
                 </div>
 
-                <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
+                <div class="bg-white/10 p-6 rounded-xl h-[70vh] place-content-center">
                     <h3 class="text-lg font-semibold mb-3">Quarterly Comparison</h3>
                     <canvas id="quarterlyChart"></canvas>
                 </div>
