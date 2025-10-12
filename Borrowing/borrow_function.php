@@ -165,11 +165,22 @@ if ($stmt->execute()) {
     // Update book status to Checked Out
     $update = $conn->prepare("UPDATE book_inventory SET status = 'Checked Out' WHERE item_id = ?");
     $update->bind_param("i", $book_id);
-    $update->execute();
+    if (!$update->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error updating book status: ' . $update->error]);
+        exit;
+    }
+    $update->close();
+
 
     // Remove from reservation (if exists)
     $delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id = ?");
     $delete->bind_param("ii", $book_id, $id);
+    if (!$delete->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error removing reservation: ' . $delete->error]);
+        exit;
+    }
+    $delete->close();
+
 
     // Log this borrowing
     $log = $conn->prepare("INSERT INTO borrow_log (user_id, book_id, status) VALUES (?, ?, 'Borrowed')");
@@ -197,7 +208,7 @@ if ($stmt->execute()) {
 
 
 
-// $delete->execute();
+$delete->execute();
 
 $stmt->close();
 $conn->close();
