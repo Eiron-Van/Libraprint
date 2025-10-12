@@ -88,8 +88,8 @@
                     <p id="totalBooks" class="text-2xl font-bold mt-2">0</p>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                    <h2 class="text-lg font-semibold">Books Borrowed (This Month)</h2>
-                    <p id="borrowedBooks" class="text-2xl font-bold mt-2">0</p>
+                    <h2 class="text-lg font-semibold">Read Books (This Month)</h2>
+                    <p id="readBooks" class="text-2xl font-bold mt-2">0</p>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                     <h2 class="text-lg font-semibold">Book Usage Rate</h2>
@@ -99,12 +99,12 @@
 
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
-                    <h3 class="text-lg font-semibold mb-3">Most Borrowed Books (Top 10)</h3>
+                    <h3 class="text-lg font-semibold mb-3">Most Read Books (Top 10)</h3>
                     <canvas id="topBooksChart"></canvas>
                 </div>
 
                 <div class="bg-white/10 p-6 rounded-xl h-[70vh]">
-                    <h3 class="text-lg font-semibold mb-3">Most Borrowed Genres</h3>
+                    <h3 class="text-lg font-semibold mb-3">Most Read Genres</h3>
                     <canvas id="genreChart"></canvas>
                 </div>
             </div>

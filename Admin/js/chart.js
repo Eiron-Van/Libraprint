@@ -45,16 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Data Recieved")
             // Update KPI Cards
             document.getElementById("totalBooks").textContent = data.totalBooks;
-            document.getElementById("borrowedBooks").textContent = data.borrowedMonth;
+            document.getElementById("readBooks").textContent = data.readMonth;
             document.getElementById("usageRate").textContent = data.usageRate + "%";
 
-            // Most Borrowed Books (Bar Chart)
+            // Most Read Books (Bar Chart)
             new Chart(document.getElementById("topBooksChart"), {
             type: "bar",
             data: {
                 labels: data.topBooks.labels,
                 datasets: [{
-                label: "Borrow Count",
+                label: "Read Count",
                 data: data.topBooks.counts,
                 backgroundColor: "#36A2EB"
                 }]
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             data: {
                 labels: data.genre.labels,
                 datasets: [{
-                label: "Borrow Count",
+                label: "Read Count",
                 data: data.genre.counts,
                 backgroundColor: "#FFCE56"
                 }]
