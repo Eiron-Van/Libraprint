@@ -143,6 +143,23 @@ $stmt = $conn->prepare("INSERT INTO book_record (user_id, book_id) VALUES (?, ?)
 $stmt->bind_param("ii", $id, $book_id);
 
 if ($stmt->execute()) {
+    // Add to session borrow list
+    if (!isset($_SESSION['borrowed_books'])) {
+        $_SESSION['borrowed_books'] = [];
+    }
+    $_SESSION['borrowed_books'][] = $book_title;
+
+    echo json_encode([
+        'success' => true,
+        'title' => $book_title,
+        'barcode' => $barcode
+    ]);
+} else {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database error: ' . $stmt->error
+    ]);
+}
     // --- Borrow action ---
 
     // Update book status to Checked Out
@@ -170,28 +187,6 @@ if ($stmt->execute()) {
     $log->bind_param("si", $user_id, $book_id);
     $log->execute();
     $log->close();
-
-    // Add to session borrow list
-    if (!isset($_SESSION['borrowed_books'])) {
-        $_SESSION['borrowed_books'] = [];
-    }
-    $_SESSION['borrowed_books'][] = $book_title;
-
-    echo json_encode([
-        'success' => true,
-        'title' => $book_title,
-        'barcode' => $barcode
-    ]);
-} else {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Database error: ' . $stmt->error
-    ]);
-}
-
-
-
-$delete->execute();
 
 $stmt->close();
 $conn->close();
