@@ -157,7 +157,7 @@ if ($stmt->execute()) {
 
     // Remove from reservation (if exists)
     $delete = $conn->prepare("DELETE FROM reservation WHERE item_id = ? AND user_id = ?");
-    $delete->bind_param("ii", $book_id, $id);
+    $delete->bind_param("si", $book_id, $user_id);
     if (!$delete->execute()) {
         echo json_encode(['success' => false, 'message' => 'Error removing reservation: ' . $delete->error]);
         exit;
@@ -167,7 +167,7 @@ if ($stmt->execute()) {
 
     // Log this borrowing
     $log = $conn->prepare("INSERT INTO borrow_log (user_id, book_id, status) VALUES (?, ?, 'Borrowed')");
-    $log->bind_param("si", $id, $book_id);
+    $log->bind_param("si", $user_id, $book_id);
     $log->execute();
     $log->close();
 
