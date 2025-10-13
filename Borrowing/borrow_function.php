@@ -191,7 +191,7 @@ if ($stmt->execute()) {
     $purpose = 'Borrow';
     // Claim_log
     $claim = $conn->prepare("INSERT INTO claim_log (user_id, item_id, purpose) VALUES (?, ?, ?)");
-    $claim->bind_param("iis", $id, $book_id, $purpose);
+    $claim->bind_param("sis", $user_id, $book_id, $purpose);
     $claim->execute();
     $claim->close();
 
