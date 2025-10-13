@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 2️⃣ Check if book is checked out or missing
-    if ($book['status'] !== 'checked out' && $book['status'] !== 'missing') {
+    if ($book['status'] !== 'Checked Out' && $book['status'] !== 'Missing') {
         echo json_encode(["success" => false, "error" => "Book already available"]);
         exit;
     }
