@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=1.5">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/Admin/js/return.js"></script>
     <script src="/Admin/js/chart.js"></script>
     <script src="/Admin/js/script.js"></script>
 
     <title>Libraprint|Admin|Dashboard</title>
 
 </head>
-<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] h-screen bg-fixed accent-emerald-500">
+<body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
     <!-- Header -->
     <header class="bg-gray-900 text-white sticky top-0 z-10">
         <section class="max-w-[100rem] mx-auto p-3 lg:p-2 flex justify-between items-center">
@@ -38,6 +39,7 @@
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./users"><img class="w-8 m-2" src="../asset/users.png">Users</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./inventory"><img class="w-8 m-2" src="../asset/inventory.png">Inventory</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./reports"><img class="w-8 m-2" src="../asset/reports.png">Reports</a></li>
+                    <button id="returnBookBtn" class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"><img class="w-8 m-2" src="../asset/return.png">Return</button>
                 </ul>
             </nav>
         </div>
@@ -157,6 +159,26 @@
             
         </section>
     </main>
+
+    <!-- 📘 Return Book Overlay -->
+    <div id="returnOverlay" class="fixed hidden inset-0 bg-gray-900/80 items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
+            <h2 class="text-3xl font-bold mb-4">Return Book</h2>
+            <input type="text" id="returnBarcode" placeholder="Scan or type barcode..." class="border rounded-md p-2 w-full mb-4 text-center focus:outline-none">
+
+            <div id="returnSuccess" class="hidden bg-green-100 text-green-800 p-2 rounded-md my-2">
+                ✅ Book successfully returned!
+            </div>
+
+            <div id="returnError" class="hidden bg-red-100 text-red-800 p-2 rounded-md my-2">
+                ❌ Book not found or already available.
+            </div>
+
+            <button id="closeReturnBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>
+        </div>
+    </div>
+
+
     
 </body>
 </html>

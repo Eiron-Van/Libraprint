@@ -200,9 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Overlay -->
     <div id="overlay" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"></div>
 
-    <section id="fingerprint-step" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-    flex flex-col items-center gap-4 p-6 w-96 rounded-3xl bg-gradient-to-b from-[#304475] to-[#0c0c0c]
-    text-white text-center shadow-2xl z-41">
+    <section id="fingerprint-step" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4 p-6 w-96 rounded-3xl bg-gradient-to-b from-[#304475] to-[#0c0c0c] text-white text-center shadow-2xl z-41">
         <h1 class="text-3xl">Enroll Fingerprint</h1>
         <a href="libraprint-e://enroll?session=<?=session_id()?>"
             class="bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-5 py-1 rounded-xl">Open Fingerprint
