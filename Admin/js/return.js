@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Send request to backend
     function processReturn(barcode) {
-        fetch("return_book.php", {
+        fetch("api/return_book.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: "barcode=" + encodeURIComponent(barcode),
