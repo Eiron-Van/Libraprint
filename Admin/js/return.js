@@ -47,10 +47,33 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((data) => {
                 hideMessages();
                 if (data.success) {
-                    document.getElementById("returnSuccess").classList.remove("hidden");
+                    const successMsg = document.getElementById("returnSuccess");
+                    successMsg.classList.remove("hidden");
+
+                    // ✅ Clear barcode input
+                    const barcodeInput = document.getElementById("returnBarcode");
+                    barcodeInput.value = "";
+                    barcodeInput.focus();
+
+                    // ✅ Hide message after 2 seconds
+                    setTimeout(() => {
+                        successMsg.classList.add("hidden");
+                    }, 2000);
                 } else {
-                    document.getElementById("returnError").classList.remove("hidden");
+                    const errorMsg = document.getElementById("returnError");
+                    errorMsg.classList.remove("hidden");
+
+                    // ✅ Clear invalid input
+                    const barcodeInput = document.getElementById("returnBarcode");
+                    barcodeInput.value = "";
+                    barcodeInput.focus();
+
+                    // ✅ Hide message after 2 seconds
+                    setTimeout(() => {
+                        errorMsg.classList.add("hidden");
+                    }, 2000);
                 }
+
             })
             .catch(() => {
                 hideMessages();
