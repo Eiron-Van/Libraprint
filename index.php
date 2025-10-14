@@ -65,7 +65,7 @@ if (!isset($_SESSION['user_id'])) {
 
     <div class="flex">
         <div id="side-menu" class="hidden flex-col bg-[#F4F4F4] w-fit z-10">
-            <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-84px)] justify-between">
+            <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-77px)] justify-between">
                 <ul>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"
                             href="/User"><img class="w-8 m-2" src="asset/profile.png">Profile</a></li>

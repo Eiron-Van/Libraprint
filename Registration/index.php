@@ -86,15 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/style.css?v=1.5">
+    <script src="terms.js"></script>
     <title>Registration | Libraprint</title>
 </head>
 
 <body class="relative flex justify-center items-center bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
-    <section id="main-content" class="w-full h-screen flex items-center justify-center">
+    <section id="main-content" class="w-full h-[90vh] flex items-center justify-center">
         <div class="w-full max-w-6xl">
             <form id="registrationForm" method="post" class="flex flex-col items-center relative">
 
-                <div class="h-[550px] flex flex-row w-full text-center text-white text-lg">
+                <div class="h-[570px] flex flex-row w-full text-center text-white text-lg">
                     <div class="w-1/2 border border-[#F5DEB3]/40 rounded-4xl backdrop-blur-xl shadow-2xl py-6 px-8">
                         <h1 class="text-3xl mb-6">General Information</h1>
                         <div class="flex flex-col gap-6 mt-3">
@@ -190,8 +191,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                 </div>
-                <button type="submit"
-                    class="absolute bottom-5 text-2xl text-white cursor-pointer bg-[#5364a2] hover:bg-[#7a88bb] active:bg-[#6b78ac] px-50 py-2 rounded-2xl">Submit</button>
+                <button id="submitBtn" type="submit" disabled class="absolute bottom-7 text-2xl text-white bg-gray-400 px-50 py-2 rounded-2xl opacity-70 cursor-not-allowed">
+                    Submit
+                </button>
+                <div class="absolute left-4 bottom-3 text-white select-none">
+                    <input type="checkbox" id="termsCheckbox">
+                    <button type="button" id="viewTerms" class="cursor-pointer hover:underline">I agree to the terms and conditions</button>
+                </div>
 
             </form>
         </div>
@@ -225,57 +231,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
     </section>
 
+    <!-- Terms and Conditions Overlay -->
+    <div id="termsOverlay" class="fixed hidden inset-0 bg-gray-900/80 items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-11/12 md:w-2/3 lg:w-1/3 max-h-[90vh] overflow-hidden flex flex-col">
 
+            <!-- Header -->
+            <div class="relative text-center p-6 border-b border-gray-200 text-white">
+                <button id="closeTerms" class="absolute top-4 right-5 text-gray-600 hover:text-gray-400 text-xl font-bold">
+                    ✕
+                </button>
+                <div class="w-16 h-16 bg-blue-600 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                    <i class="fas fa-scroll text-2xl text-white"></i>
+                </div>
+                <h1 class="text-2xl md:text-3xl text-gray-800 m font-bold mb-2">Terms & Conditions</h1>
+                <div class="flex items-center justify-center space-x-2 text-gray-600 mb-2">
+                    <i class="fas fa-building text-blue-800"></i>
+                    <span class="font-medium">Lucena City Library</span>
+                </div>
+            </div>
 
+            <!-- Scrollable Terms -->
+            <div id="termsContent" class="overflow-y-auto p-8 text-gray-700 text-sm leading-relaxed space-y-4 flex-1 bg-gray-50 border-b border-gray-200">
+                <section class="border-b border-gray-200 pb-3">
+                    <h2 class="text-base font-bold text-blue-600 mb-2">
+                    <i class="fas fa-gavel mr-2"></i>1. Terms
+                    </h2>
+                    <p class="text-gray-700">By registering and using the LibraPrint system, you agree to abide by these Terms and Conditions. These terms govern your use of the system, including attendance tracking, book borrowing, reservations and related services.</p>
+                </section>
 
+                <section class="border-b border-gray-200 pb-3">
+                    <h2 class="text-base font-bold text-blue-600 mb-2">
+                    <i class="fas fa-user-plus mr-2"></i>2. User Registration
+                    </h2>
+                    <p class="text-gray-700 mb-2">2.1 Only registered users with verified accounts (via fingerprint and profile registration) are allowed to use LibraPrint.</p>
+                    <p class="text-gray-700">2.2 Biometric Registration is required for attendance and identification. Data is processed in compliance with the Data Privacy Act of 2012 (RA 10173).</p>
+                </section>
 
+                <section class="border-b border-gray-200 pb-3">
+                    <h2 class="text-base font-bold text-blue-600 mb-2">
+                    <i class="fas fa-fingerprint mr-2"></i>3. Attendance and Access
+                    </h2>
+                    <p class="text-gray-700 mb-2">3.1 All users must scan their registered fingerprint upon entering the library for attendance logging.</p>
+                    <p class="text-gray-700">3.2 Unauthorized use of another person's fingerprint or account is prohibited.</p>
+                </section>
 
-    <script>
-        const form = document.getElementById("registrationForm");
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
+                <section class="border-b border-gray-200 pb-3">
+                    <h2 class="text-base font-bold text-blue-600 mb-2">
+                    <i class="fas fa-lock mr-2"></i>4. Data Privacy and Security
+                    </h2>
+                    <p class="text-gray-700 mb-2">4.1 Personal and biometric data is collected solely for library services.</p>
+                    <p class="text-gray-700">4.2 Users may request access, correction, or deletion of data under applicable laws.</p>
+                </section>
+            </div>
+        </div>
+    </div>
 
-            let formData = new FormData(form);
-
-            fetch("", { method: "POST", body: formData })
-                .then(res => res.text())
-                .then(data => {
-                    if (data.trim() === "OK") {
-                        document.getElementById("main-content").classList.add("blur-sm", "pointer-events-none");
-                        document.getElementById("overlay").classList.remove("hidden");
-                        document.getElementById("fingerprint-step").classList.remove("hidden");
-                    } else {
-                        alert("Error: " + data);
-                    }
-                })
-                .catch(err => alert("Request failed: " + err));
-        });
-
-        const overlay = document.getElementById("inactivity-overlay");
-        let inactivityTimer;
-
-        function showOverlay() {
-            overlay.classList.remove("hidden");
-            overlay.classList.add("flex");
-        }
-
-        function resetTimer() {
-            // Hide overlay if user becomes active again
-            overlay.classList.add("hidden");
-            overlay.classList.remove("flex");
-
-            clearTimeout(inactivityTimer);
-            inactivityTimer = setTimeout(showOverlay, 2 * 60 * 1000); // 2 minutes
-        }
-
-        // Reset timer on any user activity
-        ["mousemove", "keydown", "click", "touchstart"].forEach(event => {
-            document.addEventListener(event, resetTimer);
-        });
-
-        // Start the first timer
-        resetTimer();
-    </script>
     <script src="address.js"></script>
     <script src="fingerprintScripts/es6-shim.js"></script>
     <script src="fingerprintScripts/websdk.client.bundle.min.js"></script>
