@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 // Get user details from database
 $user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT first_name, last_name, gender, address, birthday, contact_number FROM users WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT email, contact_number FROM users WHERE user_id = ?");
 $stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -26,44 +26,62 @@ if (!$user) {
     echo "<script>alert('User not found. Please log in again.'); window.location.href='../Login';</script>";
     exit();
 }
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Update Information</title>
     <link rel="icon" href="../../asset/fingerprint.icon" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="../../style.css">
-      <script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="../../style.css" />
+    <script>
       // Prevent going back to this page after logout
       window.history.pushState(null, "", window.location.href);
       window.onpopstate = function () {
         window.history.pushState(null, "", window.location.href);
       };
-  </script>
-</head>
-<body class="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#304475] to-[#0c0c0c]">
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif text-center text-white font-bold">Update Profile</h1>
-    <form id="updateForm" action="update_profile.php" method="post" class="flex flex-col gap-4 w-full p-5 md:w-1/2 lg:w-1/3">
-      <input type="text" name="first_name" id="first_name" placeholder="Firstname" required value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <input type="text" name="last_name" id="last_name" placeholder="Lastname" required value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <select name="gender" id="gender" placeholder="Gender" class="w-full bg-white rounded-xl text-black px-4 py-2">
-        <?php
-          $genders = ["Male", "Female", "Lesbian", "Gay", "Bisexual", "Transgender", "Queer/Questioning", "Other"];
-          foreach ($genders as $g) {
-              $selected = ($user['gender'] === $g) ? 'selected' : '';
-              echo "<option value='$g' $selected>$g</option>";
-          }
-        ?>
-      </select>
-      <input type="date" name="birthday" id="birthday" placeholder="Birthday" required value="<?= htmlspecialchars($user['birthday'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <input type="text" name="address" id="address" placeholder="Address" required value="<?= htmlspecialchars($user['address'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <input type="tel" name="contact_number" id="contact_number" pattern="^09\d{9}$" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11" placeholder="Contact Number" required value="<?= htmlspecialchars($user['contact_number'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <button type="submit" class="bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition duration-200">Update Details</button>
-    </form>
+    </script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-[#304475] to-[#0c0c0c] flex flex-col">
+    <!-- Centered Main Form -->
+    <div class="flex-grow flex items-center justify-center px-4">
+      <main class="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 text-center">
+        <!-- Logo and Heading -->
+        <div class="mb-8">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/747/747376.png"
+            alt="Form Icon"
+            class="w-16 h-16 mx-auto"
+          />
+          <h1 class="text-2xl font-bold text-[#1c2a64] mt-4">Update information</h1>
+        </div>
 
-</body>
+      <!-- Form -->
+      <form id="updateForm" action="update_profile.php" method="post" class="space-y-4">
+        <!-- Email -->
+        <div class="bg-gray-200 rounded-xl px-4 py-2 text-black">
+          <div class="flex justify-between text-sm text-gray-500 mb-1">
+            <span>Email</span>
+          </div>
+          <input type="email" name="email" id="email" required value="<?= htmlspecialchars($user['email'] ?? '') ?>" class="w-full px-2 py-3 text-sm font-medium text-center">
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="bg-gray-200 rounded-xl px-4 py-2 text-black">
+          <div class="flex justify-between text-sm text-gray-500 mb-1">
+            <span>Mobile number</span>
+          </div>
+          <input type="tel" name="contact_number" id="contact_number" pattern="^09\d{9}$" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11" required value="<?= htmlspecialchars($user['contact_number'] ?? '') ?>" class="w-full px-2 py-3 text-sm font-medium text-center">
+        </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="bg-blue-600 text-white py-2 px-3 rounded-xl hover:bg-blue-700 transition duration-200">Update Details</button>
+
+        </form>
+      </main>
+    </div>
+  </body>
 </html>

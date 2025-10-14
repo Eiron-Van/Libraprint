@@ -14,18 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user_id = $_SESSION['user_id'];
 
     // Sanitize inputs
-    $first_name = trim($_POST['first_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $gender = trim($_POST['gender'] ?? '');
-    $address = trim($_POST['address'] ?? '');
-    $birthday = trim($_POST['birthday'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $contact_number = trim($_POST['contact_number'] ?? '');
-
-    // Basic validation
-    if ($first_name === '' || $last_name === '') {
-        echo "<script>alert('First and Last name are required.'); window.history.back();</script>";
-        exit();
-    }
 
     // Validate contact number format
     if ($contact_number !== '' && !preg_match('/^09\d{9}$/', $contact_number)) {
@@ -33,27 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // Validate birthday
-    if ($birthday !== '') {
-        $birth_date = strtotime($birthday);
-        $today = strtotime(date('Y-m-d'));
-        $age = floor(($today - $birth_date) / (365*24*60*60));
-
-        if ($birth_date > $today) {
-            echo "<script>alert('Birthday cannot be in the future.'); window.history.back();</script>";
-            exit();
-        }
-
-        if ($age < 5) {
-            echo "<script>alert('You must be at least 10 years old.'); window.history.back();</script>";
-            exit();
-        }
-    }
-
     $stmt = $conn->prepare("UPDATE users 
-                            SET first_name=?, last_name=?, gender=?, address=?, birthday=?, contact_number=? 
+                            SET email=?, contact_number=? 
                             WHERE user_id=?");
-    $stmt->bind_param("sssssss", $first_name, $last_name, $gender, $address, $birthday, $contact_number, $user_id);
+    $stmt->bind_param("sss", $email, $contact_number, $user_id);
 
     if ($stmt->execute()) {
         echo "<script>alert('Profile updated successfully!'); window.location.href='https://libraprintlucena.com/User';</script>";
