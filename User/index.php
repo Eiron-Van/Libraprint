@@ -224,7 +224,7 @@ function generateAvatarColors($initials) {
         </button>
 
         <!-- Update Account -->
-        <button onclick="window.location.href='update.html'"class="hover:bg-gray-300 active:bg-gray-400 bg-white rounded-2xl p-5 flex flex-col items-center hover:shadow-lg transition">
+        <button onclick="window.location.href='/Update'"class="hover:bg-gray-300 active:bg-gray-400 bg-white rounded-2xl p-5 flex flex-col items-center hover:shadow-lg transition">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             class="h-14 mb-2"

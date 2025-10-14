@@ -21,6 +21,11 @@ if (ini_get("session.use_cookies")) {
 // Finally, destroy the session
 session_destroy();
 
+// 🔒 Prevent browser from caching (so user can't go "Back" to private pages)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+
 // Redirect to login page
 header("Location: /Login");
 exit();
