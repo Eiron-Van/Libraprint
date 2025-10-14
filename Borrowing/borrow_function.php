@@ -208,11 +208,21 @@ if ($stmt->execute()) {
     $getLoginId->fetch();
     $getLoginId->close();
 
-    if (!empty($login_id)) {
+    if (!$getLoginId->execute()) {
+        echo json_encode(['error' => $getLoginId->error]);
+    }
+
+    echo json_encode(['debug_login_id' => $login_id]);// For debugging
+
+    if (!empty($login_id)) {            
         $updateLogin = $conn->prepare("UPDATE login_record SET purpose = ? WHERE id = ?");
         $updateLogin->bind_param("si", $purpose, $login_id);
         $updateLogin->execute();
         $updateLogin->close();
+    }
+
+    if (!$updateLogin->execute()) {
+        echo json_encode(['error' => $updateLogin->error]);
     }
 
 $stmt->close();
