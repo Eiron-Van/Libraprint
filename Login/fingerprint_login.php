@@ -39,10 +39,13 @@ if ($result->num_rows === 1) {
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
 
-    // ✅ Record login event
-    $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
-    $log->bind_param("i", $user['id']);
+    // ✅ Record login event with location
+    $location = 'On Site'; // or 'Off Site', depending on context or device
+    $log = $conn->prepare("INSERT INTO login_record (user_id, location) VALUES (?, ?)");
+    $log->bind_param("is", $user['id'], $location);
     $log->execute();
+    $log->close();
+
 
     // Regenerate session ID for security
     session_regenerate_id(true);

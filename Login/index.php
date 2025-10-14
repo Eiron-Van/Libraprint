@@ -30,10 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
 
-            // // ✅ Record login event
-            // $log = $conn->prepare("INSERT INTO login_record (user_id) VALUES (?)");
-            // $log->bind_param("i", $user['id']);
-            // $log->execute();
+            // ✅ Record login event with location
+            $location = 'Off Site'; // or 'On Site', depending on context or device
+            $log = $conn->prepare("INSERT INTO login_record (user_id, location) VALUES (?, ?)");
+            $log->bind_param("is", $user['id'], $location);
+            $log->execute();
+            $log->close();
+
 
             // Redirect to your dashboard or home
             header("Location: https://libraprintlucena.com");

@@ -134,7 +134,7 @@
                     <p id="readCount" class="text-2xl font-bold mt-2">0</p>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                    <h2 class="text-lg font-semibold">🗂 Reservations</h2>
+                    <h2 class="text-lg font-semibold">🗂 Borrowed</h2>
                     <p id="borrowCount" class="text-2xl font-bold mt-2">0</p>
                 </div>
             </div>

@@ -195,5 +195,20 @@ if ($stmt->execute()) {
     $claim->execute();
     $claim->close();
 
+    // login_record changed purpose
+    $login = $conn->prepare("
+        UPDATE login_record 
+        SET purpose = ? 
+        WHERE user_id = ? 
+        AND login_time = (
+            SELECT MAX(login_time) 
+            FROM login_record 
+            WHERE user_id = ?
+        )
+    ");
+    $login->bind_param("sis", $purpose, $user_id, $user_id);
+    $login->execute();
+    $login->close();
+
 $stmt->close();
 $conn->close();
