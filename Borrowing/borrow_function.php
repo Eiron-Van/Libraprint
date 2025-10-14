@@ -196,19 +196,24 @@ if ($stmt->execute()) {
     $claim->close();
 
     // login_record changed purpose
-    $login = $conn->prepare("
-        UPDATE login_record 
-        SET purpose = ? 
+    $getLoginId = $conn->prepare("
+        SELECT id FROM login_record 
         WHERE user_id = ? 
-        AND login_time = (
-            SELECT MAX(login_time) 
-            FROM login_record 
-            WHERE user_id = ?
-        )
+        ORDER BY login_time DESC 
+        LIMIT 1
     ");
-    $login->bind_param("sis", $purpose, $user_id, $user_id);
-    $login->execute();
-    $login->close();
+    $getLoginId->bind_param("s", $user_id);
+    $getLoginId->execute();
+    $getLoginId->bind_result($login_id);
+    $getLoginId->fetch();
+    $getLoginId->close();
+
+    if (!empty($login_id)) {
+        $updateLogin = $conn->prepare("UPDATE login_record SET purpose = ? WHERE id = ?");
+        $updateLogin->bind_param("si", $purpose, $login_id);
+        $updateLogin->execute();
+        $updateLogin->close();
+    }
 
 $stmt->close();
 $conn->close();
