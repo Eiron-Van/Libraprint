@@ -34,6 +34,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $remarks = $_POST['remarks'];
     $status = $_POST['status'];
 
+    // --- Additional logic for status restrictions ---
+
+    // Check current status in DB
+    $current_status = $book['status'];
+
+    // If the new status is Reserved
+    if ($status == 'Reserved') {
+        // Check if it already exists in reservation table
+        $check_res = $conn->prepare("SELECT * FROM reservation WHERE item_id = ?");
+        $check_res->bind_param("i", $id);
+        $check_res->execute();
+        $res_result = $check_res->get_result();
+
+        if ($res_result->num_rows > 0) {
+            // Book is already reserved → remove reservation and reset to Available
+            $del_res = $conn->prepare("DELETE FROM reservation WHERE item_id = ?");
+            $del_res->bind_param("i", $id);
+            $del_res->execute();
+
+            // Automatically reset status
+            $status = 'Available';
+        }
+    }
+
+    // If the book is currently Checked Out and admin tries to change it
+    if ($current_status == 'Checked Out' && $status != 'Checked Out') {
+        echo "
+        <script>
+            if (!confirm('⚠️ This book is currently checked out. Changing the status may cause data mismatch. Do you still want to continue?')) {
+                window.history.back();
+            }
+        </script>";
+    }
+
+    // Automatically reset Reserved books that expired
+    $conn->query("
+        UPDATE book_inventory b
+        JOIN reservation r ON b.item_id = r.item_id
+        SET b.status = 'Available'
+        WHERE DATE(r.date_reserved) < CURDATE()
+    ");
+    $conn->query("DELETE FROM reservation WHERE DATE(date_reserved) < CURDATE()");
+
+
     $update_sql = "UPDATE book_inventory 
                    SET author=?, title=?, property_no=?, unit=?, unit_value=?, accession_no=?, class_no=?, date_acquired=?, remarks=?, status=?
                    WHERE item_id=?";
@@ -128,33 +172,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </select>
                             </td">
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                <button type="submit" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Save Changes</button>
+                                <button onclick="return confirmStatusChange()" type="submit" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Save Changes</button>
                             </td>
                         </tr>
                     </form>
-
-
-
-                    <!-- <tr class="bg-white">
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Carnegie, Dale</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">How to win friends and influence people</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap "></td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1 cp</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">17.95</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">177.6</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1984-02-24</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">RB</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">Available</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                            <a href="" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Edit</a>
-                            <a href="" class='bg-red-300 px-2 py-1 rounded-2xl inline-block'>Delete</a>
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>
+        <script>
+            function confirmStatusChange() {
+                const status = document.querySelector('select[name="status"]').value;
+                const currentStatus = "<?php echo $book['status']; ?>";
 
-    
+                if (currentStatus === "Checked Out" && status !== "Checked Out") {
+                    return confirm("⚠️ This book is currently checked out. Are you sure you want to change its status?");
+                }
+                return true;
+            }
+        </script>
 </body>
 </html>
