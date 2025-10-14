@@ -16,7 +16,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/style.css?v=1.5">
     <style>mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}</style>
-    <script src="/Admin/script.js"></script>
+    <script src="/Admin/js/script.js"></script>
     <script src="inventory_script.js"></script>
 
     <title>Libraprint|Admin|Inventory</title>
@@ -33,7 +33,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 </div>
                 <div id="brand" class="flex flex-row items-center space-x-1.5">
                     <img src="/asset/fingerprint.png" class="w-15">
-                    <a class="text-2xl font-serif pt-2" href="https://libraprintlucena.com">Libraprint</a>
+                    <a class="text-2xl font-serif pt-2" href="https://libraprintlucena.com/Admin">Libraprint</a>
                 </div>
             </div>
         </section>
