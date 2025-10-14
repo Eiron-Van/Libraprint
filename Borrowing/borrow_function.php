@@ -208,9 +208,9 @@ if ($stmt->execute()) {
     $getLoginId->fetch();
     $getLoginId->close();
 
-    if (!$getLoginId->execute()) {
-        echo json_encode(['error' => $getLoginId->error]);
-    }
+    // if (!$getLoginId->execute()) {
+    //     echo json_encode(['error' => $getLoginId->error]);
+    // }
 
     echo json_encode(['debug_login_id' => $login_id]);// For debugging
 
@@ -221,9 +221,9 @@ if ($stmt->execute()) {
         $updateLogin->close();
     }
 
-    if (!$updateLogin->execute()) {
-        echo json_encode(['error' => $updateLogin->error]);
-    }
+    // if (!$updateLogin->execute()) {
+    //     echo json_encode(['error' => $updateLogin->error]);
+    // }
 
 $stmt->close();
 $conn->close();
