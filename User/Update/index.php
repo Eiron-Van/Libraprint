@@ -48,8 +48,8 @@ if (!$user) {
 <body class="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#304475] to-[#0c0c0c]">
     <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif text-center text-white font-bold">Update Profile</h1>
     <form id="updateForm" action="update_profile.php" method="post" class="flex flex-col gap-4 w-full p-5 md:w-1/2 lg:w-1/3">
-      <input type="text" name="firstname" id="first_name" placeholder="Firstname" required value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
-      <input type="text" name="lastname" id="last_name" placeholder="Lastname" required value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
+      <input type="text" name="first_name" id="first_name" placeholder="Firstname" required value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
+      <input type="text" name="last_name" id="last_name" placeholder="Lastname" required value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" class="w-full bg-white rounded-xl text-black px-4 py-2">
       <select name="gender" id="gender" placeholder="Gender" class="w-full bg-white rounded-xl text-black px-4 py-2">
         <?php
           $genders = ["Male", "Female", "Lesbian", "Gay", "Bisexual", "Transgender", "Queer/Questioning", "Other"];
