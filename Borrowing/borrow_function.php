@@ -202,7 +202,7 @@ if ($stmt->execute()) {
         ORDER BY login_time DESC 
         LIMIT 1
     ");
-    $getLoginId->bind_param("s", $user_id);
+    $getLoginId->bind_param("i", $id);
     $getLoginId->execute();
     $getLoginId->bind_result($login_id);
     $getLoginId->fetch();
