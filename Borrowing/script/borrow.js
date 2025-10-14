@@ -30,7 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
 
-      const result = await res.json();
+      const text = await response.text();
+      console.log("Raw response:", text);
+      const result = JSON.parse(text);
+
       if (result.success) {
         console.log("Borrowing email sent:", result.emailStatus);
       } else {

@@ -185,14 +185,20 @@ if ($stmt->execute()) {
     // Log this borrowing
     $log = $conn->prepare("INSERT INTO borrow_log (user_id, book_id, status) VALUES (?, ?, 'Borrowed')");
     $log->bind_param("si", $user_id, $book_id);
-    $log->execute();
+    if (!$log->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error logging borrow: ' . $log->error]);
+        exit;
+    }
     $log->close();
 
     $purpose = 'Borrow';
     // Claim_log
     $claim = $conn->prepare("INSERT INTO claim_log (user_id, item_id, purpose) VALUES (?, ?, ?)");
     $claim->bind_param("sis", $user_id, $book_id, $purpose);
-    $claim->execute();
+    if (!$claim->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error logging claim: ' . $claim->error]);
+        exit;
+    }
     $claim->close();
 
     // login_record changed purpose
@@ -203,27 +209,23 @@ if ($stmt->execute()) {
         LIMIT 1
     ");
     $getLoginId->bind_param("i", $id);
-    $getLoginId->execute();
+    if (!$getLoginId->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error getting login id: ' . $getLoginId->error]);
+        exit;
+    }
     $getLoginId->bind_result($login_id);
     $getLoginId->fetch();
     $getLoginId->close();
 
-    // if (!$getLoginId->execute()) {
-    //     echo json_encode(['error' => $getLoginId->error]);
-    // }
-
-    echo json_encode(['debug_login_id' => $login_id]);// For debugging
-
     if (!empty($login_id)) {            
         $updateLogin = $conn->prepare("UPDATE login_record SET purpose = ? WHERE id = ?");
         $updateLogin->bind_param("si", $purpose, $login_id);
-        $updateLogin->execute();
+        if (!$updateLogin->execute()) {
+            echo json_encode(['success' => false, 'message' => 'Error updating login record: ' . $updateLogin->error]);
+            exit;
+        }
         $updateLogin->close();
     }
-
-    // if (!$updateLogin->execute()) {
-    //     echo json_encode(['error' => $updateLogin->error]);
-    // }
 
 $stmt->close();
 $conn->close();
