@@ -35,19 +35,19 @@ while ($row = $quarterResult->fetch_assoc()) {
 }
 
 // 3️⃣ Read vs Reservation Ratio
-$reserveQuery = "
+$borrowQuery = "
     SELECT 
         (SELECT COUNT(*) FROM book_record WHERE YEAR(read_date)=YEAR(CURRENT_DATE())) AS read_count,
-        (SELECT COUNT(*) FROM reservation WHERE YEAR(date_reserved)=YEAR(CURRENT_DATE())) AS reserve_count
+        (SELECT COUNT(*) FROM borrow_log WHERE YEAR(date_borrowed)=YEAR(CURRENT_DATE())) AS borrow_count
 ";
-$reserveResult = $conn->query($reserveQuery);
-if ($reserveResult) {
-    $reserveRow = $reserveResult->fetch_assoc();
-    $readCount = (int)$reserveRow['read_count'];
-    $reserveCount = (int)$reserveRow['reserve_count'];
+$borrowResult = $conn->query($borrowQuery);
+if ($borrowResult) {
+    $borrowRow = $borrowResult->fetch_assoc();
+    $readCount = (int)$borrowRow['read_count'];
+    $borrowCount = (int)$borrowRow['borrow_count'];
 } else {
     $readCount = 0;
-    $reserveCount = 0;
+    $borrowCount = 0;
 }
 
 // 4️⃣ Average Monthly Reading Sessions
@@ -65,6 +65,6 @@ echo json_encode([
     'monthly' => $monthlyData,
     'quarterly' => $quarterData,
     'readCount' => $readCount,
-    'reserveCount' => $reserveCount,
+    'borrowCount' => $borrowCount,
     'avgMonthlyReads' => $avgMonthly
 ]);

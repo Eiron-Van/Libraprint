@@ -135,7 +135,7 @@
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
                     <h2 class="text-lg font-semibold">🗂 Reservations</h2>
-                    <p id="reserveCount" class="text-2xl font-bold mt-2">0</p>
+                    <p id="borrowCount" class="text-2xl font-bold mt-2">0</p>
                 </div>
             </div>
 
@@ -151,8 +151,8 @@
                 </div>
 
                 <div class=" bg-white/10 p-6 rounded-xl h-[70vh]">
-                    <h3 class="text-lg font-semibold mb-3">Read vs Reservation Ratio</h3>
-                    <canvas id="readReserveChart"></canvas>
+                    <h3 class="text-lg font-semibold mb-3">Read vs Borrow Ratio</h3>
+                    <canvas id="readBorrowChart"></canvas>
                 </div>
             </div>
 

@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // KPI Cards
             document.getElementById("avgMonthlyReads").textContent = data.avgMonthlyReads;
             document.getElementById("readCount").textContent = data.readCount;
-            document.getElementById("reserveCount").textContent = data.reserveCount;
+            document.getElementById("borrowCount").textContent = data.borrowCount;
 
             // Monthly Reading Trend (Line)
             new Chart(document.getElementById("monthlyTrendChart"), {
@@ -195,13 +195,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             });
 
-            // Read vs Reservation Ratio (Donut)
-            new Chart(document.getElementById("readReserveChart"), {
+            // Read vs Borrow Ratio (Donut)
+            new Chart(document.getElementById("readBorrowChart"), {
             type: "doughnut",
             data: {
-                labels: ["Read", "Reserved"],
+                labels: ["Read", "Borrowed"],
                 datasets: [{
-                data: [data.readCount, data.reserveCount],
+                data: [data.readCount, data.borrowCount],
                 backgroundColor: ["#36A2EB", "#FFCE56"]
                 }]
             },
