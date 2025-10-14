@@ -33,6 +33,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
+    // Validate birthday
+    if ($birthday !== '') {
+        $birth_date = strtotime($birthday);
+        $today = strtotime(date('Y-m-d'));
+        $age = floor(($today - $birth_date) / (365*24*60*60));
+
+        if ($birth_date > $today) {
+            echo "<script>alert('Birthday cannot be in the future.'); window.history.back();</script>";
+            exit();
+        }
+
+        if ($age < 5) {
+            echo "<script>alert('You must be at least 10 years old.'); window.history.back();</script>";
+            exit();
+        }
+    }
+
     $stmt = $conn->prepare("UPDATE user 
                             SET first_name=?, last_name=?, gender=?, address=?, birthday=?, contact_number=? 
                             WHERE user_id=?");
