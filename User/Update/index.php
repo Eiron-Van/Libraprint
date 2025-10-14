@@ -5,7 +5,7 @@ if (isset($_GET['PHPSESSID']) && !empty($_GET['PHPSESSID'])) {
   session_id($_GET['PHPSESSID']);
 }
 session_start();
-include("../connection.php");
+include("../../connection.php");
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
