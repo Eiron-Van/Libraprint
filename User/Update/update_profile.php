@@ -50,13 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    $stmt = $conn->prepare("UPDATE user 
+    $stmt = $conn->prepare("UPDATE users 
                             SET first_name=?, last_name=?, gender=?, address=?, birthday=?, contact_number=? 
                             WHERE user_id=?");
     $stmt->bind_param("sssssss", $first_name, $last_name, $gender, $address, $birthday, $contact_number, $user_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Profile updated successfully!'); window.location.href='profile.php';</script>";
+        echo "<script>alert('Profile updated successfully!'); window.location.href='../User';</script>";
     } else {
         echo "<script>alert('Error updating profile. Please try again.'); window.history.back();</script>";
     }
