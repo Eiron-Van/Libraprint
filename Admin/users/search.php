@@ -63,9 +63,6 @@ function highlightTerms(string $text, string $search): string {
 }
 
 // output
-echo "<div id='results-count'>
-        <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
-      </div>";
 echo "<h1 class='pb-6 text-4xl text-white font-semibold text-center'>Users</h1> 
         <div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[61.8vh]'>
             <!-- Header -->
