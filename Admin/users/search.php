@@ -98,6 +98,10 @@ if ($usersResult->num_rows > 0){
                 </div>
             </div>";
     }
+}else{
+    echo "<div class='grid grid-cols-12 p-2 bg-gray-200 text-xs text-black border-b border-black whitespace-normal break-all'>
+                <div class='flex justify-center items-center min-w-0 p-1 col-span-12'>No results found.</div>
+            </div>";
 }
 echo "</div>";
 
