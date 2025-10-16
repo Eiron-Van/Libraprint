@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.send();
   }
 
-  
-
   // Initial load
   fetchResults("");
 
@@ -28,54 +26,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   });
 
-  //Delete Button
-function confirmDelete(userId) {
+  // ✅ Delete Button Function — now globally accessible
+  window.confirmDelete = function (userId) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "This action cannot be undone. The user will be permanently deleted.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete user',
-        cancelButtonText: 'Cancel'
+      title: 'Are you sure?',
+      text: "This action cannot be undone. The user will be permanently deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete user',
+      cancelButtonText: 'Cancel'
     }).then((result) => {
-        if (result.isConfirmed) {
-            // Proceed with deletion
-            fetch('delete_user.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'user_id=' + encodeURIComponent(userId)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        location.reload(); // Refresh table
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message
-                    });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred: ' + error
-                });
+      if (result.isConfirmed) {
+        fetch('delete_user.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'user_id=' + encodeURIComponent(userId)
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Deleted!',
+                text: data.message,
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message
+              });
+            }
+          })
+          .catch(error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'An error occurred: ' + error
             });
-        }
+          });
+      }
     });
-}
-
+  };
 });
