@@ -14,20 +14,21 @@ if (!empty($search)) {
     $users = $conn->prepare("
         SELECT *
         FROM users
-        WHERE username LIKE ?
+        WHERE user_id LIKE ?
+        username LIKE ?
         OR first_name LIKE ?
         OR last_name LIKE ?
         OR gender LIKE ?
         OR contact_number LIKE ?
         OR email LIKE ?
     ");
-    $users->bind_param("ssssss", $safe_search, $safe_search, $safe_search, $safe_search, $safe_search, $safe_search);
+    $users->bind_param("sssssss", $safe_search, $safe_search, $safe_search, $safe_search, $safe_search, $safe_search, $safe_search);
     $users->execute();
     $usersResult = $users->get_result();
 
 } else {
     // Get Users Table
-    $users = $conn->prepare("SELECT username, first_name, last_name, gender, contact_number, email FROM users");
+    $users = $conn->prepare("SELECT user_id, username, first_name, last_name, gender, contact_number, email FROM users");
     $users->execute();
     $usersResult = $users->get_result();
 }
