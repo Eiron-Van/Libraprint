@@ -29,23 +29,53 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   //Delete Button
-  function confirmDelete(userId) {
-    if (confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
-        fetch('delete_user.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'user_id=' + encodeURIComponent(userId)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            if (data.success) {
-                location.reload(); // Refresh table after deletion
-            }
-        })
-        .catch(error => {
-            alert("Error deleting user: " + error);
-        });
-    }
+function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action cannot be undone. The user will be permanently deleted.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete user',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Proceed with deletion
+            fetch('delete_user.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'user_id=' + encodeURIComponent(userId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload(); // Refresh table
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred: ' + error
+                });
+            });
+        }
+    });
 }
+
 });
