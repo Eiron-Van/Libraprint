@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require '../connection.php';
+require '../../connection.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
