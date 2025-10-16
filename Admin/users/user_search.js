@@ -27,4 +27,25 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchResults(this.value);
     }, 300);
   });
+
+  //Delete Button
+  function confirmDelete(userId) {
+    if (confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
+        fetch('delete_user.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'user_id=' + encodeURIComponent(userId)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                location.reload(); // Refresh table after deletion
+            }
+        })
+        .catch(error => {
+            alert("Error deleting user: " + error);
+        });
+    }
+}
 });

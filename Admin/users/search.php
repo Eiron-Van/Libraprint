@@ -89,8 +89,11 @@ if ($usersResult->num_rows > 0){
                 <div class='flex justify-center items-center min-w-0 p-1 col-span-1'>" . highlightTerms($row['birthday'], $search) . "</div>
                 <div class='flex justify-center items-center min-w-0 p-1 col-span-1'>" . highlightTerms($row['contact_number'], $search) . "</div>
                 <div class='flex justify-center items-center min-w-0 p-1 col-span-2'>" . highlightTerms($row['email'], $search) . "</div>
-                <div class='flex justify-center items-center'>
-                    <button class='bg-red-400 hover:bg-red-500 active:bg-red-600 shadow-lg shadow-red-500/50 px-2 py-1 col-span-1 rounded-lg'>Delete</button>
+                <div class='flex justify-center items-center'>";
+        echo        "<button    onclick=\"confirmDelete('" . $row['user_id'] . "')\" 
+                                class='bg-red-400 hover:bg-red-500 active:bg-red-600 shadow-lg shadow-red-500/50 px-2 py-1 col-span-1 rounded-lg'>
+                                Delete
+                    </button>          
                 </div>
             </div>";
     }
