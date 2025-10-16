@@ -70,15 +70,15 @@ echo "<h1 class='pb-6 text-4xl text-white font-semibold text-center'>Users</h1>
         <div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[61.8vh]'>
             <!-- Header -->
             <div class='grid grid-cols-11 p-2 bg-gray-700 sticky top-0 text-center'>
-                <div class='flex justify-center col-span-1'>User ID</div>
-                <div class='flex justify-center col-span-1'>User Name</div>
-                <div class='flex justify-center col-span-1'>Full Name</div>
-                <div class='flex justify-center col-span-1'>Gender</div>
-                <div class='flex justify-center col-span-2'>Address</div>
-                <div class='flex justify-center col-span-1'>Birthday</div>
-                <div class='flex justify-center col-span-1'>Contact Number</div>
-                <div class='flex justify-center col-span-2'>Email</div>
-                <div class='flex justify-center col-span-1'>Action</div>
+                <div class='flex justify-center items-center col-span-1'>User ID</div>
+                <div class='flex justify-center items-center col-span-1'>User Name</div>
+                <div class='flex justify-center items-center col-span-1'>Full Name</div>
+                <div class='flex justify-center items-center col-span-1'>Gender</div>
+                <div class='flex justify-center items-center col-span-2'>Address</div>
+                <div class='flex justify-center items-center col-span-1'>Birthday</div>
+                <div class='flex justify-center items-center col-span-1'>Contact Number</div>
+                <div class='flex justify-center items-center col-span-2'>Email</div>
+                <div class='flex justify-center items-center col-span-1'>Action</div>
             </div>";
 
 if ($usersResult->num_rows > 0){
