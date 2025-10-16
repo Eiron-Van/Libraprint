@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("search");
   const resultsContainer = document.getElementById("results");
 
+  // --- Fetch search results ---
   function fetchResults(query) {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "search.php?search=" + encodeURIComponent(query), true);
@@ -26,8 +27,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   });
 
-  // ✅ Delete Button Function — now globally accessible
-  window.confirmDelete = function (userId) {
+  // --- ✅ Event Delegation for Delete Buttons ---
+  resultsContainer.addEventListener("click", function (e) {
+    if (e.target.classList.contains("delete-btn")) {
+      const userId = e.target.getAttribute("data-user-id");
+      confirmDelete(userId);
+    }
+  });
+
+  // --- SweetAlert2 Delete Confirmation ---
+  function confirmDelete(userId) {
     Swal.fire({
       title: 'Are you sure?',
       text: "This action cannot be undone. The user will be permanently deleted.",
@@ -54,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
-                location.reload();
+                fetchResults(searchInput.value); // refresh results without reloading the whole page
               });
             } else {
               Swal.fire({
@@ -73,5 +82,5 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
     });
-  };
+  }
 });
