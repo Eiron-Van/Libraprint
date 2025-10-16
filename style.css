@@ -799,6 +799,9 @@
   .grid-cols-11 {
     grid-template-columns: repeat(11, minmax(0, 1fr));
   }
+  .grid-cols-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
   .flex-col {
     flex-direction: column;
   }
