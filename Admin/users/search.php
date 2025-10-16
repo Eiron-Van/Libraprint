@@ -15,7 +15,7 @@ if (!empty($search)) {
         SELECT *
         FROM users
         WHERE user_id LIKE ?
-        username LIKE ?
+        OR username LIKE ?
         OR first_name LIKE ?
         OR last_name LIKE ?
         OR gender LIKE ?
