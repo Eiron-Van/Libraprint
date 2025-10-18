@@ -1,66 +1,8 @@
 <?php
 require '../../connection.php';
+require 'helpers.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-
-
-// ✅ Helper to format MySQL datetime into readable form
-function formatDateTime($datetime) {
-    if (empty($datetime) || $datetime === "0000-00-00" || $datetime === "0000-00-00 00:00:00" || is_null($datetime)) {
-        return '-';
-    }
-
-    $timestamp = strtotime($datetime);
-    if ($timestamp === false) return '-';
-    return date("F j, Y - g:i A", $timestamp);
-}
-
-// ✅ Helper to make duration readable
-function formatDuration($duration) {
-    if (empty($duration)) return '-';
-    
-    // Try to detect if it's stored as days, hours, or a time difference
-    if (is_numeric($duration)) {
-        return $duration . " day" . ($duration > 1 ? "s" : "");
-    }
-
-    // If format looks like "HH:MM:SS"
-    if (preg_match("/^(\d+):(\d+):(\d+)$/", $duration, $matches)) {
-        [$full, $h, $m, $s] = $matches;
-        $parts = [];
-        if ($h > 0) $parts[] = "$h hour" . ($h > 1 ? "s" : "");
-        if ($m > 0) $parts[] = "$m minute" . ($m > 1 ? "s" : "");
-        if ($s > 0) $parts[] = "$s second" . ($s > 1 ? "s" : "");
-        return implode(', ', $parts);
-    }
-
-    // If format looks like "P3D" or "3 days"
-    return htmlspecialchars($duration);
-}
-
-
-// ✅ Highlight Helper
-function highlightTerms(string $text, string $search): string {
-    if ($search === '' || $text === '') return htmlspecialchars($text);
-    $words = preg_split('/\s+/', trim($search));
-    $words = array_filter($words);
-    array_unshift($words, $search);
-    $words = array_unique($words);
-    usort($words, fn($a,$b) => mb_strlen($b) - mb_strlen($a));
-    $escaped = array_map(fn($w) => preg_quote($w, '/'), $words);
-    $pattern = '/(' . implode('|', $escaped) . ')/iu';
-    $parts = preg_split($pattern, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $out = '';
-    foreach ($parts as $part) {
-        if ($part === '') continue;
-        if (preg_match($pattern, $part)) {
-            $out .= '<mark class="search-highlight">' . htmlspecialchars($part) . '</mark>';
-        } else {
-            $out .= htmlspecialchars($part);
-        }
-    }
-    return $out;
-}
 
 // ✅ Build Query
 if (!empty($search)) {
@@ -149,7 +91,7 @@ while ($row = $logsResult->fetch_assoc()) {
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($duration ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . computeDuration($row['date_borrowed'], $row['date_returned']) . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
     ";

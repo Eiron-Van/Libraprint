@@ -1,30 +1,9 @@
 <?php
 require '../../connection.php';
+require 'helpers.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-// ✅ Highlight Helper
-function highlightTerms(string $text, string $search): string {
-    if ($search === '' || $text === '') return htmlspecialchars($text);
-    $words = preg_split('/\s+/', trim($search));
-    $words = array_filter($words);
-    array_unshift($words, $search);
-    $words = array_unique($words);
-    usort($words, fn($a,$b) => mb_strlen($b) - mb_strlen($a));
-    $escaped = array_map(fn($w) => preg_quote($w, '/'), $words);
-    $pattern = '/(' . implode('|', $escaped) . ')/iu';
-    $parts = preg_split($pattern, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $out = '';
-    foreach ($parts as $part) {
-        if ($part === '') continue;
-        if (preg_match($pattern, $part)) {
-            $out .= '<mark class="search-highlight">' . htmlspecialchars($part) . '</mark>';
-        } else {
-            $out .= htmlspecialchars($part);
-        }
-    }
-    return $out;
-}
 
 // ✅ Build Query
 if (!empty($search)) {
@@ -81,7 +60,7 @@ while ($row = $logsResult->fetch_assoc()) {
     <div class='grid grid-cols-3 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['book_name'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['read_date']) . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['read_date']) . "</div>
     </div>
     ";
 }
