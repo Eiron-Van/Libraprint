@@ -109,11 +109,11 @@ if ($logsResult->num_rows === 0) {
 
 echo "
 <div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[62vh]'>
-    <div class='grid grid-cols-6 p-2 bg-gray-700 sticky top-0 text-center'>
+    <div class='grid grid-cols-9 p-2 bg-gray-700 sticky top-0 text-center'>
         <div class='flex justify-center items-center col-span-1'>Name</div>
-        <div class='flex justify-center items-center col-span-1'>Book Name</div>
-        <div class='flex justify-center items-center col-span-1'>Borrowed Date</div>
-        <div class='flex justify-center items-center col-span-1'>Return Date</div>
+        <div class='flex justify-center items-center col-span-2'>Book Name</div>
+        <div class='flex justify-center items-center col-span-2'>Borrowed Date</div>
+        <div class='flex justify-center items-center col-span-2'>Return Date</div>
         <div class='flex justify-center items-center col-span-1'>Duration</div>
         <div class='flex justify-center items-center col-span-1'>Status</div>
     </div>
@@ -130,11 +130,11 @@ while ($row = $logsResult->fetch_assoc()) {
     };
 
     echo "
-    <div class='grid grid-cols-6 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
+    <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['book_name'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_borrowed']) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
+        <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
+        <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_duration'] ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
