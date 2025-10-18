@@ -72,7 +72,7 @@ while ($row = $logsResult->fetch_assoc()) {
     $statusColor = ($row['returned'] === 'Yes') ? 'text-green-600' : 'text-red-600';
 
     echo "
-    <div class='grid grid-cols-5 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
+    <div class='grid grid-cols-5 p-2 bg-gray-200 text-center text-sm text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['purpose'], $search) . "</div>
