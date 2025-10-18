@@ -34,16 +34,6 @@ function formatDuration($duration) {
     return htmlspecialchars($duration);
 }
 
-$borrowed = strtotime($row['date_borrowed']);
-$returned = strtotime($row['date_returned']);
-
-if ($borrowed && $returned) {
-    $days = floor(($returned - $borrowed) / 86400);
-    $duration = $days > 0 ? "$days day" . ($days > 1 ? "s" : "") : "Less than a day";
-} else {
-    $duration = "-";
-}
-
 
 // ✅ Highlight Helper
 function highlightTerms(string $text, string $search): string {
@@ -110,6 +100,16 @@ if (!empty($search)) {
 
 $logs->execute();
 $logsResult = $logs->get_result();
+
+$borrowed = strtotime($row['date_borrowed']);
+$returned = strtotime($row['date_returned']);
+
+if ($borrowed && $returned) {
+    $days = floor(($returned - $borrowed) / 86400);
+    $duration = $days > 0 ? "$days day" . ($days > 1 ? "s" : "") : "Less than a day";
+} else {
+    $duration = "-";
+}
 
 // ✅ Display
 if ($logsResult->num_rows === 0) {
