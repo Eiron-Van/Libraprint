@@ -71,7 +71,7 @@ $logsResult = $logs->get_result();
 
 
 // ✅ Display
-if (empty($logsResult)) {
+if ($logsResult->num_rows === 0) {
     echo "<div class='text-center text-gray-400 mt-10'>No login records found.</div>";
     exit;
 }
@@ -89,16 +89,16 @@ echo "
 
 // ✅ Body
 if ($logsResult->num_rows > 0) {
-    foreach ($logsResult as $row) {
-    echo "
-    <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
-        <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['purpose'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['location'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['login_time']) . "</div>
-    </div>
-    ";
-}
+    while ($row = $logsResult->fetch_assoc()) {
+        echo "
+            <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
+                <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
+                <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['purpose'], $search) . "</div>
+                <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['location'], $search) . "</div>
+                <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['login_time']) . "</div>
+            </div>
+        ";
+    }
 }else{
     echo "
     <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
