@@ -1,21 +1,30 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const results = document.getElementById("results");
-    const searchInput = document.getElementById("search");
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("search");
+  const resultsContainer = document.getElementById("results");
 
-    function fetchLoginLogs(query = "") {
-        results.innerHTML = "<div class='text-center text-gray-400 mt-10'>Loading...</div>";
-        fetch(`fetch_login_logs.php?search=${encodeURIComponent(query)}`)
-            .then(res => res.text())
-            .then(data => results.innerHTML = data)
-            .catch(err => results.innerHTML = `<div class='text-red-400'>Error: ${err}</div>`);
-    }
+  function fetchResults(query) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "fetch_login_logs.php?search=" + encodeURIComponent(query), true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        resultsContainer.innerHTML = xhr.responseText;
+      }
+    };
+    resultsContainer.innerHTML = "<div class='text-center py-4 text-gray-100'>Loading...</div>";
+    xhr.send();
+  }
 
-    // Search as you type
-    searchInput.addEventListener("input", () => {
-        const q = searchInput.value.trim();
-        fetchLoginLogs(q);
-    });
+  
 
-    // Initial load
-    fetchLoginLogs();
+  // Initial load
+  fetchResults("");
+
+  // Live search with debounce
+  let timer;
+  searchInput.addEventListener("input", function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fetchResults(this.value);
+    }, 300);
+  });
 });
