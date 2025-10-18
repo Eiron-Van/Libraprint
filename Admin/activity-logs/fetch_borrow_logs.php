@@ -13,7 +13,6 @@ if (!empty($search)) {
             b.title AS book_name,
             br.date_borrowed,
             br.date_returned,
-            br.date_duration,
             br.status
         FROM borrow_log AS br
         JOIN users AS u ON br.user_id = u.user_id
@@ -34,7 +33,6 @@ if (!empty($search)) {
             b.title AS book_name,
             br.date_borrowed,
             br.date_returned,
-            br.date_duration,
             br.status
         FROM borrow_log AS br
         JOIN users AS u ON br.user_id = u.user_id
@@ -86,7 +84,7 @@ while ($row = $logsResult->fetch_assoc()) {
     }
 
     echo "
-    <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-sm text-gray-600 text-sm border-b border-gray-300 hover:bg-gray-100 transition'>
+    <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-sm text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
