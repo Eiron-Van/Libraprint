@@ -34,6 +34,16 @@ function formatDuration($duration) {
     return htmlspecialchars($duration);
 }
 
+$borrowed = strtotime($row['date_borrowed']);
+$returned = strtotime($row['date_returned']);
+
+if ($borrowed && $returned) {
+    $days = floor(($returned - $borrowed) / 86400);
+    $duration = $days > 0 ? "$days day" . ($days > 1 ? "s" : "") : "Less than a day";
+} else {
+    $duration = "-";
+}
+
 
 // ✅ Highlight Helper
 function highlightTerms(string $text, string $search): string {
@@ -135,7 +145,7 @@ while ($row = $logsResult->fetch_assoc()) {
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_duration'] ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($borrowed ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
     ";
