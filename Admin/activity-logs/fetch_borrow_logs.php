@@ -130,7 +130,7 @@ while ($row = $logsResult->fetch_assoc()) {
     };
 
     echo "
-    <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
+    <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-gray-600 text-base border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
