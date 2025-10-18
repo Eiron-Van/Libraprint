@@ -1,38 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const results = document.getElementById("results");
-    const dropdownButtons = document.querySelectorAll("el-menu ul li button");
     const searchInput = document.getElementById("search");
 
-    let currentType = "Login_record"; // Default
-
-    // Function to fetch logs
-    function fetchLogs(query = "") {
-        results.innerHTML = "Loading...";
-        fetch(`fetch_logs.php?type=${currentType}&search=${encodeURIComponent(query)}`)
+    function fetchLoginLogs(query = "") {
+        results.innerHTML = "<div class='text-center text-gray-400 mt-10'>Loading...</div>";
+        fetch(`fetch_login_logs.php?search=${encodeURIComponent(query)}`)
             .then(res => res.text())
             .then(data => results.innerHTML = data)
-            .catch(err => results.innerHTML = `<p class='text-red-400'>Error: ${err}</p>`);
+            .catch(err => results.innerHTML = `<div class='text-red-400'>Error: ${err}</div>`);
     }
 
-    // Dropdown click event
-    dropdownButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            currentType = btn.textContent.trim().replace(" Logs", "_record");
-            if (currentType === "Read_record") currentType = "Book_record";
-            if (currentType === "Borrow_record") currentType = "Borrow_log";
-            if (currentType === "Claim_record") currentType = "Claim_log";
-            if (currentType === "Reservation_record") currentType = "Reservation";
-
-            fetchLogs();
-        });
-    });
-
-    // Search input event
+    // Search as you type
     searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim();
-        fetchLogs(query);
+        const q = searchInput.value.trim();
+        fetchLoginLogs(q);
     });
 
     // Initial load
-    fetchLogs();
+    fetchLoginLogs();
 });
