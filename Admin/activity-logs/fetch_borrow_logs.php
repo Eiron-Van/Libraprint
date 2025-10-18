@@ -6,8 +6,12 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // ✅ Helper to format MySQL datetime into readable form
 function formatDateTime($datetime) {
-    if (empty($datetime) || $datetime === "0000-00-00 00:00:00") return '-';
+    if (empty($datetime) || $datetime === "0000-00-00" || $datetime === "0000-00-00 00:00:00" || is_null($datetime)) {
+        return '-';
+    }
+
     $timestamp = strtotime($datetime);
+    if ($timestamp === false) return '-';
     return date("F j, Y - g:i A", $timestamp);
 }
 
@@ -101,16 +105,6 @@ if (!empty($search)) {
 $logs->execute();
 $logsResult = $logs->get_result();
 
-$borrowed = strtotime($row['date_borrowed']);
-$returned = strtotime($row['date_returned']);
-
-if ($borrowed && $returned) {
-    $days = floor(($returned - $borrowed) / 86400);
-    $duration = $days > 0 ? "$days day" . ($days > 1 ? "s" : "") : "Less than a day";
-} else {
-    $duration = "-";
-}
-
 // ✅ Display
 if ($logsResult->num_rows === 0) {
     echo "<div class='text-center text-gray-400 mt-10'>No borrow records found.</div>";
@@ -139,13 +133,23 @@ while ($row = $logsResult->fetch_assoc()) {
         default => 'text-gray-600'
     };
 
+    $borrowed = strtotime($row['date_borrowed']);
+    $returned = strtotime($row['date_returned']);
+
+    if ($borrowed && $returned) {
+        $days = floor(($returned - $borrowed) / 86400);
+        $duration = $days > 0 ? "$days day" . ($days > 1 ? "s" : "") : "Less than a day";
+    } else {
+        $duration = "-";
+    }
+
     echo "
     <div class='grid grid-cols-9 p-2 bg-gray-200 text-center text-gray-600 text-sm border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($duration ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($duration ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
     ";
