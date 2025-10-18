@@ -3,6 +3,38 @@ require '../../connection.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
+
+// ✅ Helper to format MySQL datetime into readable form
+function formatDateTime($datetime) {
+    if (empty($datetime) || $datetime === "0000-00-00 00:00:00") return '-';
+    $timestamp = strtotime($datetime);
+    return date("F j, Y - g:i A", $timestamp);
+}
+
+// ✅ Helper to make duration readable
+function formatDuration($duration) {
+    if (empty($duration)) return '-';
+    
+    // Try to detect if it's stored as days, hours, or a time difference
+    if (is_numeric($duration)) {
+        return $duration . " day" . ($duration > 1 ? "s" : "");
+    }
+
+    // If format looks like "HH:MM:SS"
+    if (preg_match("/^(\d+):(\d+):(\d+)$/", $duration, $matches)) {
+        [$full, $h, $m, $s] = $matches;
+        $parts = [];
+        if ($h > 0) $parts[] = "$h hour" . ($h > 1 ? "s" : "");
+        if ($m > 0) $parts[] = "$m minute" . ($m > 1 ? "s" : "");
+        if ($s > 0) $parts[] = "$s second" . ($s > 1 ? "s" : "");
+        return implode(', ', $parts);
+    }
+
+    // If format looks like "P3D" or "3 days"
+    return htmlspecialchars($duration);
+}
+
+
 // ✅ Highlight Helper
 function highlightTerms(string $text, string $search): string {
     if ($search === '' || $text === '') return htmlspecialchars($text);
@@ -101,9 +133,9 @@ while ($row = $logsResult->fetch_assoc()) {
     <div class='grid grid-cols-6 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['book_name'], $search) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['date_borrowed']) . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['date_returned'] ?: '-') . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['date_duration'] ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_borrowed']) . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($row['date_duration'] ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
     ";
