@@ -38,7 +38,7 @@ if (!empty($search)) {
             l.location,
             l.login_time
         FROM login_record AS l
-        JOIN users AS u ON l.user_id = u.user_id
+        JOIN users AS u ON l.user_id = u.id
         WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE ?
            OR l.purpose LIKE ?
            OR l.location LIKE ?
@@ -57,7 +57,7 @@ if (!empty($search)) {
             l.location,
             l.login_time
         FROM login_record AS l
-        JOIN users AS u ON l.user_id = u.user_id
+        JOIN users AS u ON l.user_id = u.id
         ORDER BY l.id DESC
         LIMIT 100
     ");
