@@ -26,42 +26,52 @@ function highlightTerms(string $text, string $search): string {
     return $out;
 }
 
-// ✅ Query
-$query = "
-    SELECT 
-        CONCAT(u.first_name, ' ', u.last_name) AS name,
-        l.purpose,
-        l.location,
-        l.login_time
-    FROM login_record AS l
-    JOIN users AS u ON l.user_id = u.user_id
-";
+// query
+if (!empty($search)) {
+    $safe_search = "%" . $search . "%";
 
-$params = [];
-if ($search !== '') {
-    $query .= " WHERE 
-        CONCAT(u.first_name, ' ', u.last_name) LIKE ?
-        OR l.purpose LIKE ?
-        OR l.location LIKE ?
-    ";
+    // Search query
+    $logs = $conn->prepare("
+        SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS name,
+            l.purpose,
+            l.location,
+            l.login_time
+        FROM login_record AS l
+        JOIN users AS u ON l.user_id = u.user_id
+        WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE ?
+           OR l.purpose LIKE ?
+           OR l.location LIKE ?
+        ORDER BY l.id DESC
+        LIMIT 100
+    ");
+
+    $logs->bind_param("sss", $safe_search, $safe_search, $safe_search);
+
+} else {
+    // Default: show all (latest 100)
+    $logs = $conn->prepare("
+        SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS name,
+            l.purpose,
+            l.location,
+            l.login_time
+        FROM login_record AS l
+        JOIN users AS u ON l.user_id = u.user_id
+        ORDER BY l.id DESC
+        LIMIT 100
+    ");
 }
 
-// ✅ Order + Limit
-$query .= " ORDER BY l.id DESC LIMIT 100";
+$logs->execute();
+$logsResult = $logs->get_result();
 
-$stmt = $conn->prepare($query);
 
-if ($search !== '') {
-    $like = "%$search%";
-    $stmt->bind_param('sss', $like, $like, $like);
-}
 
-$stmt->execute();
-$result = $stmt->get_result();
-$records = $result->fetch_all(MYSQLI_ASSOC);
+
 
 // ✅ Display
-if (empty($records)) {
+if (empty($logsResult)) {
     echo "<div class='text-center text-gray-400 mt-10'>No login records found.</div>";
     exit;
 }
@@ -78,7 +88,7 @@ echo "
 ";
 
 // ✅ Body
-foreach ($records as $row) {
+foreach ($logsResult as $row) {
     echo "
     <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
