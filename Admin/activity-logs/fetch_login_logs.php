@@ -1,7 +1,7 @@
 <?php
 require '../../connection.php';
 
-$search = trim($_GET['search'] ?? '');
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // ✅ Helper Function
 function highlightTerms(string $text, string $search): string {
