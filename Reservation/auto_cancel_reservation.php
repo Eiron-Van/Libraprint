@@ -2,6 +2,7 @@
 // ======================================
 // AUTO CANCEL RESERVATIONS (24 HOURS)
 // ======================================
+// Automatically cancel reservations older than 24 hours using cron job on server
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
