@@ -91,9 +91,9 @@ while ($row = $logsResult->fetch_assoc()) {
     // Color-code the status
     $status = ucfirst($row['status']);
     $statusColor = match (strtolower($status)) {
-        'Returned' => 'text-green-600',
-        'Borrowed' => 'text-blue-600',
-        'Overdue' => 'text-red-600',
+        'returned' => 'text-green-600',
+        'borrowed' => 'text-blue-600',
+        'overdue' => 'text-red-600',
         default => 'text-gray-600'
     };
 
