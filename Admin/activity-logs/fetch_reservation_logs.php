@@ -38,7 +38,7 @@ if (!empty($search)) {
             r.purpose,
             r.date_reserved
         FROM reservation AS r
-        JOIN users AS u ON r.user_id = u.id
+        JOIN users AS u ON r.user_id = u.user_id
         JOIN book_inventory AS b ON r.item_id = b.item_id
         WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE ?
            OR b.title LIKE ?
@@ -56,7 +56,7 @@ if (!empty($search)) {
             r.purpose,
             r.date_reserved
         FROM reservation AS r
-        JOIN users AS u ON r.user_id = u.id
+        JOIN users AS u ON r.user_id = u.user_id
         JOIN book_inventory AS b ON r.item_id = b.item_id
         ORDER BY r.id DESC
         LIMIT 100
