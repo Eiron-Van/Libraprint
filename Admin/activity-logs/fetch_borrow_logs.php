@@ -145,7 +145,7 @@ while ($row = $logsResult->fetch_assoc()) {
         <div class='flex justify-center items-center col-span-2'>" . highlightTerms($row['book_name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_borrowed']) . "</div>
         <div class='flex justify-center items-center col-span-2'>" . formatDateTime($row['date_returned'] ?: '-') . "</div>
-        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($borrowed ?: '-') . "</div>
+        <div class='flex justify-center items-center col-span-1'>" . formatDateTime($duration ?: '-') . "</div>
         <div class='flex justify-center items-center col-span-1 font-semibold $statusColor'>" . highlightTerms($status, $search) . "</div>
     </div>
     ";
