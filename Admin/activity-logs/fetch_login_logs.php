@@ -88,13 +88,21 @@ echo "
 ";
 
 // ✅ Body
-foreach ($logsResult as $row) {
+if ($logsResult->num_rows > 0) {
+    foreach ($logsResult as $row) {
     echo "
     <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['name'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['purpose'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . highlightTerms($row['location'], $search) . "</div>
         <div class='flex justify-center items-center col-span-1'>" . htmlspecialchars($row['login_time']) . "</div>
+    </div>
+    ";
+}
+}else{
+    echo "
+    <div class='grid grid-cols-4 p-2 bg-gray-200 text-center text-gray-600 border-b border-gray-300 hover:bg-gray-100 transition'>
+        <div class='flex justify-center items-center col-span-4'>No results found.</div>
     </div>
     ";
 }
