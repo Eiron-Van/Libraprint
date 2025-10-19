@@ -99,11 +99,11 @@ function highlightTerms(string $text, string $search): string {
 
 echo "<div class='max-h-[50vh] overflow-auto rounded-xl shadow-md border border-gray-700 bg-white'>
         <!-- Reserved Section Label -->
-        <div class='w-full bg-blue-200 text-black sticky top-0 z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-blue-200 text-black sticky top-0 z-9 px-6 py-2 font-semibold'>
                 Your Reserved Books
         </div>
 
-        <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-9'>
+        <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-8'>
             <div class='px-2 py-1 col-span-3'>Title</div>
             <div class='px-2 py-1 col-span-2'>Author</div>
             <div class='px-2 py-1 col-span-1 text-center'>Date Borrowed</div>
@@ -125,11 +125,11 @@ if ($reservedResult->num_rows > 0) {
 }
 
 echo "  <!-- Available Section Label -->
-        <div class='w-full bg-green-200 text-black sticky top-[2.5rem] z-10 px-6 py-2 font-semibold'>
+        <div class='w-full bg-green-200 text-black sticky top-[2.5rem] z-9 px-6 py-2 font-semibold'>
                 Available Books
         </div>
 
-        <div class='w-full grid grid-cols-6 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-9'>
+        <div class='w-full grid grid-cols-6 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-8'>
             <div class='px-2 py-3 col-span-3'>Title</div>
             <div class='px-2 py-3 col-span-2'>Author</div>
             <div class='px-2 py-3 col-span-1'></div>

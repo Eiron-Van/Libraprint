@@ -382,6 +382,9 @@
   .isolate {
     isolation: isolate;
   }
+  .z-8 {
+    z-index: 8;
+  }
   .z-9 {
     z-index: 9;
   }
@@ -772,6 +775,9 @@
   }
   .min-w-0 {
     min-width: calc(var(--spacing) * 0);
+  }
+  .min-w-\[350px\] {
+    min-width: 350px;
   }
   .min-w-full {
     min-width: 100%;

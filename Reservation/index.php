@@ -110,7 +110,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                     </div>
 
                     <!-- Table -->
-                    <div id="results">Loading...</div>
+                    <div class="min-w-[350px]" id="results">Loading...</div>
                     
                 </section>
                 
