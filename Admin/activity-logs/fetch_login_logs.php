@@ -21,7 +21,6 @@ if (!empty($search)) {
            OR l.purpose LIKE ?
            OR l.location LIKE ?
         ORDER BY l.id DESC
-        LIMIT 100
     ");
 
     $logs->bind_param("sss", $safe_search, $safe_search, $safe_search);
@@ -37,7 +36,6 @@ if (!empty($search)) {
         FROM login_record AS l
         JOIN users AS u ON l.user_id = u.id
         ORDER BY l.id DESC
-        LIMIT 100
     ");
 }
 
@@ -55,7 +53,7 @@ if ($logsResult->num_rows === 0) {
 }
 
 echo "
-<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[56vh]'>
+<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[62vh]'>
     <!-- Header -->
     <div class='grid grid-cols-4 p-2 bg-gray-700 sticky top-0 text-center'>
         <div class='flex justify-center items-center col-span-1'>Name</div>

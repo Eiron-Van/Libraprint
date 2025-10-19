@@ -22,7 +22,6 @@ if (!empty($search)) {
            OR r.purpose LIKE ?
            OR r.date_reserved LIKE ?
         ORDER BY r.id DESC
-        LIMIT 100
     ");
     $logs->bind_param("ssss", $safe_search, $safe_search, $safe_search, $safe_search);
 } else {
@@ -36,7 +35,6 @@ if (!empty($search)) {
         JOIN users AS u ON r.user_id = u.user_id
         JOIN book_inventory AS b ON r.item_id = b.item_id
         ORDER BY r.id DESC
-        LIMIT 100
     ");
 }
 
@@ -50,7 +48,7 @@ if ($logsResult->num_rows === 0) {
 }
 
 echo "
-<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[56vh]'>
+<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[62vh]'>
     <div class='grid grid-cols-4 p-2 bg-gray-700 sticky top-0 text-center'>
         <div class='flex justify-center items-center col-span-1'>Name</div>
         <div class='flex justify-center items-center col-span-1'>Book Name</div>
