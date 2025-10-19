@@ -62,5 +62,26 @@ if ($conn->query($sql2) === TRUE) {
     echo "Error Step 2: " . $conn->error . "<br>";
 }
 
+// Step 3: Log delinquent borrowers (those with at least 1 overdue book)
+$sql3 = "
+    INSERT INTO delinquent_log (user_id, total_overdue_books, logged_at)
+    SELECT 
+        b.user_id,
+        COUNT(*) AS total_overdue_books,
+        NOW()
+    FROM borrow_log AS b
+    WHERE b.status = 'Overdue'
+    GROUP BY b.user_id
+    HAVING COUNT(*) >= 1
+    ON DUPLICATE KEY UPDATE 
+        total_overdue_books = VALUES(total_overdue_books),
+        logged_at = NOW()
+";
+if ($conn->query($sql3) === TRUE) {
+    echo "Step 3 success — delinquent borrowers logged.<br>";
+} else {
+    echo "Error Step 3: " . $conn->error . "<br>";
+}
+
 
 $conn->close();
