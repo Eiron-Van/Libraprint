@@ -110,7 +110,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                     </div>
 
                     <!-- Table -->
-                    <div class="w-fit" id="results">Loading...</div>
+                    <div class="w-full overflow-x-auto" id="results">Loading...</div>
                     
                 </section>
                 
