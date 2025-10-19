@@ -779,6 +779,9 @@
   .min-w-\[350px\] {
     min-width: 350px;
   }
+  .min-w-\[400px\] {
+    min-width: 400px;
+  }
   .min-w-full {
     min-width: 100%;
   }

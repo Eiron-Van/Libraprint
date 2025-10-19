@@ -97,7 +97,7 @@ function highlightTerms(string $text, string $search): string {
     return $out;
 }
 
-echo "<div class='max-h-[50vh] overflow-auto rounded-xl shadow-md border border-gray-700 bg-white'>
+echo "<div class='max-h-[50vh] min-w-[400px] overflow-auto rounded-xl shadow-md border border-gray-700 bg-white'>
         <!-- Reserved Section Label -->
         <div class='w-full bg-blue-200 text-black sticky top-0 z-9 px-6 py-2 font-semibold'>
                 Your Reserved Books
