@@ -50,7 +50,7 @@ if ($logsResult->num_rows === 0) {
 }
 
 echo "
-<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[62vh]'>
+<div class='overflow-auto rounded-lg shadow-lg shadow-gray-500/30 max-h-[56vh]'>
     <div class='grid grid-cols-4 p-2 bg-gray-700 sticky top-0 text-center'>
         <div class='flex justify-center items-center col-span-1'>Name</div>
         <div class='flex justify-center items-center col-span-1'>Book Name</div>
