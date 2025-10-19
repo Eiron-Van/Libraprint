@@ -20,6 +20,29 @@ if ($conn->query($sql1) === TRUE) {
     echo "Error Step 1: " . $conn->error . "<br>";
 }
 
+// Step 1.5: Insert new overdue records into overdue_log if not already logged
+$sql_insert = "
+    INSERT INTO overdue_log (borrow_id, user_id, book_id, date_overdue_detected, days_overdue)
+    SELECT 
+        b.id AS borrow_id,
+        b.user_id,
+        b.book_id,
+        NOW() AS date_overdue_detected,
+        DATEDIFF(CURDATE(), b.date_borrowed) AS days_overdue
+    FROM borrow_log AS b
+    WHERE b.date_returned IS NULL
+      AND b.status = 'Overdue'
+      AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
+";
+
+if ($conn->query($sql_insert) === TRUE) {
+    $affected3 = $conn->affected_rows;
+    echo "Step 1.5 success — $affected3 new overdue_log record(s) added.<br>";
+} else {
+    echo "Error Step 1.5: " . $conn->error . "<br>";
+}
+
+
 // Step 2: Mark corresponding books as Missing
 $sql2 = "
     UPDATE book_inventory

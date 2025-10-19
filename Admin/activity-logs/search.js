@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", function () {
         case "Borrow Logs":
           currentFile = "fetch_borrow_logs.php";
           break;
+        case "Overdue Logs":
+          currentFile = "fetch_overdue_logs.php";
+          break;
       }
 
       // Reset search field and fetch data
