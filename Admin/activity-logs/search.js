@@ -60,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
         case "Overdue Logs":
           currentFile = "fetch_overdue_logs.php";
           break;
+        case "Delinquent Logs":
+          currentFile = "fetch_delinquent_logs.php";
+          break;
       }
 
       // Reset search field and fetch data
