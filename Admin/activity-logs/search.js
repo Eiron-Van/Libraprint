@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultsContainer = document.getElementById("results");
 
   // Track which log type is active
-  let currentFile = "fetch_login_logs.php"; // default
+  let currentFile = "fetch_login_logs.php"; // default view
 
   // Generic function to fetch results
-  function fetchResults(query = "", page = 1) {
+  function fetchResults(query = "") {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `${currentFile}?search=${encodeURIComponent(query)}&page=${page}`, true);
+    xhr.open("GET", `${currentFile}?search=${encodeURIComponent(query)}`, true);
 
     xhr.onload = function () {
       if (xhr.status === 200) {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Initial load
-  fetchResults();
+  fetchResults("");
 
   // Debounced live search
   let timer;
@@ -35,12 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   });
 
-  // Listen for dropdown menu clicks
+  // Listen for dropdown button clicks
   document.querySelectorAll(".dropdown-log").forEach((btn) => {
     btn.addEventListener("click", function () {
       const type = this.textContent.trim();
 
-      // Determine which PHP file to fetch
+      // Determine which file to fetch
       switch (type) {
         case "Login Logs":
           currentFile = "fetch_login_logs.php";
@@ -62,26 +62,15 @@ document.addEventListener("DOMContentLoaded", function () {
           break;
       }
 
-      // Reset search and load new type
+      // Reset search field and fetch data
       searchInput.value = "";
-      fetchResults();
+      fetchResults("");
 
-      // Highlight selected option
+      // Active style (highlight the selected log)
       document.querySelectorAll(".dropdown-log").forEach((el) => {
         el.classList.remove("bg-gray-600");
       });
       this.classList.add("bg-gray-600");
     });
-  });
-
-  // Handle pagination clicks
-  document.addEventListener("click", function (e) {
-    const pageLink = e.target.closest(".page-link");
-    if (pageLink) {
-      e.preventDefault();
-      const page = pageLink.dataset.page;
-      const searchValue = searchInput.value;
-      fetchResults(searchValue, page);
-    }
   });
 });
