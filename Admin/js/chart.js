@@ -35,6 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     label: "Total Visitors",
                     data: data.monthly.counts,
                     backgroundColor: "#36A2EB"
+                },
+                {
+                type: "line",
+                label: "Trend",
+                data: data.monthly.counts,
+                borderColor: "#FF6384",
+                borderWidth: 2,
+                fill: false
                 }]
                 },
                 options: {
