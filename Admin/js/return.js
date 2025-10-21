@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // ✅ Send request to backend
 function processReturn(barcode) {
     fetch("api/return_book.php", {
         method: "POST",
@@ -7,44 +9,61 @@ function processReturn(barcode) {
         .then((res) => res.json())
         .then((data) => {
             hideMessages();
+            const barcodeInput = document.getElementById("returnBookBtn");
 
+            // ✅ If success and overdue
             if (data.success && data.overdue) {
-                // ✅ Show overdue fine alert
                 Swal.fire({
-                    title: "Overdue Book!",
+                    title: "Overdue Book Detected!",
                     html: `
                         <p><b>${data.book_title}</b></p>
                         <p>This book is overdue by <b>${data.days_overdue} day(s)</b>.</p>
-                        <p>Fine Amount: <b>₱${data.fine}</b></p>
+                        <p>Fine: <b>₱${data.fine}</b></p>
                     `,
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Print Bill",
                     cancelButtonText: "Dismiss",
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Open printable bill page
+                    if (result.isConfirmed && data.borrow_id) {
                         window.open("print_bill.php?borrow_id=" + data.borrow_id, "_blank");
                     }
                 });
 
-                // ✅ Clear barcode input
-                const barcodeInput = document.getElementById("returnBarcode");
+                // ✅ Clear and refocus input
                 barcodeInput.value = "";
                 barcodeInput.focus();
-            } 
+            }
+
+            // ✅ If success and not overdue
             else if (data.success) {
-                // ✅ Normal return
-                Swal.fire("Returned!", "Book successfully returned.", "success");
-                const barcodeInput = document.getElementById("returnBarcode");
+                const successMsg = document.getElementById("returnSuccess");
+                successMsg.classList.remove("hidden");
                 barcodeInput.value = "";
                 barcodeInput.focus();
-            } 
+
+                setTimeout(() => {
+                    successMsg.classList.add("hidden");
+                }, 2000);
+            }
+
+            // ❌ If error from backend
             else {
-                Swal.fire("Error", data.error || "Unknown error occurred", "error");
+                const errorMsg = document.getElementById("returnError");
+                errorMsg.classList.remove("hidden");
+                barcodeInput.value = "";
+                barcodeInput.focus();
+
+                setTimeout(() => {
+                    errorMsg.classList.add("hidden");
+                }, 2000);
             }
         })
         .catch(() => {
+            hideMessages();
             Swal.fire("Error", "Server error while processing return.", "error");
         });
 }
+
+})
+
