@@ -46,32 +46,33 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((res) => res.json())
             .then((data) => {
                 hideMessages();
-                if (data.success) {
-                    const successMsg = document.getElementById("returnSuccess");
-                    successMsg.classList.remove("hidden");
 
-                    // ✅ Clear barcode input
+                // ✅ If successful
+                if (data.success) {
                     const barcodeInput = document.getElementById("returnBarcode");
                     barcodeInput.value = "";
                     barcodeInput.focus();
 
-                    // ✅ Hide message after 2 seconds
-                    setTimeout(() => {
-                        successMsg.classList.add("hidden");
-                    }, 2000);
+                    if (data.overdue) {
+                        // ✅ Show billing overlay receipt
+                        showBillingReceipt(data);
+                    } else {
+                        // ✅ Show normal success message
+                        const successMsg = document.getElementById("returnSuccess");
+                        successMsg.classList.remove("hidden");
+                        setTimeout(() => successMsg.classList.add("hidden"), 2000);
+                    }
+
                 } else {
+                    // ❌ Show error
                     const errorMsg = document.getElementById("returnError");
                     errorMsg.classList.remove("hidden");
 
-                    // ✅ Clear invalid input
                     const barcodeInput = document.getElementById("returnBarcode");
                     barcodeInput.value = "";
                     barcodeInput.focus();
 
-                    // ✅ Hide message after 2 seconds
-                    setTimeout(() => {
-                        errorMsg.classList.add("hidden");
-                    }, 2000);
+                    setTimeout(() => errorMsg.classList.add("hidden"), 2000);
                 }
 
             })
@@ -80,4 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("returnError").classList.remove("hidden");
             });
     }
+
+    // ✅ Function to show billing receipt overlay
+    function showBillingReceipt(data) {
+        const receiptOverlay = document.getElementById("receiptOverlay");
+        document.getElementById("receiptBorrower").innerText = data.borrower;
+        document.getElementById("receiptBook").innerText = data.book_title;
+        document.getElementById("receiptDays").innerText = data.days_overdue;
+        document.getElementById("receiptPenalty").innerText = data.penalty.toFixed(2);
+        document.getElementById("receiptDate").innerText = new Date().toLocaleString();
+
+        receiptOverlay.classList.remove("hidden");
+        receiptOverlay.classList.add("flex");
+    }
+
+    // ✅ Hide receipt overlay when clicking close or outside
+    document.getElementById("closeReceiptBtn").addEventListener("click", () => {
+        const receiptOverlay = document.getElementById("receiptOverlay");
+        receiptOverlay.classList.add("hidden");
+        receiptOverlay.classList.remove("flex");
+    });
+
+    document.getElementById("receiptOverlay").addEventListener("click", (e) => {
+        if (e.target.id === "receiptOverlay") {
+            const receiptOverlay = document.getElementById("receiptOverlay");
+            receiptOverlay.classList.add("hidden");
+            receiptOverlay.classList.remove("flex");
+        }
+    });
 });

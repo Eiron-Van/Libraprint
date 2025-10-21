@@ -178,6 +178,23 @@
             <button id="closeReturnBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>
         </div>
     </div>
+    
+    <!-- Receipt Overlay -->
+    <div id="receiptOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg w-96 text-center shadow-lg">
+            <h2 class="text-xl font-bold mb-3">Library Billing Receipt</h2>
+            <p><strong>Borrower:</strong> <span id="receiptBorrower"></span></p>
+            <p><strong>Book Title:</strong> <span id="receiptBook"></span></p>
+            <p><strong>Days Overdue:</strong> <span id="receiptDays"></span></p>
+            <p><strong>Total Penalty:</strong> ₱<span id="receiptPenalty"></span></p>
+            <p class="text-sm mt-2 text-gray-500">Date: <span id="receiptDate"></span></p>
+
+            <div class="mt-4 space-x-2">
+            <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded">Print</button>
+            <button id="closeReceiptBtn" class="bg-gray-400 px-4 py-2 rounded">Close</button>
+            </div>
+        </div>
+    </div>
 
 
     
