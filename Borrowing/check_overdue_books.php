@@ -28,12 +28,14 @@ $sql_insert = "
         b.user_id,
         b.book_id,
         NOW() AS date_overdue_detected,
-        DATEDIFF(CURDATE(), b.date_borrowed) AS days_overdue
+        DATEDIFF(CURDATE(), b.date_borrowed) - 7 AS days_overdue
     FROM borrow_log AS b
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
+      AND DATEDIFF(CURDATE(), b.date_borrowed) > 7
       AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
 ";
+
 
 if ($conn->query($sql_insert) === TRUE) {
     $affected3 = $conn->affected_rows;
