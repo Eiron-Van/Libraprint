@@ -1,69 +1,83 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    // ✅ Show overlay when button is clicked
+    document.getElementById("returnBookBtn").addEventListener("click", () => {
+        const overlay = document.getElementById("returnOverlay");
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+        document.getElementById("returnBarcode").focus();
+    });
+
+    // ✅ Hide overlay when clicking "X" or outside
+    document.getElementById("closeReturnBtn").addEventListener("click", closeOverlay);
+    document.getElementById("returnOverlay").addEventListener("click", (e) => {
+        if (e.target.id === "returnOverlay") closeOverlay();
+    });
+
+    function closeOverlay() {
+        const overlay = document.getElementById("returnOverlay");
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+        document.getElementById("returnBarcode").value = "";
+        hideMessages();
+    }
+
+    // ✅ Hide messages
+    function hideMessages() {
+        document.getElementById("returnSuccess").classList.add("hidden");
+        document.getElementById("returnError").classList.add("hidden");
+    }
+
+    // ✅ Handle barcode scan/enter
+    document.getElementById("returnBarcode").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            const barcode = e.target.value.trim();
+            if (barcode) processReturn(barcode);
+        }
+    });
+
     // ✅ Send request to backend
-function processReturn(barcode) {
-    fetch("api/return_book.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "barcode=" + encodeURIComponent(barcode),
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            hideMessages();
-            const barcodeInput = document.getElementById("returnBookBtn");
-
-            // ✅ If success and overdue
-            if (data.success && data.overdue) {
-                Swal.fire({
-                    title: "Overdue Book Detected!",
-                    html: `
-                        <p><b>${data.book_title}</b></p>
-                        <p>This book is overdue by <b>${data.days_overdue} day(s)</b>.</p>
-                        <p>Fine: <b>₱${data.fine}</b></p>
-                    `,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Print Bill",
-                    cancelButtonText: "Dismiss",
-                }).then((result) => {
-                    if (result.isConfirmed && data.borrow_id) {
-                        window.open("print_bill.php?borrow_id=" + data.borrow_id, "_blank");
-                    }
-                });
-
-                // ✅ Clear and refocus input
-                barcodeInput.value = "";
-                barcodeInput.focus();
-            }
-
-            // ✅ If success and not overdue
-            else if (data.success) {
-                const successMsg = document.getElementById("returnSuccess");
-                successMsg.classList.remove("hidden");
-                barcodeInput.value = "";
-                barcodeInput.focus();
-
-                setTimeout(() => {
-                    successMsg.classList.add("hidden");
-                }, 2000);
-            }
-
-            // ❌ If error from backend
-            else {
-                const errorMsg = document.getElementById("returnError");
-                errorMsg.classList.remove("hidden");
-                barcodeInput.value = "";
-                barcodeInput.focus();
-
-                setTimeout(() => {
-                    errorMsg.classList.add("hidden");
-                }, 2000);
-            }
+    function processReturn(barcode) {
+        fetch("api/return_book.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "barcode=" + encodeURIComponent(barcode),
         })
-        .catch(() => {
-            hideMessages();
-            Swal.fire("Error", "Server error while processing return.", "error");
-        });
-}
+            .then((res) => res.json())
+            .then((data) => {
+                hideMessages();
+                if (data.success) {
+                    const successMsg = document.getElementById("returnSuccess");
+                    successMsg.classList.remove("hidden");
 
-})
+                    // ✅ Clear barcode input
+                    const barcodeInput = document.getElementById("returnBarcode");
+                    barcodeInput.value = "";
+                    barcodeInput.focus();
 
+                    // ✅ Hide message after 2 seconds
+                    setTimeout(() => {
+                        successMsg.classList.add("hidden");
+                    }, 2000);
+                } else {
+                    const errorMsg = document.getElementById("returnError");
+                    errorMsg.classList.remove("hidden");
+
+                    // ✅ Clear invalid input
+                    const barcodeInput = document.getElementById("returnBarcode");
+                    barcodeInput.value = "";
+                    barcodeInput.focus();
+
+                    // ✅ Hide message after 2 seconds
+                    setTimeout(() => {
+                        errorMsg.classList.add("hidden");
+                    }, 2000);
+                }
+
+            })
+            .catch(() => {
+                hideMessages();
+                document.getElementById("returnError").classList.remove("hidden");
+            });
+    }
+});
