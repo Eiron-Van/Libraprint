@@ -86,6 +86,10 @@
                     <h3 class="text-lg font-semibold mb-3">Gender Distribution</h3>
                     <canvas id="genderChart"></canvas>
                 </div>
+                <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[70vh]">
+                    <h3 class="text-lg font-semibold mb-3">Monthly Attendance Summery</h3>
+                    <canvas id="monthlyAttendanceChart"></canvas>
+                </div>
             </div>
         </section>
 
@@ -180,7 +184,7 @@
     </div>
     
     <!-- Receipt Overlay -->
-    <div id="receiptOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div id="receiptOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-51">
         <div class="bg-white p-6 rounded-lg w-96 text-center shadow-lg">
             <h2 class="text-xl font-bold mb-3">Library Billing Receipt</h2>
             <p><strong>Borrower:</strong> <span id="receiptBorrower"></span></p>

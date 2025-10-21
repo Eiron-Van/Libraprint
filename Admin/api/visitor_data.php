@@ -28,6 +28,23 @@ while ($row = $dailyResult->fetch_assoc()) {
     $dailyData['counts'][] = (int)$row['count'];
 }
 
+// Monthly Attendance Summary
+$monthlyQuery = "
+    SELECT 
+        MONTHNAME(login_time) AS month,
+        COUNT(id) AS total
+    FROM login_record
+    WHERE YEAR(login_time) = YEAR(CURRENT_DATE())
+    GROUP BY MONTH(login_time)
+    ORDER BY MONTH(login_time)
+";
+$monthlyResult = $conn->query($monthlyQuery);
+$monthlyData = ['labels' => [], 'counts' => []];
+while ($row = $monthlyResult->fetch_assoc()) {
+    $monthlyData['labels'][] = $row['month'];
+    $monthlyData['counts'][] = (int)$row['total'];
+}
+
 //  Purpose Distribution
 $purposeQuery = "
     SELECT purpose, COUNT(*) AS count
@@ -96,6 +113,7 @@ while ($row = $ageResult->fetch_assoc()) {
 echo json_encode([
     'totalVisitors' => $totalVisitors,
     'daily' => $dailyData,
+    'monthly' => $monthlyData,
     'purpose' => $purposeData,
     'gender' => $genderData,
     'age' => $ageData

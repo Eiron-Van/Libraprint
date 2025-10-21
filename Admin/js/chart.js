@@ -25,6 +25,46 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
+            // Monthly Attendance Summary (Bar Chart)
+            if (data.monthly && data.monthly.labels.length > 0) {
+            new Chart(document.getElementById("monthlyAttendanceChart"), {
+                type: "bar",
+                data: {
+                labels: data.monthly.labels,
+                datasets: [{
+                    label: "Total Visitors",
+                    data: data.monthly.counts,
+                    backgroundColor: "#36A2EB"
+                }]
+                },
+                options: {
+                scales: {
+                    y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Visitors"
+                    }
+                    },
+                    x: {
+                    title: {
+                        display: true,
+                        text: "Month"
+                    }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                    display: false
+                    }
+                }
+                }
+            });
+            } else {
+            console.warn("No monthly attendance data found.");
+            }
+
             // Purpose Distribution Donut Chart
             new Chart(document.getElementById("purposeChart"), {
                 type: "doughnut",
