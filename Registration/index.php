@@ -286,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- Check Box -->
             <div class="flex items-center justify-center p-4">
-                <button class="bg-blue-500 shadow-lg shadow-blue-500/50 text-black px-4 py-2 rounded">Ok</button>
+                <button class="bg-blue-400 hover:bg-blue-500 shadow-lg shadow-blue-500/50 text-black px-4 py-2 rounded-lg">Ok</button>
             </div>
         </div>
     </div>
