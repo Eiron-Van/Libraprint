@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </button>
 
                 <div id="termsCheckboxBtn" class="absolute left-4 bottom-3 text-white select-none hover:underline">
-                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" readonly>
+                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" disabled>
                     <label for="termsCheckbox">I agree to the terms and conditions</label>
                 </div>
 
