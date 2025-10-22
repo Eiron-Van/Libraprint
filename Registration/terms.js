@@ -8,6 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const termsButton = document.getElementById('termsBtn');
     const closeTerms = document.getElementById('closeTerms');
 
+    termsCheckbox.addEventListener('click', () => {
+        if (!termsCheckbox.checked) {
+            termsOverlay.classList.remove('hidden');
+            termsOverlay.classList.add('flex');
+        }else{
+            termsCheckbox.checked = false;
+        }
+    });
+
     termsCheckboxButton.addEventListener('click', () => {
         if (!termsCheckbox.checked) {
             termsOverlay.classList.remove('hidden');
