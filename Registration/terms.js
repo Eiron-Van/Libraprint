@@ -4,8 +4,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const termsCheckbox = document.getElementById('termsCheckbox');
     const submitBtn = document.getElementById('submitBtn');
     const termsOverlay = document.getElementById('termsOverlay');
+    const termsButton = document.getElementById('termsBtn');
     const closeTerms = document.getElementById('closeTerms');
     const viewTerms = document.getElementById('viewTerms');
+
+    termsCheckbox.addEventListener('click', function (e) {
+        if (!termsCheckbox.checked) {
+        e.preventDefault(); // prevent checking
+        termsOverlay.classList.remove('hidden');
+        termsOverlay.classList.add('flex');
+        }
+    });
+
+    termsButton.addEventListener('click', function () {
+        termsCheckbox.checked = true; // check the box
+        termsOverlay.classList.add('hidden');
+        termsOverlay.classList.remove('flex');
+    });
+
+
+
 
     // Enable/disable submit button based on checkbox
     termsCheckbox.addEventListener('change', () => {
