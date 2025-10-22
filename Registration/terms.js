@@ -1,18 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // Get elements
+    const termsCheckboxButton = document.getElementById('termsCheckboxBtn');
     const termsCheckbox = document.getElementById('termsCheckbox');
     const submitBtn = document.getElementById('submitBtn');
     const termsOverlay = document.getElementById('termsOverlay');
     const termsButton = document.getElementById('termsBtn');
     const closeTerms = document.getElementById('closeTerms');
-    const viewTerms = document.getElementById('viewTerms');
 
-    termsCheckbox.addEventListener('click', function (e) {
+    termsCheckboxButton.addEventListener('click', () => {
         if (!termsCheckbox.checked) {
-        e.preventDefault(); // prevent checking
-        termsOverlay.classList.remove('hidden');
-        termsOverlay.classList.add('flex');
+            termsOverlay.classList.remove('hidden');
+            termsOverlay.classList.add('flex');
+        }else{
+            termsCheckbox.checked = false;
         }
     });
 
@@ -21,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         termsOverlay.classList.add('hidden');
         termsOverlay.classList.remove('flex');
     });
-
-
 
 
     // Enable/disable submit button based on checkbox
@@ -38,12 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Show overlay when clicking "I agree to the terms"
-    viewTerms.addEventListener('click', (e) => {
-        e.preventDefault();
-        termsOverlay.classList.remove('hidden');
-        termsOverlay.classList.add('flex');
-    });
 
     // Close overlay when clicking X button
     closeTerms.addEventListener('click', () => {

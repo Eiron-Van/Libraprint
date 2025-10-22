@@ -194,10 +194,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button id="submitBtn" type="submit" disabled class="absolute bottom-7 text-2xl text-white bg-gray-400 px-50 py-2 rounded-2xl opacity-70 cursor-not-allowed">
                     Submit
                 </button>
-                <div class="absolute left-4 bottom-3 text-white select-none">
-                    <input type="checkbox" id="termsCheckbox" class="">
-                    <button type="button" id="viewTerms" class="cursor-pointer hover:underline">I agree to the terms and conditions</button>
-                </div>
+
+                <button id="termsCheckboxBtn" class="absolute left-4 bottom-3 text-white select-none hover:underline">
+                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" readonly>
+                    <label for="termsCheckbox">I agree to the terms and conditions</label>
+                </button>
 
             </form>
         </div>
