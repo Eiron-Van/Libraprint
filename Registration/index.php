@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Submit
                 </button>
                 <div class="absolute left-4 bottom-3 text-white select-none">
-                    <input type="checkbox" id="termsCheckbox">
+                    <input type="checkbox" id="termsCheckbox" disabled class="cursor-none">
                     <button type="button" id="viewTerms" class="cursor-pointer hover:underline">I agree to the terms and conditions</button>
                 </div>
 
@@ -282,6 +282,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class="text-gray-700 mb-2">4.1 Personal and biometric data is collected solely for library services.</p>
                     <p class="text-gray-700">4.2 Users may request access, correction, or deletion of data under applicable laws.</p>
                 </section>
+            </div>
+
+            <!-- Check Box -->
+            <div>
+                <input type="checkbox" name="terms" id="terms">
+                <label for="terms">I agree to the terms and conditions</label>
             </div>
         </div>
     </div>

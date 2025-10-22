@@ -87,7 +87,7 @@
                     <canvas id="genderChart"></canvas>
                 </div>
                 <div class="bg-white/10 p-6 rounded-xl grid place-content-center h-[70vh]">
-                    <h3 class="text-lg font-semibold mb-3">Monthly Attendance Summery</h3>
+                    <h3 class="text-lg font-semibold mb-3">Monthly Attendance Summary</h3>
                     <canvas id="monthlyAttendanceChart"></canvas>
                 </div>
             </div>
