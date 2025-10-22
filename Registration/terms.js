@@ -9,11 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeTerms = document.getElementById('closeTerms');
 
     termsCheckbox.addEventListener('click', () => {
+        if (termsCheckbox.checked) {
+            termsCheckbox.checked = false;
+        }
+    });
+
+    termsCheckbox.addEventListener('click', () => {
         if (!termsCheckbox.checked) {
             termsOverlay.classList.remove('hidden');
             termsOverlay.classList.add('flex');
-        }else{
-            termsCheckbox.checked = false;
         }
     });
 
