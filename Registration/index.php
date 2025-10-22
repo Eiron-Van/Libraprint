@@ -195,10 +195,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Submit
                 </button>
 
-                <button id="termsCheckboxBtn" class="absolute left-4 bottom-3 text-white select-none hover:underline">
-                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" disabled>
+                <div id="termsCheckboxBtn" class="absolute left-4 bottom-3 text-white select-none hover:underline">
+                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" readonly>
                     <label for="termsCheckbox">I agree to the terms and conditions</label>
-                </button>
+                </div>
 
             </form>
         </div>
