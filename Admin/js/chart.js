@@ -263,6 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/Admin/api/apriori_data.php")
         .then(res => res.json())
         .then(data => {
+            console.log("Data Recieved")
             const transactions = data.transactions;
             const rules = apriori(transactions, 0.2, 0.6); // tune support/confidence
 
