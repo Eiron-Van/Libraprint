@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-    function apriori(transactions, minSupport = 0.2, minConfidence = 0.5) {
+function apriori(transactions, minSupport = 0.2, minConfidence = 0.5) {
     const itemCounts = {};
     const transactionCount = transactions.length;
 
@@ -37,10 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             confidence: confidence.toFixed(2)
             });
         }
-        }
     }
-
+}
     return rules;
-    }
-
-});
+}
