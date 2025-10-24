@@ -259,4 +259,25 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         })
     .catch(err => console.error("Reading Trends Error:", err));
+
+    fetch("/Admin/api/apriori_data.php")
+        .then(res => res.json())
+        .then(data => {
+            const transactions = data.transactions;
+            const rules = apriori(transactions, 0.2, 0.6); // tune support/confidence
+
+            const tableBody = document.getElementById("aprioriTableBody");
+            tableBody.innerHTML = "";
+
+            rules.forEach(r => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="border px-3 py-2">${r.rule}</td>
+                <td class="border px-3 py-2">${r.support}</td>
+                <td class="border px-3 py-2">${r.confidence}</td>
+            `;
+            tableBody.appendChild(row);
+            });
+        })
+    .catch(err => console.error("Apriori Error:", err));
 });

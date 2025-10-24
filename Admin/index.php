@@ -161,9 +161,25 @@
                     <canvas id="readBorrowChart"></canvas>
                 </div>
             </div>
-
-            
         </section>
+
+        <!-- Section D: Apriori Association -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-4">🧠 Apriori Association Insights</h2>
+            <div class="bg-white/10 p-6 rounded-xl overflow-x-auto">
+                <table class="w-full text-white border border-gray-500">
+                <thead>
+                    <tr class="bg-white/20">
+                    <th class="px-3 py-2 text-left">Association Rule</th>
+                    <th class="px-3 py-2 text-left">Support</th>
+                    <th class="px-3 py-2 text-left">Confidence</th>
+                    </tr>
+                </thead>
+                <tbody id="aprioriTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
     </main>
 
     <!-- 📘 Return Book Overlay -->
