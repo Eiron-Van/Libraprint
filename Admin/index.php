@@ -171,8 +171,8 @@
                 <table class="w-full text-white border border-gray-500">
                 <thead>
                     <tr class="bg-white/20">
-                    <th class="px-3 py-2 text-left">Association Rule</th>
-                    <th class="px-3 py-2 text-left">Support</th>
+                    <th class="px-3 py-2 text-left">Reading Relationship</th>
+                    <th class="px-3 py-2 text-left">Frequency</th>
                     <th class="px-3 py-2 text-left">Confidence</th>
                     </tr>
                 </thead>

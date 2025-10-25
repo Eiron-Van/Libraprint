@@ -264,65 +264,58 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
         const container = document.getElementById("aprioriAgeGroups");
-        const tableBody = document.getElementById("aprioriTableBody");
+        const summaryContainer = document.getElementById("aprioriTableBody"); // reuse this container
         const ctx = document.getElementById("aprioriGraph");
         container.innerHTML = "";
-        tableBody.innerHTML = "";
+        summaryContainer.innerHTML = "";
 
-        let allRules = []; // ✅ store all rules across age groups
+        let allRules = [];
 
-        // 🔹 Generate Apriori tables per age group
         Object.entries(data.age_groups).forEach(([ageGroup, transactions]) => {
         const rules = apriori(transactions, 0.2, 0.5, 3);
         allRules = allRules.concat(
-            rules.map(r => ({ ...r, ageGroup })) // keep track of group
+            rules.map(r => ({ ...r, ageGroup }))
         );
 
+        // 🧩 For per age-group insights
         const section = document.createElement("section");
         section.className = "mb-8 bg-white/10 p-4 rounded-lg";
         section.innerHTML = `
             <h3 class="text-xl font-semibold mb-3">${ageGroup}</h3>
-            <table class="w-full text-white border border-gray-500">
-            <thead>
-                <tr class="bg-white/20">
-                <th class="px-3 py-2">Reading Relationship</th>
-                <th class="px-3 py-2">Frequency</th>
-                <th class="px-3 py-2">Likelihood</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rules
-                .map(
-                    r => `
-                <tr>
-                    <td class="border px-3 py-2">${r.rule}</td>
-                    <td class="border px-3 py-2">${r.support}</td>
-                    <td class="border px-3 py-2">${r.confidence}</td>
-                </tr>`
-                )
-                .join("")}
-            </tbody>
-            </table>`;
+            <ul class="list-disc pl-6 space-y-2 text-gray-200">
+            ${rules.map(r => `
+                <li>
+                Out of all <strong>${ageGroup}</strong> visitors, 
+                <strong>${(r.support * 100).toFixed(0)}%</strong> read both 
+                <strong>${r.rule.replace("→", "</strong> and <strong>")}</strong>; 
+                when someone reads 
+                <strong>${r.rule.split("→")[0].trim()}</strong>, 
+                <strong>${(r.confidence * 100).toFixed(0)}%</strong> of the time 
+                they also read <strong>${r.rule.split("→")[1].trim()}</strong>.
+                </li>
+            `).join("")}
+            </ul>`;
         container.appendChild(section);
         });
 
-        // 🔹 Fill the main Apriori Table (Top Overall Rules)
-        const sortedRules = allRules.sort(
-        (a, b) => b.confidence - a.confidence
-        );
-        const topRules = sortedRules.slice(0, 10);
+        // 🔹 Sort all rules by confidence and get top 10
+        const topRules = allRules.sort((a, b) => b.confidence - a.confidence).slice(0, 10);
 
-        topRules.forEach(r => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td class="border px-3 py-2">${r.rule} (${r.ageGroup})</td>
-            <td class="border px-3 py-2">${r.support}</td>
-            <td class="border px-3 py-2">${r.confidence}</td>
-        `;
-        tableBody.appendChild(row);
-        });
+        // 🧩 Create readable summary list for overall Apriori
+        summaryContainer.innerHTML = topRules.map(r => `
+        <tr>
+            <td colspan="3" class="border px-3 py-3">
+            Out of all <strong>${r.ageGroup}</strong> visitors, 
+            <strong>${(r.support * 100).toFixed(0)}%</strong> read both 
+            <strong>${r.rule.replace("→", "</strong> and <strong>")}</strong>; 
+            when someone reads <strong>${r.rule.split("→")[0].trim()}</strong>, 
+            <strong>${(r.confidence * 100).toFixed(0)}%</strong> of the time they also read 
+            <strong>${r.rule.split("→")[1].trim()}</strong>.
+            </td>
+        </tr>
+        `).join("");
 
-        // 🔹 Generate the Genre Association Bubble Graph
+        // 🔹 Draw the bubble chart visualization
         new Chart(ctx, {
         type: "bubble",
         data: {
@@ -339,20 +332,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 callbacks: {
                 label: context => {
                     const rule = topRules[context.dataIndex];
-                    return `${rule.rule} (${rule.ageGroup}) | Support: ${
-                    rule.support
-                    } | Confidence: ${rule.confidence}`;
+                    return `${rule.ageGroup}: ${rule.rule} (Support ${(rule.support * 100).toFixed(0)}%, Confidence ${(rule.confidence * 100).toFixed(0)}%)`;
                 }
                 }
             }
             },
-            scales: {
-            x: { display: false },
-            y: { display: false }
-            }
+            scales: { x: { display: false }, y: { display: false } }
         }
         });
     })
     .catch(err => console.error("Apriori Error:", err));
+
 
 });
