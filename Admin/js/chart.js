@@ -261,24 +261,59 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("Reading Trends Error:", err));
 
     fetch("/Admin/api/apriori_data.php")
-        .then(res => res.json())
-        .then(data => {
-            console.log("Data Recieved")
-            const transactions = data.transactions;
-            const rules = apriori(transactions, 0.2, 0.6); // tune support/confidence
+    .then(res => res.json())
+    .then(data => {
+        const container = document.getElementById("aprioriAgeGroups");
+        container.innerHTML = "";
 
-            const tableBody = document.getElementById("aprioriTableBody");
-            tableBody.innerHTML = "";
+        Object.entries(data.age_groups).forEach(([ageGroup, transactions]) => {
+        const rules = apriori(transactions, 0.2, 0.5, 3); // includes 3-item rules
 
-            rules.forEach(r => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
+        const section = document.createElement("section");
+        section.className = "mb-8 bg-white/10 p-4 rounded-lg";
+        section.innerHTML = `<h3 class="text-xl font-semibold mb-3">${ageGroup}</h3>
+            <table class="w-full text-white border border-gray-500">
+            <thead><tr class="bg-white/20">
+                <th class="px-3 py-2">Reading Relationship</th>
+                <th class="px-3 py-2">Frequency</th>
+                <th class="px-3 py-2">Likelihood</th>
+            </tr></thead>
+            <tbody>${rules.map(r => `
+                <tr>
                 <td class="border px-3 py-2">${r.rule}</td>
                 <td class="border px-3 py-2">${r.support}</td>
                 <td class="border px-3 py-2">${r.confidence}</td>
-            `;
-            tableBody.appendChild(row);
-            });
-        })
+                </tr>`).join("")}</tbody>
+            </table>`;
+        container.appendChild(section);
+        });
+
+        const topRules = rules.slice(0, 10); // top 10 strongest
+        const ctx = document.getElementById("aprioriGraph");
+
+        new Chart(ctx, {
+        type: "bubble",
+        data: {
+            datasets: topRules.map((r, i) => ({
+            label: r.rule,
+            data: [{ x: i * 2, y: i * 3, r: r.confidence * 20 }],
+            backgroundColor: `hsl(${i * 40}, 70%, 60%)`
+            }))
+        },
+        options: {
+            plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                label: ctx => `${ctx.raw.x} → ${ctx.raw.y}: ${topRules[ctx.dataIndex].rule}`
+                }
+            }
+            },
+            scales: { x: { display: false }, y: { display: false } }
+        }
+        });
+
+    })
     .catch(err => console.error("Apriori Error:", err));
+
 });

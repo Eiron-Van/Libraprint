@@ -179,6 +179,14 @@
                 <tbody id="aprioriTableBody"></tbody>
                 </table>
             </div>
+            <div class="bg-white/10 p-6 rounded-xl mt-8">
+                <h3 class="text-lg font-semibold mb-3">Genre Association Graph</h3>
+                <canvas id="aprioriGraph"></canvas>
+            </div>
+        </section>
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-4">🧠 Apriori Association Insights (Per Age Group)</h2>
+            <div id="aprioriAgeGroups"></div>
         </section>
 
     </main>
