@@ -314,32 +314,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </td>
         </tr>
         `).join("");
-
-        // 🔹 Draw the bubble chart visualization
-        new Chart(ctx, {
-        type: "bubble",
-        data: {
-            datasets: topRules.map((r, i) => ({
-            label: `${r.rule} (${r.ageGroup})`,
-            data: [{ x: i * 2, y: i * 3, r: r.confidence * 20 }],
-            backgroundColor: `hsl(${i * 40}, 70%, 60%)`
-            }))
-        },
-        options: {
-            plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                label: context => {
-                    const rule = topRules[context.dataIndex];
-                    return `${rule.ageGroup}: ${rule.rule} (Support ${(rule.support * 100).toFixed(0)}%, Confidence ${(rule.confidence * 100).toFixed(0)}%)`;
-                }
-                }
-            }
-            },
-            scales: { x: { display: false }, y: { display: false } }
-        }
-        });
     })
     .catch(err => console.error("Apriori Error:", err));
 
