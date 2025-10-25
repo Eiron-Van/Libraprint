@@ -264,38 +264,70 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
         const container = document.getElementById("aprioriAgeGroups");
+        const tableBody = document.getElementById("aprioriTableBody");
+        const ctx = document.getElementById("aprioriGraph");
         container.innerHTML = "";
+        tableBody.innerHTML = "";
 
+        let allRules = []; // ✅ store all rules across age groups
+
+        // 🔹 Generate Apriori tables per age group
         Object.entries(data.age_groups).forEach(([ageGroup, transactions]) => {
-        const rules = apriori(transactions, 0.2, 0.5, 3); // includes 3-item rules
+        const rules = apriori(transactions, 0.2, 0.5, 3);
+        allRules = allRules.concat(
+            rules.map(r => ({ ...r, ageGroup })) // keep track of group
+        );
 
         const section = document.createElement("section");
         section.className = "mb-8 bg-white/10 p-4 rounded-lg";
-        section.innerHTML = `<h3 class="text-xl font-semibold mb-3">${ageGroup}</h3>
+        section.innerHTML = `
+            <h3 class="text-xl font-semibold mb-3">${ageGroup}</h3>
             <table class="w-full text-white border border-gray-500">
-            <thead><tr class="bg-white/20">
+            <thead>
+                <tr class="bg-white/20">
                 <th class="px-3 py-2">Reading Relationship</th>
                 <th class="px-3 py-2">Frequency</th>
                 <th class="px-3 py-2">Likelihood</th>
-            </tr></thead>
-            <tbody>${rules.map(r => `
+                </tr>
+            </thead>
+            <tbody>
+                ${rules
+                .map(
+                    r => `
                 <tr>
-                <td class="border px-3 py-2">${r.rule}</td>
-                <td class="border px-3 py-2">${r.support}</td>
-                <td class="border px-3 py-2">${r.confidence}</td>
-                </tr>`).join("")}</tbody>
+                    <td class="border px-3 py-2">${r.rule}</td>
+                    <td class="border px-3 py-2">${r.support}</td>
+                    <td class="border px-3 py-2">${r.confidence}</td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
             </table>`;
         container.appendChild(section);
         });
 
-        const topRules = rules.slice(0, 10); // top 10 strongest
-        const ctx = document.getElementById("aprioriGraph");
+        // 🔹 Fill the main Apriori Table (Top Overall Rules)
+        const sortedRules = allRules.sort(
+        (a, b) => b.confidence - a.confidence
+        );
+        const topRules = sortedRules.slice(0, 10);
 
+        topRules.forEach(r => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="border px-3 py-2">${r.rule} (${r.ageGroup})</td>
+            <td class="border px-3 py-2">${r.support}</td>
+            <td class="border px-3 py-2">${r.confidence}</td>
+        `;
+        tableBody.appendChild(row);
+        });
+
+        // 🔹 Generate the Genre Association Bubble Graph
         new Chart(ctx, {
         type: "bubble",
         data: {
             datasets: topRules.map((r, i) => ({
-            label: r.rule,
+            label: `${r.rule} (${r.ageGroup})`,
             data: [{ x: i * 2, y: i * 3, r: r.confidence * 20 }],
             backgroundColor: `hsl(${i * 40}, 70%, 60%)`
             }))
@@ -305,14 +337,21 @@ document.addEventListener("DOMContentLoaded", () => {
             legend: { display: false },
             tooltip: {
                 callbacks: {
-                label: ctx => `${ctx.raw.x} → ${ctx.raw.y}: ${topRules[ctx.dataIndex].rule}`
+                label: context => {
+                    const rule = topRules[context.dataIndex];
+                    return `${rule.rule} (${rule.ageGroup}) | Support: ${
+                    rule.support
+                    } | Confidence: ${rule.confidence}`;
+                }
                 }
             }
             },
-            scales: { x: { display: false }, y: { display: false } }
+            scales: {
+            x: { display: false },
+            y: { display: false }
+            }
         }
         });
-
     })
     .catch(err => console.error("Apriori Error:", err));
 
