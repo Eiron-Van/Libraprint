@@ -186,7 +186,7 @@
         </section>
         <section class="mb-16">
             <h2 class="text-2xl font-semibold mb-4">🧠 Apriori Association Insights (Per Age Group)</h2>
-            <div id="aprioriAgeGroups" class="h-[70vh] overflow-auto border border-white/50"></div>
+            <div id="aprioriAgeGroups" class="h-[70vh] overflow-auto border border-white/30 p-6"></div>
         </section>
 
     </main>
