@@ -8,7 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Data Recieved")
             // Update KPI Card
             const totalVisitorsEl = document.querySelector("#totalVisitors");
+            const booksReadEl = document.querySelector("#booksRead");
+            const popularGenreEl = document.querySelector("#popularGenre");
             if (totalVisitorsEl) totalVisitorsEl.textContent = data.totalVisitors;
+            if (booksReadEl) booksReadEl.textContent = data.booksRead;
+            if (popularGenreEl) popularGenreEl.textContent = data.popularGenre;
 
             // Daily Attendance Line Chart
             new Chart(document.getElementById("attendanceChart"), {

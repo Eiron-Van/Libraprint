@@ -13,6 +13,29 @@ $totalVisitorsQuery = "
 ";
 $totalVisitors = $conn->query($totalVisitorsQuery)->fetch_assoc()['total_visitors'] ?? 0;
 
+// 2️⃣ Books Read (this month)
+$booksReadQuery = "
+    SELECT COUNT(id) AS total
+    FROM book_record
+    WHERE MONTH(read_date) = MONTH(CURRENT_DATE())
+    AND YEAR(read_date) = YEAR(CURRENT_DATE())
+";
+$booksRead = $conn->query($booksReadQuery)->fetch_assoc()['total'] ?? 0;
+
+// 3️⃣ Most Popular Genre
+$popularGenreQuery = "
+    SELECT bi.genre, COUNT(*) AS count
+    FROM book_record br
+    JOIN book_inventory bi ON br.book_id = bi.item_id
+    WHERE MONTH(br.read_date) = MONTH(CURRENT_DATE())
+    AND YEAR(br.read_date) = YEAR(CURRENT_DATE())
+    GROUP BY bi.genre
+    ORDER BY count DESC
+    LIMIT 1
+";
+$genreResult = $conn->query($popularGenreQuery);
+$popularGenre = $genreResult->num_rows > 0 ? $genreResult->fetch_assoc()['genre'] : '—';
+
 // Daily Attendance Chart
 $dailyQuery = "
     SELECT DATE(login_time) AS date, COUNT(*) AS count
@@ -112,6 +135,8 @@ while ($row = $ageResult->fetch_assoc()) {
 // Return as JSON
 echo json_encode([
     'totalVisitors' => $totalVisitors,
+    'booksRead' => $booksRead,
+    'popularGenre' => $popularGenre,
     'daily' => $dailyData,
     'monthly' => $monthlyData,
     'purpose' => $purposeData,

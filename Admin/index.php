@@ -59,12 +59,12 @@
                 <p id="totalVisitors" class="text-2xl font-bold mt-2">0</p>
             </div>
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                <h2 class="text-lg font-semibold">📚 Books Borrowed (This Month)</h2>
-                <p class="text-2xl font-bold mt-2">0</p>
+                <h2 class="text-lg font-semibold">📖 Books Read (This Month)</h2>
+                <p id="booksRead" class="text-2xl font-bold mt-2">0</p>
             </div>
             <div class="bg-white/10 p-6 rounded-xl text-center shadow-lg">
-                <h2 class="text-lg font-semibold">🧾 Active Reservations</h2>
-                <p class="text-2xl font-bold mt-2">0</p>
+                <h2 class="text-lg font-semibold">🏷️ Most Popular Genre</h2>
+                <p id="popularGenre" class="text-2xl font-bold mt-2">0</p>
             </div>
         </section>
 
@@ -171,9 +171,7 @@
                 <table class="w-full text-white border border-gray-500">
                 <thead>
                     <tr class="bg-white/20">
-                    <th class="px-3 py-2 text-left">Reading Relationship</th>
-                    <th class="px-3 py-2 text-left">Frequency</th>
-                    <th class="px-3 py-2 text-left">Confidence</th>
+                    <th class="px-3 py-2 text-left">Top 10 Insights</th>
                     </tr>
                 </thead>
                 <tbody id="aprioriTableBody"></tbody>
