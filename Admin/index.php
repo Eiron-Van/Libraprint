@@ -18,7 +18,7 @@
 </head>
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
     <!-- Header -->
-    <header class="bg-gray-900 text-white sticky top-0 z-10">
+    <header class="bg-gray-900 text-white sticky top-0 z-10 flex justify-between">
         <section class="max-w-[100rem] mx-auto p-3 lg:p-2 flex justify-between items-center">
             <div class="flex items-center mx-4 space-x-6">
                 <button id="menu" title="Open navigation menu" class="text-[30px] focus:outline-none cursor-pointer hover:opacity-60 active:opacity-40 transition-opacity duration-200 p-2">
@@ -32,11 +32,8 @@
         </section>
         <section>
             <li>
-                <a href="/Admin/report.php" class="flex items-center gap-2 hover:text-blue-400">
-                    <i class="fa fa-file-pdf"></i> Monthly Report
-                </a>
+                <a href="/Admin/report.php" class="flex items-center gap-2 hover:text-blue-400">Generate report</a>
             </li>
-
         </section>
     </header>
 
