@@ -22,7 +22,7 @@ $totalVisitors = $conn->query($totalVisitorsQuery)->fetch_assoc()['total'] ?? 0;
 $genderQuery = "
     SELECT u.gender, COUNT(*) AS count
     FROM login_record l
-    JOIN users u ON u.user_id = l.user_id
+    JOIN users u ON u.id = l.user_id
     WHERE DATE_FORMAT(login_time, '%Y-%m') = '$month'
     GROUP BY u.gender
 ";
@@ -40,7 +40,7 @@ $ageQuery = "
         END AS age_group,
         COUNT(*) AS count
     FROM login_record l
-    JOIN users u ON u.user_id = l.user_id
+    JOIN users u ON u.id = l.user_id
     WHERE DATE_FORMAT(l.login_time, '%Y-%m') = '$month'
     GROUP BY age_group
 ";

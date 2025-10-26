@@ -12,7 +12,7 @@
   <section class="bg-white/10 p-8 rounded-xl shadow-xl max-w-xl w-full">
     <h1 class="text-3xl font-bold mb-6 text-center">📄 Monthly Report Generator</h1>
 
-    <form id="reportForm" method="POST" action="/Admin/api/generate_report.php" class="flex flex-col items-center space-y-6">
+    <form id="reportForm" method="POST" action="/Admin/api/generate_report.php" class="flex flex-col items-center space-y-6 text-white">
       <div class="flex flex-col items-start w-full">
         <label for="month" class="mb-2 text-lg">Select Month to Generate:</label>
         <input type="month" id="month" name="month" required class="text-black p-2 rounded w-full">
