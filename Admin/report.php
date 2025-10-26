@@ -15,7 +15,7 @@
     <form id="reportForm" method="POST" action="/Admin/api/generate_report.php" class="flex flex-col items-center space-y-6 text-white">
       <div class="flex flex-col items-start w-full">
         <label for="month" class="mb-2 text-lg">Select Month to Generate:</label>
-        <input type="month" id="month" name="month" required class="text-black p-2 rounded w-full">
+        <input type="month" id="month" name="month" required class="text-white p-2 rounded w-full">
       </div>
 
       <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg font-semibold text-lg transition-all">
