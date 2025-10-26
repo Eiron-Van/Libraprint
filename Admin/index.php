@@ -30,6 +30,14 @@
                 </div>
             </div>
         </section>
+        <section>
+            <li>
+                <a href="/Admin/report.php" class="flex items-center gap-2 hover:text-blue-400">
+                    <i class="fa fa-file-pdf"></i> Monthly Report
+                </a>
+            </li>
+
+        </section>
     </header>
 
     <!-- Side Menu -->
