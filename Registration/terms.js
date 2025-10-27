@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     termsButton.addEventListener('click', function () {
         termsCheckbox.checked = true; // check the box
+        termsCheckbox.dispatchEvent(new Event('change'));
         termsOverlay.classList.add('hidden');
         termsOverlay.classList.remove('flex');
     });
