@@ -2,7 +2,9 @@
 require('../../connection.php');
 require('fpdf186/fpdf.php');
 function utf8_to_iso($text) {
-    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $text);
+    $text = str_replace("–", "-", $text); // Replace en dash with normal dash
+    $converted = @iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $text);
+    return $converted !== false ? $converted : $text;
 }
 
 
