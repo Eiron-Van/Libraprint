@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
 
             // ✅ Record login event with location
             $location = 'Off Site'; // or 'On Site', depending on context or device
@@ -38,8 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $log->close();
 
 
-            // Redirect to your dashboard or home
-            header("Location: https://libraprintlucena.com");
+            // ✅ Redirect based on role
+            if ($user['role'] === 'admin') {
+                header("Location: https://libraprintlucena.com/Admin");
+            } else {
+                header("Location: https://libraprintlucena.com");
+            }
             exit();
         } else {
             echo "<script>alert('Incorrect password.'); window.location.href='/Login';</script>";
