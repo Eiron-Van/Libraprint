@@ -1,7 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 include '../../connection.php';
+require_once __DIR__ . '../../inc/auth_admin.php';
 header('Content-Type: application/json');
 
 // 1️⃣ Total Books in Inventory

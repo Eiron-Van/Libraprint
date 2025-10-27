@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '../../inc/auth_admin.php';
 include '../../connection.php';
 
 $borrow_id = $_GET['borrow_id'] ?? 0;

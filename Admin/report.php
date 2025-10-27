@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../inc/auth_admin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

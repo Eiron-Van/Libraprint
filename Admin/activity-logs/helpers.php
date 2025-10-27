@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '../../inc/auth_admin.php';
 // ✅ Highlight search terms
 function highlightTerms(string $text, string $search): string {
     if ($search === '' || $text === '') return htmlspecialchars($text);
