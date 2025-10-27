@@ -1,6 +1,10 @@
 <?php
 require('../../connection.php');
 require('fpdf186/fpdf.php');
+function utf8_to_iso($text) {
+    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $text);
+}
+
 
 // Get selected month (format: YYYY-MM)
 $month = $_POST['month'] ?? date('Y-m');
@@ -84,9 +88,9 @@ $pdf->Ln(8);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, "Summary Overview", 0, 1);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(0, 8, "• Total Visitors: $totalVisitors", 0, 1);
-$pdf->Cell(0, 8, "• Books Read: $booksRead", 0, 1);
-$pdf->Cell(0, 8, "• Most Popular Genre: $popularGenre", 0, 1);
+$pdf->Cell(0, 8, chr(149) . " Total Visitors: $totalVisitors", 0, 1);
+$pdf->Cell(0, 8, chr(149) . " Books Read: $booksRead", 0, 1);
+$pdf->Cell(0, 8, chr(149) . " Most Popular Genre: $popularGenre", 0, 1);
 $pdf->Ln(6);
 
 // Gender Section
@@ -94,7 +98,7 @@ $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, "Visitor Gender Breakdown", 0, 1);
 $pdf->SetFont('Arial', '', 12);
 foreach ($genderData as $g) {
-    $pdf->Cell(0, 8, "• {$g['gender']}: {$g['count']}", 0, 1);
+    $pdf->Cell(0, 8, chr(149) . " {$g['gender']}: {$g['count']}", 0, 1);
 }
 $pdf->Ln(6);
 
@@ -102,10 +106,14 @@ $pdf->Ln(6);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, "Visitor Age Group Breakdown", 0, 1);
 $pdf->SetFont('Arial', '', 12);
+
 foreach ($ageData as $a) {
-    $pdf->Cell(0, 8, "• {$a['age_group']}: {$a['count']}", 0, 1);
+    $line = chr(149) . " {$a['age_group']}: {$a['count']}";
+    $pdf->Cell(0, 8, utf8_to_iso($line), 0, 1);
 }
+
 $pdf->Ln(10);
+
 
 // Footer
 $pdf->SetFont('Arial', 'I', 10);
