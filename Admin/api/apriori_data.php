@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '../../inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 require '../../connection.php';
 
 // 1️⃣ Get transactions grouped by user and date, plus age group

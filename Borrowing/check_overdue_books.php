@@ -85,5 +85,18 @@ if ($conn->query($sql3) === TRUE) {
     echo "Error Step 3: " . $conn->error . "<br>";
 }
 
+$sql_update_days = "
+    UPDATE overdue_log AS o
+    JOIN borrow_log AS b ON o.borrow_id = b.id
+    SET o.days_overdue = DATEDIFF(CURDATE(), b.date_borrowed) - 7
+    WHERE b.date_returned IS NULL
+      AND b.status = 'Overdue'
+";
+if ($conn->query($sql_update_days) === TRUE) {
+    $affected4 = $conn->affected_rows;
+    echo "Step 1.6 success — $affected4 overdue_log record(s) updated with new days_overdue.<br>";
+} else {
+    echo "Error Step 1.6: " . $conn->error . "<br>";
+}
 
 $conn->close();

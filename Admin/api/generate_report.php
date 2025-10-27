@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '../../inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 require('../../connection.php');
 require('fpdf186/fpdf.php');
 function utf8_to_iso($text) {
