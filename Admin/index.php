@@ -202,7 +202,7 @@ require_once __DIR__ . '/../inc/auth_admin.php';
             </div>
 
             <div id="returnError" class="hidden bg-red-100 text-red-800 p-2 rounded-md my-2">
-                ❌ Book not found or already available.
+                ❌ Book not found.
             </div>
 
             <button id="closeReturnBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>

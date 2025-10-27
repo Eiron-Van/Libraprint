@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 3️⃣ Get the latest borrow record
+    // 3️⃣ Try to get the latest borrow record (if exists)
     $borrowStmt = $conn->prepare("
         SELECT b.id, b.user_id, u.first_name, u.last_name, b.date_borrowed, 
                DATEDIFF(CURDATE(), b.date_borrowed) AS days_borrowed
@@ -41,45 +41,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $borrowStmt->execute();
     $borrow = $borrowStmt->get_result()->fetch_assoc();
 
-    if (!$borrow) {
-        echo json_encode(["success" => false, "error" => "No active borrow record found"]);
-        exit;
+    // 4️⃣ Calculate overdue days & penalty only if borrow record exists
+    $daysOverdue = 0;
+    $penalty = 0;
+    $borrowerName = "No borrower record";
+
+    if ($borrow) {
+        $daysOverdue = max(0, $borrow['days_borrowed'] - 7);
+        $penalty = $daysOverdue * 1;
+        $borrowerName = $borrow['first_name'] . " " . $borrow['last_name'];
+
+        // Update borrow_log (mark returned)
+        $updateBorrow = $conn->prepare("
+            UPDATE borrow_log 
+            SET date_returned = NOW(), status = 'Returned'
+            WHERE id = ?
+        ");
+        $updateBorrow->bind_param("i", $borrow['id']);
+        $updateBorrow->execute();
+
+        // Update overdue_log if exists
+        $updateOverdue = $conn->prepare("
+            UPDATE overdue_log 
+            SET status = 'Returned'
+            WHERE borrow_id = ?
+        ");
+        $updateOverdue->bind_param("i", $borrow['id']);
+        $updateOverdue->execute();
     }
 
-    // 4️⃣ Calculate overdue days and penalty
-    $daysOverdue = max(0, $borrow['days_borrowed'] - 7);
-    $penalty = $daysOverdue * 1; // ₱1 per day
-
-    // 5️⃣ Update book to Available
+    // 5️⃣ Always update the book to 'Available'
     $updateBook = $conn->prepare("UPDATE book_inventory SET status = 'Available' WHERE barcode = ?");
     $updateBook->bind_param("s", $barcode);
     $updateBook->execute();
 
-    // 6️⃣ Update borrow_log (mark returned)
-    $updateBorrow = $conn->prepare("
-        UPDATE borrow_log 
-        SET date_returned = NOW(), status = 'Returned'
-        WHERE id = ?
-    ");
-    $updateBorrow->bind_param("i", $borrow['id']);
-    $updateBorrow->execute();
-
-    // 7️⃣ Update overdue_log if exists
-    $updateOverdue = $conn->prepare("
-        UPDATE overdue_log 
-        SET status = 'Returned'
-        WHERE borrow_id = ?
-    ");
-    $updateOverdue->bind_param("i", $borrow['id']);
-    $updateOverdue->execute();
-
-    // 8️⃣ Return receipt info
+    // 6️⃣ Return response
     echo json_encode([
         "success" => true,
         "overdue" => $daysOverdue > 0,
         "days_overdue" => $daysOverdue,
         "penalty" => $penalty,
         "book_title" => $book['title'],
-        "borrower" => $borrow['first_name'] . " " . $borrow['last_name']
+        "borrower" => $borrowerName
     ]);
 }
