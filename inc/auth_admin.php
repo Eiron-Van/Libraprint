@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // --- SECURITY: Check if user is logged in ---
 if (!isset($_SESSION['user_id'])) {
     // If not logged in, redirect to login page
-    header("Location: /Login/login.php");
+    header("Location: /Login");
     exit();
 }
 
