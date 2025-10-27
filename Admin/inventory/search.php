@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '../../inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 include '../../connection.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
