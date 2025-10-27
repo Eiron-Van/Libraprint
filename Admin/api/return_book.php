@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '../../inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 include '../../connection.php';
 header('Content-Type: application/json');
 
@@ -30,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 3️⃣ Get the latest borrow record
     $borrowStmt = $conn->prepare("
-        SELECT b.id, b.user_id, u.first_name, u.last_name, b.date_borrowed, DATEDIFF(CURDATE(), b.date_borrowed) AS days_borrowed
+        SELECT b.id, b.user_id, u.first_name, u.last_name, b.date_borrowed, 
+               DATEDIFF(CURDATE(), b.date_borrowed) AS days_borrowed
         FROM borrow_log b
         JOIN users u ON b.user_id = u.user_id
         WHERE b.book_id = ? AND b.status IN ('Borrowed', 'Overdue')
