@@ -10,6 +10,7 @@ if (!empty($search)) {
     $sql = "SELECT * FROM book_inventory 
             WHERE author LIKE '%$safe_search%' 
             OR title LIKE '%$safe_search%' 
+            OR genre LIKE '%$safe_search%' 
             OR property_no LIKE '%$safe_search%' 
             OR unit LIKE '%$safe_search%' 
             OR unit_value LIKE '%$safe_search%' 
@@ -17,7 +18,8 @@ if (!empty($search)) {
             OR class_no LIKE '%$safe_search%' 
             OR date_acquired LIKE '%$safe_search%' 
             OR remarks LIKE '%$safe_search%' 
-            OR status LIKE '%$safe_search%'";
+            OR status LIKE '%$safe_search%'
+            OR barcode LIKE '%$safe_search%'";
 } else {
     $sql = "SELECT * FROM book_inventory";
 }
@@ -61,6 +63,7 @@ echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Genre</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-28'>Property No.</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-5'>Unit</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Unit Value</th>
@@ -69,6 +72,7 @@ echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-30'>Date Acquired</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-10'>Remarks</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-center w-15'>Status</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-center w-15'>Barcode</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-35'></th>
         </tr>
       </thead>
@@ -91,6 +95,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<tr class='$bg_color'>
       <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['author'], $search) . "</td>
       <td class='p-3 text-xs'>" . highlightTerms($row['title'], $search) . "</td>
+      <td class='p-3 text-xs'>" . highlightTerms($row['genre'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['unit'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['unit_value'], $search) . "</td>
@@ -99,6 +104,7 @@ while ($row = $result->fetch_assoc()) {
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['date_acquired'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['barcode'], $search) . "</td>
       <td class='p-3 flex flex-row items-center justify-center gap-1'>
         <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl text-xs'>Edit</a>
         <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl text-xs'>Delete</a>
