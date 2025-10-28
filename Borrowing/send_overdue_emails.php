@@ -7,7 +7,7 @@ require __DIR__ . '/../mailer.php'; // import your sendEmail() function
 
 // Query overdue books that need notification
 $sql = "
-    SELECT o.borrow_id, o.user_id, u.email, u.first_name, b.book_title, o.date_overdue_detected
+    SELECT o.borrow_id, o.user_id, u.email, u.first_name, b.title, o.date_overdue_detected
     FROM overdue_log o
     JOIN users u ON o.user_id = u.id
     JOIN book_inventory b ON o.book_id = b.item_id
@@ -32,7 +32,7 @@ if ($result && $result->num_rows > 0) {
 
         $bodyHtml = "
             <p>Dear {$toName},</p>
-            <p>Our records show that your borrowed book <strong>{$row['book_title']}</strong> 
+            <p>Our records show that your borrowed book <strong>{$row['title']}</strong> 
             is overdue. It has been <strong>{$days} day(s)</strong> since the due date.</p>
             <p>Please return the book as soon as possible to avoid further action.</p>
             <p>Thank you,<br>Libraprint</p>
