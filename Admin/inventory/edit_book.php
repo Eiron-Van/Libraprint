@@ -24,6 +24,7 @@ if (!$book) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $author = $_POST['author'];
     $title = $_POST['title'];
+    $genre = $_POST['genre'];
     $property_no = $_POST['property_no'];
     $unit = $_POST['unit'];
     $unit_value = $_POST['unit_value'];
@@ -32,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date_acquired = $_POST['date_acquired'];
     $remarks = $_POST['remarks'];
     $status = $_POST['status'];
+    $barcode = $_POST['barcode'];
 
     // --- Additional logic for status restrictions ---
 
@@ -78,10 +80,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     $update_sql = "UPDATE book_inventory 
-                   SET author=?, title=?, property_no=?, unit=?, unit_value=?, accession_no=?, class_no=?, date_acquired=?, remarks=?, status=?
+                   SET author=?, title=?, genre=?, property_no=?, unit=?, unit_value=?, accession_no=?, class_no=?, date_acquired=?, remarks=?, status=?, barcode=?
                    WHERE item_id=?";
     $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("ssssssssssi", $author, $title, $property_no, $unit, $unit_value, $accession_no, $class_no, $date_acquired, $remarks, $status, $id);
+    $stmt->bind_param("ssssssssssssi", $author, $title, $genre, $property_no, $unit, $unit_value, $accession_no, $class_no, $date_acquired, $remarks, $status, $barcode, $id);
     $stmt->execute();
 
     header("Location: https://libraprintlucena.com/Admin/inventory");
@@ -110,7 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
                     <tr>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit Value</th>
@@ -119,6 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Date Acquired</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-10">Remarks</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-center w-40">Status</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-center w-35">Barcode</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-35"></th>
                     </tr>
                 </thead>
@@ -132,6 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="title" value="<?php echo $book['title']; ?>"
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="genre" value="<?php echo $book['genre']; ?>"
                                 class="w-full shadow px-3 py-1 rounded-lg">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
@@ -170,6 +178,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <option <?php if($book['status']=='Reserved') echo 'selected'; ?>>Reserved</option>
                                 </select>
                             </td">
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="barcode" value="<?php echo $book['barcode']; ?>"
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                 <button onclick="return confirmStatusChange()" type="submit" class='bg-green-300 px-2 py-1 rounded-2xl inline-block'>Save Changes</button>
                             </td>
