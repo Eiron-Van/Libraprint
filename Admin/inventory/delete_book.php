@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once __DIR__ . '/../../inc/auth_admin.php';
 include '../../connection.php';
 
@@ -14,4 +16,3 @@ $stmt->execute();
 
 header("Location: https://libraprintlucena.com/Admin/inventory");
 exit;
-?>
