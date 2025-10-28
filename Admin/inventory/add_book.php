@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
                         <tr>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left">Title</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
