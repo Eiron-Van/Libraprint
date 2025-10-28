@@ -105,7 +105,7 @@ while ($row = $result->fetch_assoc()) {
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['barcode'], $search) . "</td>
-      <td class='p-3 flex flex-row items-center justify-center gap-1 h-full'>
+      <td class='p-3 flex flex-row items-center justify-center gap-1 h-fit'>
         <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl text-xs'>Edit</a>
         <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl text-xs'>Delete</a>
       </td>
