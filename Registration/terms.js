@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // Get elements
     const termsCheckboxButton = document.getElementById('termsCheckboxBtn');
     const termsCheckbox = document.getElementById('termsCheckbox');
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!termsCheckbox.checked) {
             termsOverlay.classList.remove('hidden');
             termsOverlay.classList.add('flex');
-        }else{
+        } else {
             termsCheckbox.checked = false;
         }
     });
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // AFK Overlay
-    
+
     const form = document.getElementById("registrationForm");
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -63,14 +63,27 @@ document.addEventListener("DOMContentLoaded", () => {
         let formData = new FormData(form);
 
         fetch("", { method: "POST", body: formData })
-            .then(res => res.text())
+            .then(res => {
+                const contentType = res.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    return res.json();
+                } else {
+                    return res.text().then(text => ({ text: text.trim() }));
+                }
+            })
             .then(data => {
-                if (data.trim() === "OK") {
+                if (data.success) {
+                    document.getElementById("main-content").classList.add("blur-sm", "pointer-events-none");
+                    document.getElementById("overlay").classList.remove("hidden");
+                    document.getElementById("fingerprint-step").classList.remove("hidden");
+                } else if (data.error) {
+                    alert(data.error);
+                } else if (data.text === "OK") {
                     document.getElementById("main-content").classList.add("blur-sm", "pointer-events-none");
                     document.getElementById("overlay").classList.remove("hidden");
                     document.getElementById("fingerprint-step").classList.remove("hidden");
                 } else {
-                    alert("Error: " + data);
+                    alert("Error: " + (data.text || "Unexpected response from server."));
                 }
             })
             .catch(err => alert("Request failed: " + err));
@@ -100,5 +113,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start the first timer
     resetTimer();
-    
+
 });

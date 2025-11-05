@@ -23,22 +23,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validate inputs
     if (empty($username) || empty($password)) {
-        echo "<script>alert('Please enter some valid information!'); window.history.back();</script>";
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Please enter some valid information!']);
         exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Invalid email format.'); window.history.back();</script>";
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Invalid email format.']);
         exit();
     }
 
     if (strlen($password) < 8) {
-        echo "<script>alert('Password must be at least 8 characters long.'); window.history.back();</script>";
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Password must be at least 8 characters long.']);
         exit();
     }
 
     if ($password !== $confirm_password) {
-        echo "<script>alert('Passwords do not match.'); window.history.back();</script>";
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Passwords do not match.']);
         exit();
     }
 
@@ -52,13 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                $message = "Username has aleady been taken.";
-                echo "<script>alert(" . json_encode($message) . "); window.history.back();</script>";
-
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Username has already been taken.']);
                 exit();
             }
             if ($existingEmail === $email) {
-                echo "<script>alert('Email already exists. Please use a different email.'); window.history.back();</script>";
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Email already exists. Please use a different email.']);
                 exit();
             }
         }
@@ -80,7 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
 
     // Redirect to fingerprint enrollment page
-    echo "OK";
+    header('Content-Type: application/json');
+    echo json_encode(['success' => true]);
     exit();
 }
 ?>
