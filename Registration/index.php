@@ -6,6 +6,20 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
+// If a flash message was set by previous POST, show it safely and remove it
+if (isset($_SESSION['flash_message'])) {
+    $flash = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+    echo "<script>alert(" . json_encode($flash) . ");</script>";
+}
+
+// Helper to set a flash message and redirect back to the form
+function set_flash_and_redirect($message) {
+    $_SESSION['flash_message'] = $message;
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Raw inputs
@@ -19,21 +33,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contactnumber = htmlspecialchars(trim($_POST["contact_number"]));
     $email = htmlspecialchars(trim($_POST["email"]));
     $password = trim($_POST["password"]);
+    $confirm_password = trim($_POST["confirm_password"]);
     
     // Validate inputs
     if (empty($username) || empty($password)) {
-        echo "<script>alert('Please enter some valid information!'); window.history.back();</script>";
-        exit();
+        set_flash_and_redirect('Please enter some valid information!');
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Invalid email format.'); window.history.back();</script>";
-        exit();
+        set_flash_and_redirect('Invalid email format.');
     }
 
     if (strlen($password) < 8) {
-        echo "<script>alert('Password must be at least 8 characters long.'); window.history.back();</script>";
-        exit();
+        set_flash_and_redirect('Password must be at least 8 characters long.');
+    }
+
+    if ($password !== $confirm_password) {
+        set_flash_and_redirect('Passwords do not match.');
     }
 
     // Combined check for existing username or email
@@ -46,14 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                $message = "Username has aleady been taken.";
-                echo "<script>alert(" . json_encode($message) . "); window.history.back();</script>";
-
-                exit();
+                set_flash_and_redirect('Username has already been taken.');
             }
             if ($existingEmail === $email) {
-                echo "<script>alert('Email already exists. Please use a different email.'); window.history.back();</script>";
-                exit();
+                set_flash_and_redirect('Email already exists. Please use a different email.');
             }
         }
     }
