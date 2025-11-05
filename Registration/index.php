@@ -6,6 +6,8 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
+echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Raw inputs
@@ -96,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="/asset/fingerprint.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/style.css?v=1.5">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="terms.js"></script>
     <script src="birthdate.js"></script>
     <title>Registration | Libraprint</title>
