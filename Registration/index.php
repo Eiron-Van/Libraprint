@@ -6,8 +6,6 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
-echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Raw inputs
@@ -48,16 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                echo "<script>
-                        Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops!',
-                        text: 'Username has already been taken!',
-                        confirmButtonText: 'Go Back'
-                        }).then(() => {
-                        window.history.back();
-                        });
-                    </script>";
+                $message = "Username has aleady been taken.";
+                echo "<script>alert(" . json_encode($message) . "); window.history.back();</script>";
+
                 exit();
             }
             if ($existingEmail === $email) {
