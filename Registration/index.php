@@ -94,8 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "email" => $email,
         "password" => password_hash($password, PASSWORD_DEFAULT)
     ];
-    // Redirect to show success message and fingerprint step
-    set_success_and_redirect('Registration successful! Please enroll your fingerprint to complete registration.');
+    // If AJAX, return JSON, else redirect
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        header('Content-Type: application/json');
+        echo json_encode(["success" => true, "message" => "Registration successful! Please enroll your fingerprint to complete registration."]);
+        exit();
+    } else {
+        set_success_and_redirect('Registration successful! Please enroll your fingerprint to complete registration.');
+    }
 }
 ?>
 
