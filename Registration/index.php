@@ -6,11 +6,11 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
-// If a flash message was set by previous POST, show it safely and remove it
+// If a flash message was set by previous POST, store it for display in the form
+$flash = null;
 if (isset($_SESSION['flash_message'])) {
     $flash = $_SESSION['flash_message'];
     unset($_SESSION['flash_message']);
-    echo "<script>alert(" . json_encode($flash) . ");</script>";
 }
 
 // Helper to set a flash message and redirect back to the form
@@ -109,6 +109,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="relative flex justify-center items-center bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
     <section class="h-svh flex justify-center items-center">
         <form id="registrationForm" method="post" class="w-full min-w-2xl bg-white/60 backdrop-blur-md p-10 rounded-3xl shadow-lg border border-gray-200">
+            <?php if ($flash): ?>
+                <div class="mb-4 p-3 rounded-xl bg-red-100 border border-red-400 text-red-700 text-center font-semibold">
+                    <?= htmlspecialchars($flash) ?>
+                </div>
+            <?php endif; ?>
+
             <h1 class="text-3xl font-bold mb-6 text-center text-[#304475]">Create Your Account</h1>
 
             <div class="grid grid-cols-2 gap-6">
