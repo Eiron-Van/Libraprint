@@ -5,6 +5,9 @@ ini_set('display_errors', 1);
 require __DIR__ . '/../connection.php';
 
 
+// Add this to change the overdued date or something
+// AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
+
 // Step 1: Mark as overdue if borrowed for more than 7 days and not returned
 $sql1 = "
     UPDATE borrow_log

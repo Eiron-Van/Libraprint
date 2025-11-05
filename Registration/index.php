@@ -85,13 +85,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="/asset/fingerprint.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/style.css?v=1.5">
     <script src="terms.js"></script>
+    <script src="birthdate.js"></script>
     <title>Registration | Libraprint</title>
 </head>
 
 <body class="relative flex justify-center items-center bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
-    <section id="main-content" class="w-full h-[90vh] flex items-center justify-center">
+    <section class="h-svh flex justify-center items-center">
+        <form id="registrationForm" method="post" class="w-full min-w-2xl bg-white/60 backdrop-blur-md p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h1 class="text-3xl font-bold mb-6 text-center text-[#304475]">Create Your Account</h1>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-medium mb-1 text-gray-700">Username</label>
+                    <input type="text" name="username" id="username" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-1 text-gray-700">Email Address</label>
+                    <input type="email" name="email" id="email" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+
+                <!-- First Name -->
+                <div>
+                    <label for="firstname" class="block text-sm font-medium mb-1 text-gray-700">First Name</label>
+                    <input type="text" name="firstname" id="firstname" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+
+                <!-- Last Name -->
+                <div>
+                    <label for="lastname" class="block text-sm font-medium mb-1 text-gray-700">Last Name</label>
+                    <input type="text" name="lastname" id="lastname" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+
+                <!-- Birthdate -->
+                <div>
+                    <label for="birthdate" class="block text-sm font-medium mb-1 text-gray-700">Birthday</label>
+                    <input type="date" name="birthdate" id="birthdate" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+
+                <!-- Gender -->
+                <div>
+                    <label for="gender" class="block text-sm font-medium mb-1 text-gray-700">Gender</label>
+                    <select name="gender" id="gender" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                        <option value="">Select a Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Lesbian">Lesbian</option>
+                        <option value="Gay">Gay</option>
+                        <option value="Bisexual">Bisexual</option>
+                        <option value="Transgender">Transgender</option>
+                        <option value="Queer">Queer/Questioning</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- City -->
+                <div class="relative w-full">
+                    <label for="city" class="block text-sm font-medium mb-1 text-gray-700">Current City</label>
+                    <input type="text" name="city" id="city" required class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                    <div id="city-dropdown" class="hidden absolute w-full max-h-50 overflow-y-auto -mb-5 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full"></div>
+                </div>
+
+                <!-- Barangay -->
+                <div class="relative w-full">
+                    <label for="barangay" class="block text-sm font-medium mb-1 text-gray-700">Current Barangay</label>
+                    <input type="text" name="barangay" id="barangay" required placeholder="Type or select..." class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                    <div id="barangay-dropdown" class="hidden absolute w-full max-h-50 overflow-y-auto -mb-5 bg-white text-black border border-gray-300 rounded-md shadow-lg bottom-full"></div>
+                </div>
+
+                <!-- Contact Number -->
+                <div>
+                    <label for="contact_number" class="block text-sm font-medium mb-1 text-gray-700">Contact Number</label>
+                    <input type="tel" name="contact_number" id="contact_number" required pattern="^09\d{9}$" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11" class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none" />
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="col-span-2 flex lex-row gap-6 mt-6">
+                <div class="w-1/2">
+                    <label for="password" class="block text-sm font-medium mb-1 text-gray-700">Password</label>
+                    <input type="password" name="password" id="password" required minlength="8" class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+                <div class="w-1/2">
+                    <label for="confirm_password" class="block text-sm font-medium mb-1 text-gray-700">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" required minlength="8" class="w-full bg-white rounded-2xl px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-[#304475] outline-none">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-10 flex justify-center">
+                <button type="submit" id="submitBtn" disabled class="bg-gray-600 opacity-70 text-white font-semibold px-10 py-3 rounded-3xl transition-all shadow-md hover:shadow-lg cursor-not-allowed">
+                    Register Account
+                </button>
+            </div>
+
+            <!-- Checkbox -->
+            <div id="termsCheckboxBtn" class="absolute left-4 bottom-3 text-white select-none hover:underline">
+                <input type="checkbox" id="termsCheckbox" name="termsCheckbox">
+                <label for="termsCheckbox">I agree to the terms and conditions</label>
+            </div>
+        </form>
+    </section>
+
+
+
+    <!-- <section id="main-content" class="w-full h-[90vh] flex items-center justify-center">
         <div class="w-full max-w-6xl">
             <form id="registrationForm" method="post" class="flex flex-col items-center relative">
 
@@ -202,7 +305,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             </form>
         </div>
-    </section>
+    </section> -->
 
     <!-- Overlay -->
     <div id="overlay" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"></div>

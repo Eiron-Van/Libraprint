@@ -29,11 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     termsCheckbox.addEventListener('change', () => {
         if (termsCheckbox.checked) {
             submitBtn.disabled = false;
-            submitBtn.classList.remove('bg-gray-400', 'opacity-70', 'cursor-not-allowed');
+            submitBtn.classList.remove('bg-gray-600', 'opacity-70', 'cursor-not-allowed');
             submitBtn.classList.add('bg-[#5364a2]', 'hover:bg-[#7a88bb]', 'active:bg-[#6b78ac]', 'cursor-pointer');
         } else {
             submitBtn.disabled = true;
-            submitBtn.classList.add('bg-gray-400', 'opacity-70', 'cursor-not-allowed');
+            submitBtn.classList.add('bg-gray-600', 'opacity-70', 'cursor-not-allowed');
             submitBtn.classList.remove('bg-[#5364a2]', 'hover:bg-[#7a88bb]', 'active:bg-[#6b78ac]', 'cursor-pointer');
         }
     });

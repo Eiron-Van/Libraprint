@@ -121,7 +121,7 @@ if ($status === 'Missing') {
 }
 
 if ($status === 'Checked Out') {
-    echo json_encode(['success' => false, 'message' => 'This book is currently checked out by another user.']);
+    echo json_encode(['success' => false, 'message' => 'This book is currently checked out.']);
     exit;
 }
 
