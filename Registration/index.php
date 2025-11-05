@@ -46,7 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                echo "<script>alert('Username already exists. Please choose a different one.'); window.history.back();</script>";
+                echo "<script>
+                        Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops!',
+                        text: 'Username has already been taken!',
+                        confirmButtonText: 'Go Back'
+                        }).then(() => {
+                        window.history.back();
+                        });
+                    </script>";
                 exit();
             }
             if ($existingEmail === $email) {
@@ -87,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="/asset/fingerprint.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/style.css?v=1.5">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="terms.js"></script>
     <script src="birthdate.js"></script>
     <title>Registration | Libraprint</title>
