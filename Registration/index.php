@@ -8,14 +8,24 @@ include("../function.php");
 
 // If a flash message was set by previous POST, store it for display in the form
 $flash = null;
+$success = null;
 if (isset($_SESSION['flash_message'])) {
     $flash = $_SESSION['flash_message'];
     unset($_SESSION['flash_message']);
+}
+if (isset($_SESSION['success_message'])) {
+    $success = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
 }
 
 // Helper to set a flash message and redirect back to the form
 function set_flash_and_redirect($message) {
     $_SESSION['flash_message'] = $message;
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+function set_success_and_redirect($message) {
+    $_SESSION['success_message'] = $message;
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
@@ -84,10 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "email" => $email,
         "password" => password_hash($password, PASSWORD_DEFAULT)
     ];
-
-    // Redirect to fingerprint enrollment page
-    echo "OK";
-    exit();
+    // Redirect to show success message and fingerprint step
+    set_success_and_redirect('Registration successful! Please enroll your fingerprint to complete registration.');
 }
 ?>
 
@@ -113,6 +121,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-4 p-3 rounded-xl bg-red-100 border border-red-400 text-red-700 text-center font-semibold">
                     <?= htmlspecialchars($flash) ?>
                 </div>
+            <?php endif; ?>
+            <?php if ($success): ?>
+                <div class="mb-4 p-3 rounded-xl bg-green-100 border border-green-400 text-green-700 text-center font-semibold">
+                    <?= htmlspecialchars($success) ?>
+                </div>
+                <script>
+                    // Optionally show fingerprint overlay automatically
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var overlay = document.getElementById('fingerprint-step');
+                        if (overlay) overlay.classList.remove('hidden');
+                    });
+                </script>
             <?php endif; ?>
 
             <h1 class="text-3xl font-bold mb-6 text-center text-[#304475]">Create Your Account</h1>

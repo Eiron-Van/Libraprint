@@ -1087,6 +1087,9 @@
   .border-green-300 {
     border-color: var(--color-green-300);
   }
+  .border-green-400 {
+    border-color: var(--color-green-400);
+  }
   .border-red-400 {
     border-color: var(--color-red-400);
   }
@@ -1590,6 +1593,9 @@
   }
   .text-green-600 {
     color: var(--color-green-600);
+  }
+  .text-green-700 {
+    color: var(--color-green-700);
   }
   .text-green-800 {
     color: var(--color-green-800);
