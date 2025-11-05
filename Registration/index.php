@@ -6,30 +6,6 @@ session_start();
 include("../connection.php");
 include("../function.php");
 
-// If a flash message was set by previous POST, store it for display in the form
-$flash = null;
-$success = null;
-if (isset($_SESSION['flash_message'])) {
-    $flash = $_SESSION['flash_message'];
-    unset($_SESSION['flash_message']);
-}
-if (isset($_SESSION['success_message'])) {
-    $success = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-
-// Helper to set a flash message and redirect back to the form
-function set_flash_and_redirect($message) {
-    $_SESSION['flash_message'] = $message;
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-}
-function set_success_and_redirect($message) {
-    $_SESSION['success_message'] = $message;
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Raw inputs
@@ -47,19 +23,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validate inputs
     if (empty($username) || empty($password)) {
-        set_flash_and_redirect('Please enter some valid information!');
+        echo "<script>alert('Please enter some valid information!'); window.history.back();</script>";
+        exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        set_flash_and_redirect('Invalid email format.');
+        echo "<script>alert('Invalid email format.'); window.history.back();</script>";
+        exit();
     }
 
     if (strlen($password) < 8) {
-        set_flash_and_redirect('Password must be at least 8 characters long.');
+        echo "<script>alert('Password must be at least 8 characters long.'); window.history.back();</script>";
+        exit();
     }
 
     if ($password !== $confirm_password) {
-        set_flash_and_redirect('Passwords do not match.');
+        echo "<script>alert('Passwords do not match.'); window.history.back();</script>";
+        exit();
     }
 
     // Combined check for existing username or email
@@ -72,10 +52,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkStmt->bind_result($existingUsername, $existingEmail);
         while ($checkStmt->fetch()) {
             if ($existingUsername === $username) {
-                set_flash_and_redirect('Username has already been taken.');
+                $message = "Username has aleady been taken.";
+                echo "<script>alert(" . json_encode($message) . "); window.history.back();</script>";
+
+                exit();
             }
             if ($existingEmail === $email) {
-                set_flash_and_redirect('Email already exists. Please use a different email.');
+                echo "<script>alert('Email already exists. Please use a different email.'); window.history.back();</script>";
+                exit();
             }
         }
     }
@@ -94,14 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "email" => $email,
         "password" => password_hash($password, PASSWORD_DEFAULT)
     ];
-    // If AJAX, return JSON, else redirect
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-        header('Content-Type: application/json');
-        echo json_encode(["success" => true, "message" => "Registration successful! Please enroll your fingerprint to complete registration."]);
-        exit();
-    } else {
-        set_success_and_redirect('Registration successful! Please enroll your fingerprint to complete registration.');
-    }
+
+    // Redirect to fingerprint enrollment page
+    echo "OK";
+    exit();
 }
 ?>
 
@@ -123,24 +103,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="relative flex justify-center items-center bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
     <section class="h-svh flex justify-center items-center">
         <form id="registrationForm" method="post" class="w-full min-w-2xl bg-white/60 backdrop-blur-md p-10 rounded-3xl shadow-lg border border-gray-200">
-            <?php if ($flash): ?>
-                <div class="mb-4 p-3 rounded-xl bg-red-100 border border-red-400 text-red-700 text-center font-semibold">
-                    <?= htmlspecialchars($flash) ?>
-                </div>
-            <?php endif; ?>
-            <?php if ($success): ?>
-                <div class="mb-4 p-3 rounded-xl bg-green-100 border border-green-400 text-green-700 text-center font-semibold">
-                    <?= htmlspecialchars($success) ?>
-                </div>
-                <script>
-                    // Optionally show fingerprint overlay automatically
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var overlay = document.getElementById('fingerprint-step');
-                        if (overlay) overlay.classList.remove('hidden');
-                    });
-                </script>
-            <?php endif; ?>
-
             <h1 class="text-3xl font-bold mb-6 text-center text-[#304475]">Create Your Account</h1>
 
             <div class="grid grid-cols-2 gap-6">
