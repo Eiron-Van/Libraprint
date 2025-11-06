@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="relative flex justify-center items-center bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed">
-    <section class="h-svh flex justify-center items-center">
+    <section id="main-content" class="h-svh flex justify-center items-center">
         <form id="registrationForm" method="post" class="w-full min-w-2xl bg-white/60 backdrop-blur-md p-10 rounded-3xl shadow-lg border border-gray-200">
             <h1 class="text-3xl font-bold mb-6 text-center text-[#304475]">Create Your Account</h1>
 
