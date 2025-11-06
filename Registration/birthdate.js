@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const birthdateInput = document.getElementById('birthdate');
-    const errorMessage = document.getElementById('birthdate-error');
     const today = new Date();
     const minAge = 12;
 
@@ -19,14 +18,5 @@ document.addEventListener("DOMContentLoaded", () => {
         age < minAge ||
         (age === minAge && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))
     );
-
-    if (selectedDate > today || isTooYoung) {
-        errorMessage.classList.remove('hidden');
-        birthdateInput.setCustomValidity("Invalid birthdate");
-    } else {
-        errorMessage.classList.add('hidden');
-        birthdateInput.setCustomValidity("");
-    }
-    });
 
 });
