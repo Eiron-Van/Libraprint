@@ -18,5 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         age < minAge ||
         (age === minAge && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))
     );
+    });
 
 });
