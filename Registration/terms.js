@@ -54,13 +54,149 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // AFK Overlay
+    // AFK Overlay Management
 
     const form = document.getElementById("registrationForm");
+    const inactivityOverlay = document.getElementById("inactivity-overlay");
+    let inactivityTimer;
+    let isRegistrationActive = false; // Track if user is actively registering
+    let enrollmentPollInterval = null; // Track polling interval
+
+    function showOverlay() {
+        // Don't show inactivity overlay if registration is in progress
+        if (isRegistrationActive) return;
+        
+        if (inactivityOverlay) {
+            inactivityOverlay.classList.remove("hidden");
+            inactivityOverlay.classList.add("flex");
+        }
+    }
+
+    function resetTimer() {
+        // Don't reset timer if registration is active
+        if (isRegistrationActive) return;
+
+        // Hide overlay if user becomes active again
+        if (inactivityOverlay) {
+            inactivityOverlay.classList.add("hidden");
+            inactivityOverlay.classList.remove("flex");
+        }
+
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(showOverlay, 2 * 60 * 1000); // 2 minutes
+    }
+
+    let formActivityTimer = null;
+    
+    function disableInactivityTimer() {
+        isRegistrationActive = true;
+        clearTimeout(inactivityTimer);
+        if (inactivityOverlay) {
+            inactivityOverlay.classList.add("hidden");
+            inactivityOverlay.classList.remove("flex");
+        }
+    }
+
+    function enableInactivityTimer() {
+        isRegistrationActive = false;
+        resetTimer();
+    }
+
+    // Disable inactivity timer when form is being actively interacted with
+    // Re-enable after 5 seconds of inactivity (unless in fingerprint enrollment)
+    const formInputs = form.querySelectorAll('input, select, textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            disableInactivityTimer();
+            // Clear any pending re-enable timer
+            if (formActivityTimer) {
+                clearTimeout(formActivityTimer);
+            }
+        });
+        
+        input.addEventListener('input', () => {
+            disableInactivityTimer();
+            // Clear any pending re-enable timer
+            if (formActivityTimer) {
+                clearTimeout(formActivityTimer);
+            }
+            // Re-enable after 5 seconds of no input (but only if not in fingerprint enrollment)
+            formActivityTimer = setTimeout(() => {
+                // Only re-enable if we're not in the fingerprint enrollment phase
+                // Check if fingerprint step is visible
+                const fingerprintStep = document.getElementById("fingerprint-step");
+                if (fingerprintStep && fingerprintStep.classList.contains("hidden")) {
+                    enableInactivityTimer();
+                }
+            }, 5000);
+        });
+        
+        input.addEventListener('blur', () => {
+            // Re-enable after 5 seconds if not in fingerprint enrollment
+            if (formActivityTimer) {
+                clearTimeout(formActivityTimer);
+            }
+            formActivityTimer = setTimeout(() => {
+                const fingerprintStep = document.getElementById("fingerprint-step");
+                if (fingerprintStep && fingerprintStep.classList.contains("hidden")) {
+                    enableInactivityTimer();
+                }
+            }, 5000);
+        });
+    });
+
+    // Check if registration is complete by polling session
+    function checkRegistrationStatus() {
+        fetch('check_registration_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ check: true })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.registrationComplete) {
+                // Registration is complete, clean up all timers
+                clearInterval(enrollmentPollInterval);
+                enrollmentPollInterval = null;
+                if (formActivityTimer) {
+                    clearTimeout(formActivityTimer);
+                    formActivityTimer = null;
+                }
+                clearTimeout(inactivityTimer);
+                
+                // Hide fingerprint enrollment overlays
+                const overlay = document.getElementById("overlay");
+                const fingerprintStep = document.getElementById("fingerprint-step");
+                if (overlay) overlay.classList.add("hidden");
+                if (fingerprintStep) fingerprintStep.classList.add("hidden");
+                
+                // Show success message and redirect
+                if (data.message) {
+                    alert(data.message);
+                    // Redirect to login or home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/Login/index.php';
+                    }, 2000);
+                } else {
+                    // Just redirect if no message
+                    window.location.href = '/Login/index.php';
+                }
+            }
+        })
+        .catch(err => {
+            console.error('Error checking registration status:', err);
+        });
+    }
+
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         let formData = new FormData(form);
+
+        // Disable inactivity timer during registration
+        disableInactivityTimer();
 
         fetch("", { method: "POST", body: formData })
             .then(res => {
@@ -81,8 +217,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     const fingerprintStep = document.getElementById("fingerprint-step");
                     if (overlay) overlay.classList.remove("hidden");
                     if (fingerprintStep) fingerprintStep.classList.remove("hidden");
+                    
+                    // Start polling for registration completion
+                    if (enrollmentPollInterval) {
+                        clearInterval(enrollmentPollInterval);
+                    }
+                    enrollmentPollInterval = setInterval(checkRegistrationStatus, 2000); // Check every 2 seconds
+                    
+                    // Keep inactivity timer disabled during fingerprint enrollment
+                    // It will be re-enabled when registration completes
                 } else if (data.error) {
                     alert(data.error);
+                    // Re-enable inactivity timer if registration failed
+                    enableInactivityTimer();
                 } else if (data.text === "OK") {
                     const mainContent = document.getElementById("main-content");
                     if (mainContent) {
@@ -92,31 +239,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     const fingerprintStep = document.getElementById("fingerprint-step");
                     if (overlay) overlay.classList.remove("hidden");
                     if (fingerprintStep) fingerprintStep.classList.remove("hidden");
+                    
+                    // Start polling for registration completion
+                    if (enrollmentPollInterval) {
+                        clearInterval(enrollmentPollInterval);
+                    }
+                    enrollmentPollInterval = setInterval(checkRegistrationStatus, 2000);
                 } else {
                     alert("Error: " + (data.text || "Unexpected response from server."));
+                    // Re-enable inactivity timer if registration failed
+                    enableInactivityTimer();
                 }
             })
-            .catch(err => alert("Request failed: " + err));
+            .catch(err => {
+                alert("Request failed: " + err);
+                // Re-enable inactivity timer if request failed
+                enableInactivityTimer();
+            });
     });
 
-    const overlay = document.getElementById("inactivity-overlay");
-    let inactivityTimer;
-
-    function showOverlay() {
-        overlay.classList.remove("hidden");
-        overlay.classList.add("flex");
-    }
-
-    function resetTimer() {
-        // Hide overlay if user becomes active again
-        overlay.classList.add("hidden");
-        overlay.classList.remove("flex");
-
-        clearTimeout(inactivityTimer);
-        inactivityTimer = setTimeout(showOverlay, 2 * 60 * 1000); // 2 minutes
-    }
-
-    // Reset timer on any user activity
+    // Reset timer on any user activity (only if not in registration)
     ["mousemove", "keydown", "click", "touchstart"].forEach(event => {
         document.addEventListener(event, resetTimer);
     });
