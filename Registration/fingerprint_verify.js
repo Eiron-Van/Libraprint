@@ -19,7 +19,7 @@ sdk.onSamplesAcquired = async function (s) {
         window.location.reload();
         // or force reload from server:
         // window.location.reload(true);
-        }, 600); // 500-1200 ms is a common choice; adjust as needed
+        }, 3000); // 500-1200 ms is a common choice; adjust as needed
 
     } catch (ex) {
         console.error("Scan Again", ex);
