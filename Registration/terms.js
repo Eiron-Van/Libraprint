@@ -177,11 +177,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert(data.message);
                     // Redirect to login or home page after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '/Login/index.php';
+                        window.location.href = '/Registration';
                     }, 2000);
                 } else {
                     // Just redirect if no message
-                    window.location.href = '/Login/index.php';
+                    window.location.href = '/Registration';
                 }
             }
         })
