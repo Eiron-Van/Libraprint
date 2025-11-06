@@ -11,7 +11,7 @@ function startCapture() {
 sdk.onSamplesAcquired = async function (s) {
     try {
         // try to open the app without navigating away from this page
-        window.open("libraprint-v://session");
+        window.location.href = "libraprint-v://session";
 
         // reload after a short delay so the page refreshes even if the custom scheme returns quickly
         setTimeout(() => {
