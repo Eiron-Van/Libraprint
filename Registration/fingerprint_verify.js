@@ -10,7 +10,7 @@ function startCapture() {
 
 sdk.onSamplesAcquired = async function (s) {
     try {
-        window.open("libraprint-v://session");
+        window.location.href = "libraprint-v://session";
     } catch (ex) {
         console.error("Scan Again", ex);
     }
