@@ -73,15 +73,25 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(data => {
                 if (data.success) {
-                    document.getElementById("main-content").classList.add("blur-sm", "pointer-events-none");
-                    document.getElementById("overlay").classList.remove("hidden");
-                    document.getElementById("fingerprint-step").classList.remove("hidden");
+                    const mainContent = document.getElementById("main-content");
+                    if (mainContent) {
+                        mainContent.classList.add("blur-sm", "pointer-events-none");
+                    }
+                    const overlay = document.getElementById("overlay");
+                    const fingerprintStep = document.getElementById("fingerprint-step");
+                    if (overlay) overlay.classList.remove("hidden");
+                    if (fingerprintStep) fingerprintStep.classList.remove("hidden");
                 } else if (data.error) {
                     alert(data.error);
                 } else if (data.text === "OK") {
-                    document.getElementById("main-content").classList.add("blur-sm", "pointer-events-none");
-                    document.getElementById("overlay").classList.remove("hidden");
-                    document.getElementById("fingerprint-step").classList.remove("hidden");
+                    const mainContent = document.getElementById("main-content");
+                    if (mainContent) {
+                        mainContent.classList.add("blur-sm", "pointer-events-none");
+                    }
+                    const overlay = document.getElementById("overlay");
+                    const fingerprintStep = document.getElementById("fingerprint-step");
+                    if (overlay) overlay.classList.remove("hidden");
+                    if (fingerprintStep) fingerprintStep.classList.remove("hidden");
                 } else {
                     alert("Error: " + (data.text || "Unexpected response from server."));
                 }

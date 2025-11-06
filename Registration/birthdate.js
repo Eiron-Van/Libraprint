@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const birthdateInput = document.getElementById('birthdate');
+    const errorMessage = document.getElementById('birthdate-error');
     const today = new Date();
     const minAge = 12;
 
