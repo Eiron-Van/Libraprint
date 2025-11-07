@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 5️⃣ Always update the book to 'Available' and set book condition
-    $updateBook = $conn->prepare("UPDATE book_inventory SET status = 'Available', book_conditioned = ? WHERE barcode = ?");
+    $updateBook = $conn->prepare("UPDATE book_inventory SET status = 'Available', book_condition = ? WHERE barcode = ?");
     $updateBook->bind_param("ss", $condition, $barcode);
     $updateBook->execute();
 
