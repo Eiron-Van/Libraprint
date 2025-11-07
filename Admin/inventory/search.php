@@ -19,7 +19,8 @@ if (!empty($search)) {
             OR date_acquired LIKE '%$safe_search%' 
             OR remarks LIKE '%$safe_search%' 
             OR status LIKE '%$safe_search%'
-            OR barcode LIKE '%$safe_search%'";
+            OR barcode LIKE '%$safe_search%'
+            OR book_condition LIKE '%$safe_search%'";
 } else {
     $sql = "SELECT * FROM book_inventory";
 }
@@ -50,6 +51,29 @@ function highlightTerms(string $text, string $search): string {
         }
     }
     return $out;
+}
+
+// helper function to generate condition dot
+function getConditionDot($condition) {
+    if (empty($condition) || $condition === null) {
+        $condition = 'Good Condition'; // Default
+    }
+    
+    $condition = trim($condition);
+    $conditionLower = strtolower($condition);
+    // Check if condition is "good condition" (case insensitive)
+    $isGood = ($conditionLower === 'good condition');
+    $dotColor = $isGood ? 'bg-green-500' : 'bg-red-500';
+    $conditionText = htmlspecialchars($condition);
+    
+    return "<span class='condition-dot-container relative inline-block mr-2'>
+                <span class='condition-dot $dotColor w-3 h-3 rounded-full inline-block cursor-help' 
+                      title='$conditionText' 
+                      data-condition='$conditionText'></span>
+                <span class='condition-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200 z-50'>
+                    $conditionText
+                </span>
+            </span>";
 }
 
 // output table
@@ -92,8 +116,12 @@ while ($row = $result->fetch_assoc()) {
         default: $status_class = 'text-gray-600'; break;
     }
 
+    // Get condition dot
+    $condition = $row['book_condition'] ?? null;
+    $conditionDot = getConditionDot($condition);
+    
     echo "<tr class='$bg_color'>
-      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['author'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap'><div class='flex items-center'>" . $conditionDot . highlightTerms($row['author'], $search) . "</div></td>
       <td class='p-3 text-xs'>" . highlightTerms($row['title'], $search) . "</td>
       <td class='p-3 text-xs'>" . highlightTerms($row['genre'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>

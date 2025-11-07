@@ -118,7 +118,7 @@ $ageQuery = "
     WHERE MONTH(l.login_time) = MONTH(CURRENT_DATE())
     GROUP BY age_group
     ORDER BY FIELD(age_group, 
-        'Children (0-12)', 
+        'Children (12)', 
         'Adolescents (13-21)', 
         'Young Adults (22-35)', 
         'Adults (36-59)', 
