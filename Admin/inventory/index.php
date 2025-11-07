@@ -26,7 +26,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            cursor: help;
+            cursor: pointer;
         }
         .condition-tooltip {
             position: absolute;
@@ -41,9 +41,14 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             border-radius: 4px;
             white-space: nowrap;
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.2s;
-            z-index: 50;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+        }
+        .condition-dot-container:hover .condition-tooltip {
+            opacity: 1;
+            visibility: visible;
         }
         .condition-tooltip::after {
             content: '';

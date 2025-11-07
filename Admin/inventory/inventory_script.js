@@ -4,21 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to initialize tooltips
   function initTooltips() {
-    const conditionDots = document.querySelectorAll('.condition-dot');
-    conditionDots.forEach(dot => {
-      const container = dot.closest('.condition-dot-container');
+    // Tooltips are now handled via CSS :hover, but we ensure they're properly initialized
+    const containers = document.querySelectorAll('.condition-dot-container');
+    containers.forEach(container => {
       const tooltip = container.querySelector('.condition-tooltip');
-
-      if (container && tooltip) {
-        container.addEventListener('mouseenter', function () {
-          tooltip.classList.remove('opacity-0');
-          tooltip.classList.add('opacity-100');
-        });
-
-        container.addEventListener('mouseleave', function () {
-          tooltip.classList.remove('opacity-100');
-          tooltip.classList.add('opacity-0');
-        });
+      if (tooltip) {
+        // Ensure tooltip is initially hidden
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
       }
     });
   }

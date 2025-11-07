@@ -68,9 +68,8 @@ function getConditionDot($condition) {
     
     return "<span class='condition-dot-container relative inline-block mr-2'>
                 <span class='condition-dot $dotColor w-3 h-3 rounded-full inline-block cursor-help' 
-                      title='$conditionText' 
                       data-condition='$conditionText'></span>
-                <span class='condition-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200 z-50'>
+                <span class='condition-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200 z-[100]'>
                     $conditionText
                 </span>
             </span>";
