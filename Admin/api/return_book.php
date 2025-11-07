@@ -5,10 +5,16 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $barcode = trim($_POST['barcode'] ?? '');
+    $condition = trim($_POST['condition'] ?? 'Good Condition');
 
     if (empty($barcode)) {
         echo json_encode(["success" => false, "error" => "No barcode provided"]);
         exit;
+    }
+
+    // Validate condition value
+    if ($condition !== 'Good Condition' && $condition !== 'Worn Out Condition') {
+        $condition = 'Good Condition'; // Default to Good Condition if invalid
     }
 
     // 1️⃣ Find book by barcode
@@ -70,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateOverdue->execute();
     }
 
-    // 5️⃣ Always update the book to 'Available'
-    $updateBook = $conn->prepare("UPDATE book_inventory SET status = 'Available' WHERE barcode = ?");
-    $updateBook->bind_param("s", $barcode);
+    // 5️⃣ Always update the book to 'Available' and set book condition
+    $updateBook = $conn->prepare("UPDATE book_inventory SET status = 'Available', book_conditioned = ? WHERE barcode = ?");
+    $updateBook->bind_param("ss", $condition, $barcode);
     $updateBook->execute();
 
     // 6️⃣ Return response

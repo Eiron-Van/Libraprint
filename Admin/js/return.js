@@ -38,10 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Send request to backend
     function processReturn(barcode) {
+        // Get selected condition
+        const conditionInput = document.querySelector('input[name="condition"]:checked');
+        const condition = conditionInput ? conditionInput.value : "Good Condition";
+
         fetch("api/return_book.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "barcode=" + encodeURIComponent(barcode),
+            body: "barcode=" + encodeURIComponent(barcode) + "&condition=" + encodeURIComponent(condition),
         })
             .then((res) => res.json())
             .then((data) => {
