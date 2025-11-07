@@ -4,14 +4,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to initialize tooltips
   function initTooltips() {
-    // Tooltips are now handled via CSS :hover, but we ensure they're properly initialized
     const containers = document.querySelectorAll('.condition-dot-container');
-    containers.forEach(container => {
+    containers.forEach((container, index) => {
       const tooltip = container.querySelector('.condition-tooltip');
-      if (tooltip) {
-        // Ensure tooltip is initially hidden
-        tooltip.style.opacity = '0';
-        tooltip.style.visibility = 'hidden';
+      const dot = container.querySelector('.condition-dot');
+
+      if (container && tooltip && dot) {
+        // Remove any existing event listeners by cloning
+        const newContainer = container.cloneNode(true);
+        container.parentNode.replaceChild(newContainer, container);
+
+        // Get fresh references
+        const newTooltip = newContainer.querySelector('.condition-tooltip');
+        const newDot = newContainer.querySelector('.condition-dot');
+
+        if (newContainer && newTooltip && newDot) {
+          // Set initial state
+          newTooltip.style.opacity = '0';
+          newTooltip.style.visibility = 'hidden';
+          newTooltip.style.display = 'block';
+
+          // Use mouseenter/mouseleave for better control
+          newContainer.addEventListener('mouseenter', function (e) {
+            e.stopPropagation();
+            newTooltip.style.opacity = '1';
+            newTooltip.style.visibility = 'visible';
+            newTooltip.style.display = 'block';
+          });
+
+          newContainer.addEventListener('mouseleave', function (e) {
+            e.stopPropagation();
+            newTooltip.style.opacity = '0';
+            newTooltip.style.visibility = 'hidden';
+          });
+        }
       }
     });
   }

@@ -20,6 +20,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         mark.search-highlight {background-color: #FDE68A; color: inherit; padding: 0 1px; border-radius: 3px;}
         .condition-dot-container {
             position: relative;
+            display: inline-block;
         }
         .condition-dot {
             display: inline-block;
@@ -30,25 +31,25 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         }
         .condition-tooltip {
             position: absolute;
-            bottom: 100%;
+            bottom: calc(100% + 8px);
             left: 50%;
             transform: translateX(-50%);
-            margin-bottom: 8px;
             padding: 4px 8px;
             background-color: #1f2937;
             color: white;
             font-size: 12px;
             border-radius: 4px;
             white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0 !important;
+            visibility: hidden !important;
             pointer-events: none;
             transition: opacity 0.2s, visibility 0.2s;
-            z-index: 100;
+            z-index: 9999 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .condition-dot-container:hover .condition-tooltip {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         .condition-tooltip::after {
             content: '';
@@ -58,6 +59,18 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             transform: translateX(-50%);
             border: 4px solid transparent;
             border-top-color: #1f2937;
+        }
+        /* Ensure table cells and containers don't clip tooltips */
+        table td {
+            overflow: visible !important;
+            position: relative;
+        }
+        #results {
+            overflow: visible !important;
+        }
+        #results .overflow-auto {
+            overflow-x: auto !important;
+            overflow-y: auto !important;
         }
     </style>
     <script src="/Admin/js/script.js"></script>
