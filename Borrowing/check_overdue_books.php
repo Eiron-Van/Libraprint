@@ -68,6 +68,7 @@ if ($conn->query($sql2) === TRUE) {
 }
 
 // Step 3: Log delinquent borrowers (those with at least 1 overdue book)
+// Only insert user_ids that exist in users table to avoid foreign key constraint errors
 $sql3 = "
     INSERT INTO delinquent_log (user_id, total_overdue_books, logged_at)
     SELECT 
@@ -75,6 +76,7 @@ $sql3 = "
         COUNT(*) AS total_overdue_books,
         NOW()
     FROM borrow_log AS b
+    INNER JOIN users AS u ON b.user_id = u.user_id
     WHERE b.status = 'Overdue'
     GROUP BY b.user_id
     HAVING COUNT(*) >= 1

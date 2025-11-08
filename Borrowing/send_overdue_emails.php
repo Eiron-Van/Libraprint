@@ -6,8 +6,14 @@ require __DIR__ . '/../connection.php';
 require __DIR__ . '/../mailer.php'; // import your sendEmail() function
 
 // Add last_email_sent column to overdue_log if it doesn't exist (for demo: tracking email intervals)
-$alter_sql = "ALTER TABLE overdue_log ADD COLUMN last_email_sent DATETIME NULL";
-@$conn->query($alter_sql); // Suppress error if column already exists
+// Check if column exists before adding it
+$check_column = $conn->query("SHOW COLUMNS FROM overdue_log LIKE 'last_email_sent'");
+if ($check_column->num_rows == 0) {
+    $alter_sql = "ALTER TABLE overdue_log ADD COLUMN last_email_sent DATETIME NULL";
+    if (!$conn->query($alter_sql)) {
+        echo "Warning: Could not add last_email_sent column: " . $conn->error . "<br>";
+    }
+}
 
 // Query overdue books that need notification
 // Send email when overdue is detected, then every 2 minutes
