@@ -14,8 +14,8 @@ $sql = "
     JOIN borrow_log bl ON o.borrow_id = bl.id
     WHERE bl.date_returned IS NULL
       AND (
-            DATEDIFF(CURDATE(), o.date_overdue_detected) = 0   -- first day overdue
-         OR DATEDIFF(CURDATE(), o.date_overdue_detected) % 3 = 0 -- every 3 days
+            AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1   -- first day overdue
+         OR AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) % 3 = 0 -- every 3 days
       )
 ";
 

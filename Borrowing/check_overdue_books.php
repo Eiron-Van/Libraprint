@@ -14,7 +14,7 @@ $sql1 = "
     SET status = 'Overdue'
     WHERE date_returned IS NULL
     AND status != 'Overdue'
-    AND DATEDIFF(CURDATE(), date_borrowed) > 7
+    AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
 ";
 if ($conn->query($sql1) === TRUE) {
     $affected1 = $conn->affected_rows;
@@ -31,11 +31,11 @@ $sql_insert = "
         b.user_id,
         b.book_id,
         NOW() AS date_overdue_detected,
-        DATEDIFF(CURDATE(), b.date_borrowed) - 7 AS days_overdue
+        TIMESTAMPDIFF(MINUTE(), b.date_borrowed, NOW()) > 1 AS days_overdue
     FROM borrow_log AS b
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
-      AND DATEDIFF(CURDATE(), b.date_borrowed) > 7
+      AND TIMESTAMPDIFF(MINUTE(), b.date_borrowed, NOW()) > 1
       AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
 ";
 
