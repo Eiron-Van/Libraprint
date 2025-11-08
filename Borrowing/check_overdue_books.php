@@ -5,10 +5,10 @@ ini_set('display_errors', 1);
 require __DIR__ . '/../connection.php';
 
 
-// Add this to change the overdued date or something
+// Demo: Overdue threshold set to 1 minute instead of 7 days
 // AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
 
-// Step 1: Mark as overdue if borrowed for more than 7 days and not returned
+// Step 1: Mark as overdue if borrowed for more than 1 minute and not returned
 $sql1 = "
     UPDATE borrow_log
     SET status = 'Overdue'
@@ -31,11 +31,11 @@ $sql_insert = "
         b.user_id,
         b.book_id,
         NOW() AS date_overdue_detected,
-        TIMESTAMPDIFF(MINUTE(), b.date_borrowed, NOW()) > 1 AS days_overdue
+        TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) - 1 AS days_overdue
     FROM borrow_log AS b
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
-      AND TIMESTAMPDIFF(MINUTE(), b.date_borrowed, NOW()) > 1
+      AND TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) > 1
       AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
 ";
 
@@ -91,7 +91,7 @@ if ($conn->query($sql3) === TRUE) {
 $sql_update_days = "
     UPDATE overdue_log AS o
     JOIN borrow_log AS b ON o.borrow_id = b.id
-    SET o.days_overdue = DATEDIFF(CURDATE(), b.date_borrowed) - 7
+    SET o.days_overdue = TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) - 1
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
 ";

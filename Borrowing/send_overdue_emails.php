@@ -5,17 +5,35 @@ ini_set('display_errors', 1);
 require __DIR__ . '/../connection.php';
 require __DIR__ . '/../mailer.php'; // import your sendEmail() function
 
+// Add last_email_sent column to overdue_log if it doesn't exist (for demo: tracking email intervals)
+$alter_sql = "ALTER TABLE overdue_log ADD COLUMN last_email_sent DATETIME NULL";
+@$conn->query($alter_sql); // Suppress error if column already exists
+
 // Query overdue books that need notification
+// Send email when overdue is detected, then every 2 minutes
 $sql = "
-    SELECT o.borrow_id, o.user_id, u.email, u.first_name, b.title, o.date_overdue_detected
+    SELECT 
+        o.borrow_id, 
+        o.user_id, 
+        u.email, 
+        u.first_name, 
+        b.title, 
+        o.date_overdue_detected,
+        o.last_email_sent,
+        bl.date_borrowed,
+        TIMESTAMPDIFF(MINUTE, bl.date_borrowed, NOW()) AS minutes_overdue
     FROM overdue_log o
-    JOIN users u ON o.user_id = u.id
+    JOIN users u ON o.user_id = u.user_id
     JOIN book_inventory b ON o.book_id = b.item_id
     JOIN borrow_log bl ON o.borrow_id = bl.id
     WHERE bl.date_returned IS NULL
+      AND bl.status = 'Overdue'
+      AND TIMESTAMPDIFF(MINUTE, bl.date_borrowed, NOW()) > 1
       AND (
-            AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1   -- first day overdue
-         OR AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) % 3 = 0 -- every 3 days
+        -- Send email if overdue is just detected (no previous email sent)
+        o.last_email_sent IS NULL
+        -- OR send email every 2 minutes since last email
+        OR TIMESTAMPDIFF(MINUTE, o.last_email_sent, NOW()) >= 2
       )
 ";
 
@@ -27,13 +45,22 @@ if ($result && $result->num_rows > 0) {
         $toName  = $row['first_name'] ?? ''; // fallback if no name column
         $subject = "Library Notice: Overdue Book Reminder";
 
-        // Calculate how many days since overdue
-        $days = (new DateTime($row['date_overdue_detected']))->diff(new DateTime())->days;
+        // Calculate how many minutes since overdue (demo: using minutes instead of days)
+        $minutesOverdue = max(0, $row['minutes_overdue'] - 1);
+        
+        // Format time display
+        if ($minutesOverdue < 60) {
+            $timeText = "{$minutesOverdue} minute(s)";
+        } else {
+            $hours = floor($minutesOverdue / 60);
+            $minutes = $minutesOverdue % 60;
+            $timeText = "{$hours} hour(s) and {$minutes} minute(s)";
+        }
 
         $bodyHtml = "
             <p>Dear {$toName},</p>
             <p>Our records show that your borrowed book <strong>{$row['title']}</strong> 
-            is overdue. It has been <strong>{$days} day(s)</strong> since the due date.</p>
+            is overdue. It has been <strong>{$timeText}</strong> since the due date.</p>
             <p>Please return the book as soon as possible to avoid further action.</p>
             <p>Thank you,<br>Libraprint</p>
         ";
@@ -41,13 +68,18 @@ if ($result && $result->num_rows > 0) {
         $resultSend = sendEmail($toEmail, $toName, $subject, $bodyHtml);
 
         if ($resultSend['status'] === 'success') {
-            echo "Email sent to {$toEmail}<br>";
+            // Update last_email_sent timestamp
+            $update_stmt = $conn->prepare("UPDATE overdue_log SET last_email_sent = NOW() WHERE borrow_id = ?");
+            $update_stmt->bind_param("i", $row['borrow_id']);
+            $update_stmt->execute();
+            $update_stmt->close();
+            echo "Email sent to {$toEmail} at " . date('Y-m-d H:i:s') . "<br>";
         } else {
             echo "Failed to send email to {$toEmail}: {$resultSend['message']}<br>";
         }
     }
 } else {
-    echo "No overdue notifications needed today.<br>";
+    echo "No overdue notifications needed at this time.<br>";
 }
 
 $conn->close();
