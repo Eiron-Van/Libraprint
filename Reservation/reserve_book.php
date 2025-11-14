@@ -18,11 +18,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
-$item_id = $data['item_id'] ?? null;
+$title = $data['title'] ?? null;
 $purpose = $data['purpose'] ?? null;
 $user_id = $_SESSION['user_id'];
 
-if (!$item_id || !$purpose) {
+if (!$title || !$purpose) {
     echo json_encode(["success" => false, "message" => "Missing data."]);
     exit;
 }
