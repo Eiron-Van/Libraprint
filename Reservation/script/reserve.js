@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
 
-    let selectedItemId = null; // store the clicked book’s ID
+    let selectedTitle = null; // store the clicked book’s ID
 
     // Delegate clicks from dynamically injected results container
     const resultsContainer = document.getElementById("results");
@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const target = e.target;
             if (target && target.classList && target.classList.contains("reserve-btn")) {
                 e.preventDefault();
-                selectedItemId = target.getAttribute("data-item-id");
-                if (!selectedItemId) return;
+                selectedTitle = target.getAttribute("data-title");  // Get the title
+                if (!selectedTitle) return;
                 overlay.classList.remove("hidden");
                 overlay.classList.add("flex");
             }
@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function reserveBook(purpose) {
-        if (!selectedItemId) return;
+        if (!selectedTitle) return;
 
         fetch("reserve_book.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                item_id: selectedItemId,
+                title: selectedTitle,
                 purpose: purpose
             })
         })
