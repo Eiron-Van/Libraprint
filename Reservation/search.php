@@ -73,9 +73,14 @@ if (!empty($search)) {
 
     // Available Books
     $availableResult = $conn->query("
-        SELECT item_id, title, author
+        SELECT 
+            title,
+            author,
+            COUNT(*) AS total_copies
         FROM book_inventory
         WHERE status = 'Available'
+        GROUP BY title, author
+        ORDER BY title ASC
     ");
 }
 
