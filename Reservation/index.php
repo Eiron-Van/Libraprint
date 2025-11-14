@@ -174,7 +174,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             </div>
             <!-- ✅ Success message -->
             <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md">
-                ✅ Book successfully recorded!
+                ✅ Book reservation completed successfully!
             </div>
 
             <button id="closeOverlayBtn" class="absolute top-2 right-3 text-gray-600 hover:text-black">✕</button>

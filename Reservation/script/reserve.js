@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
 
-    let selectedTitle = null; // store the clicked book’s ID
+    let selectedTitle = null; // store the clicked book’s Title
 
     // Delegate clicks from dynamically injected results container
     const resultsContainer = document.getElementById("results");
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         overlay.classList.add("hidden");
                         successMsg.classList.add("hidden");
                         location.reload();
-                    }, 1500);
+                    }, 2000);
                 } else {
                     alert(data.message);
                 }
