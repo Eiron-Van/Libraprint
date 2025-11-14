@@ -43,13 +43,18 @@ if (!empty($search)) {
 
     // Available Books Query
     $availableBooks = $conn->prepare("
-        SELECT item_id, title, author
+        SELECT 
+            title,
+            author,
+            COUNT(*) AS total_copies
         FROM book_inventory
         WHERE status = 'Available'
         AND (
             title LIKE ?
             OR author LIKE ?
         )
+        GROUP BY title, author
+        ORDER BY title ASC
     ");
     $availableBooks->bind_param("ss", $safe_search, $safe_search);
     $availableBooks->execute();
@@ -129,22 +134,27 @@ echo "  <!-- Available Section Label -->
                 Available Books
         </div>
 
-        <div class='w-full grid grid-cols-6 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-8'>
+        <div class='w-full grid grid-cols-7 bg-[#7581a6] text-white uppercase text-sm font-semibold items-center z-8'>
             <div class='px-2 py-3 col-span-3'>Title</div>
             <div class='px-2 py-3 col-span-2'>Author</div>
-            <div class='px-2 py-3 col-span-1'></div>
+            <div class='px-2 py-3 col-span-1 text-center'>Copies</div>
+            <div class='px-2 py-3 col-span-1 text-center'></div>
         </div>
         ";
 
     if ($availableResult->num_rows > 0) {
         while ($row = $availableResult->fetch_assoc()) {
-        echo "<div class='w-full grid grid-cols-6 bg-white text-gray-700 border-b border-gray-200 items-center'>
+        echo "<div class='w-full grid grid-cols-7 bg-white text-gray-700 border-b border-gray-200 items-center'>
                 <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
                 <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
-                <div class='col-span-1 px-2 py-1 justify-center items-center'>
-                    <button class='reserve-btn bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
-                        data-item-id='" . $row["item_id"] . "'>Reserve
-                    </button>
+                <div class='col-span-1 px-2 py-1 text-center font-semibold'>" . $row['total_copies'] . "</div>
+
+                <div class='col-span-1 px-2 py-1 flex justify-center'>
+                    <button 
+                        class='reserve-btn bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
+                        data-title='" . htmlspecialchars($row['title'], ENT_QUOTES) . "'
+                        data-author='" . htmlspecialchars($row['author'], ENT_QUOTES) . "'
+                    >Reserve</button>
                 </div>
             </div>";
         }

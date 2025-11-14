@@ -19,7 +19,7 @@ $sql1 = "
 if ($conn->query($sql1) === TRUE) {
     $affected1 = $conn->affected_rows;
     echo "Step 1 success — $affected1 borrow_log record(s) marked as Overdue.<br>";
-} else {
+} else {    
     echo "Error Step 1: " . $conn->error . "<br>";
 }
 
