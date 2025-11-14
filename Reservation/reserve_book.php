@@ -27,22 +27,43 @@ if (!$title || !$purpose) {
     exit;
 }
 
-// ✅ Check if the book is available
-$check = $conn->prepare("SELECT status FROM book_inventory WHERE item_id = ?");
-$check->bind_param("i", $item_id);
-$check->execute();
-$result = $check->get_result();
+// // ✅ Check if the book is available
+// $check = $conn->prepare("SELECT status FROM book_inventory WHERE item_id = ?");
+// $check->bind_param("i", $item_id);
+// $check->execute();
+// $result = $check->get_result();
 
-if ($result->num_rows == 0) {
-    echo json_encode(["success" => false, "message" => "Book not found."]);
+// if ($result->num_rows == 0) {
+//     echo json_encode(["success" => false, "message" => "Book not found."]);
+//     exit;
+// }
+
+// $row = $result->fetch_assoc();
+// if ($row['status'] !== 'Available') {
+//     echo json_encode(["success" => false, "message" => "Book is not available."]);
+//     exit;
+// }
+
+// Find one available copy based on the title
+$find = $conn->prepare("
+    SELECT item_id 
+    FROM book_inventory
+    WHERE title = ? AND status = 'Available'
+    ORDER BY item_id ASC
+    LIMIT 1
+");
+$find->bind_param("s", $title);
+$find->execute();
+$itemResult = $find->get_result();
+
+if ($itemResult->num_rows == 0) {
+    echo json_encode(["success" => false, "message" => "No available copies for this title."]);
     exit;
 }
 
-$row = $result->fetch_assoc();
-if ($row['status'] !== 'Available') {
-    echo json_encode(["success" => false, "message" => "Book is not available."]);
-    exit;
-}
+$item = $itemResult->fetch_assoc();
+$item_id = $item['item_id'];  // <-- This is the specific copy that will be reserved
+
 
 // ✅ Reserve the book
 $conn->begin_transaction();
