@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to initialize tooltips
   function initTooltips() {
-    const containers = document.querySelectorAll('.condition-dot-container');
-    containers.forEach((container, index) => {
+    // Initialize condition dot tooltips
+    const conditionContainers = document.querySelectorAll('.condition-dot-container');
+    conditionContainers.forEach((container, index) => {
       const tooltip = container.querySelector('.condition-tooltip');
       const dot = container.querySelector('.condition-dot');
 
@@ -19,6 +20,44 @@ document.addEventListener("DOMContentLoaded", function () {
         const newDot = newContainer.querySelector('.condition-dot');
 
         if (newContainer && newTooltip && newDot) {
+          // Set initial state
+          newTooltip.style.opacity = '0';
+          newTooltip.style.visibility = 'hidden';
+          newTooltip.style.display = 'block';
+
+          // Use mouseenter/mouseleave for better control
+          newContainer.addEventListener('mouseenter', function (e) {
+            e.stopPropagation();
+            newTooltip.style.opacity = '1';
+            newTooltip.style.visibility = 'visible';
+            newTooltip.style.display = 'block';
+          });
+
+          newContainer.addEventListener('mouseleave', function (e) {
+            e.stopPropagation();
+            newTooltip.style.opacity = '0';
+            newTooltip.style.visibility = 'hidden';
+          });
+        }
+      }
+    });
+
+    // Initialize location icon tooltips
+    const locationContainers = document.querySelectorAll('.location-icon-container');
+    locationContainers.forEach((container, index) => {
+      const tooltip = container.querySelector('.location-tooltip');
+      const icon = container.querySelector('.location-icon');
+
+      if (container && tooltip && icon) {
+        // Remove any existing event listeners by cloning
+        const newContainer = container.cloneNode(true);
+        container.parentNode.replaceChild(newContainer, container);
+
+        // Get fresh references
+        const newTooltip = newContainer.querySelector('.location-tooltip');
+        const newIcon = newContainer.querySelector('.location-icon');
+
+        if (newContainer && newTooltip && newIcon) {
           // Set initial state
           newTooltip.style.opacity = '0';
           newTooltip.style.visibility = 'hidden';

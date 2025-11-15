@@ -60,6 +60,48 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             border: 4px solid transparent;
             border-top-color: #1f2937;
         }
+        /* Location icon styles */
+        .location-icon-container {
+            position: relative;
+            display: inline-block;
+        }
+        .location-icon {
+            display: inline-block;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+        .location-tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            background-color: #1f2937;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 9999 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .location-icon-container:hover .location-tooltip {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .location-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: #1f2937;
+        }
         /* Ensure table cells and containers don't clip tooltips */
         table td {
             overflow: visible !important;

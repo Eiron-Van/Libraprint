@@ -20,7 +20,8 @@ if (!empty($search)) {
             OR remarks LIKE '%$safe_search%' 
             OR status LIKE '%$safe_search%'
             OR barcode LIKE '%$safe_search%'
-            OR book_condition LIKE '%$safe_search%'";
+            OR book_condition LIKE '%$safe_search%'
+            OR location LIKE '%$safe_search%'";
 } else {
     $sql = "SELECT * FROM book_inventory";
 }
@@ -75,6 +76,28 @@ function getConditionDot($condition) {
             </span>";
 }
 
+// helper function to generate location icon
+function getLocationIcon($location) {
+    if (empty($location) || $location === null) {
+        $location = 'Shelved'; // Default
+    }
+    
+    $location = trim($location);
+    $locationLower = strtolower($location);
+    // Determine icon based on location
+    $icon = ($locationLower === 'archived') ? '📦' : '📚';
+    $locationText = htmlspecialchars($location);
+    
+    return "<span class='location-icon-container relative inline-block mr-2'>
+                <span class='location-icon text-base cursor-pointer' 
+                      data-location='$locationText'
+                      style='font-size: 16px; line-height: 1;'>$icon</span>
+                <span class='location-tooltip'>
+                    $locationText
+                </span>
+            </span>";
+}
+
 // output table
 echo "<div id='results-count'>
         <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
@@ -115,12 +138,14 @@ while ($row = $result->fetch_assoc()) {
         default: $status_class = 'text-gray-600'; break;
     }
 
-    // Get condition dot
+    // Get condition dot and location icon
     $condition = $row['book_condition'] ?? null;
     $conditionDot = getConditionDot($condition);
+    $location = $row['location'] ?? null;
+    $locationIcon = getLocationIcon($location);
     
     echo "<tr class='$bg_color'>
-      <td class='p-3 text-xs whitespace-nowrap'><div class='flex items-center'>" . $conditionDot . highlightTerms($row['author'], $search) . "</div></td>
+      <td class='p-3 text-xs whitespace-nowrap'><div class='flex items-center'>" . $conditionDot . $locationIcon . highlightTerms($row['author'], $search) . "</div></td>
       <td class='p-3 text-xs'>" . highlightTerms($row['title'], $search) . "</td>
       <td class='p-3 text-xs'>" . highlightTerms($row['genre'], $search) . "</td>
       <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
