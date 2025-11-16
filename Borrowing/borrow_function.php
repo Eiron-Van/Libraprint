@@ -29,8 +29,17 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
         $user = $_SESSION['user_info'];
         $borrowedBooks = $_SESSION['borrowed_books'];
 
+        $sql_settings = "SELECT setting_value FROM settings WHERE setting_name = 'book_due_date_days'";
+        $result_settings = $conn->query($sql_settings);
+        $due_date_days = 7; // fallback
+        if ($result_settings && ($row_settings = $result_settings->fetch_assoc())) {
+            $due_date_days = (int)$row_settings['setting_value'];
+            if ($due_date_days < 1) { $due_date_days = 7; }
+        }
+
         $borrowDate = date('F j, Y');
-        $returnDate = date('F j, Y', strtotime('+7 days'));
+        $returnDate = date('F j, Y', strtotime("+{$due_date_days} days"));
+
 
         // Build book list
         $bookList = "<ul>";
