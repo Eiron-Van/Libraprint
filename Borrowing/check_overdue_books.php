@@ -4,6 +4,17 @@ ini_set('display_errors', 1);
 
 require __DIR__ . '/../connection.php';
 
+// Step 0: Get book due date setting
+$sql_settings = "SELECT setting_value FROM settings WHERE setting_name = 'book_due_date_days'";
+$result_settings = $conn->query($sql_settings);
+if (!$result_settings) {
+    die("Error getting settings: " . $conn->error);
+}
+$row_settings = $result_settings->fetch_assoc();
+$due_date_days = $row_settings ? (int)$row_settings['setting_value'] : 7; // fallback to 7
+if ($due_date_days < 1) { $due_date_days = 7; }
+$due_date_minutes = $due_date_days * 24 * 60;
+echo "Current overdue threshold is <strong>$due_date_days day(s)</strong>.<br>";
 
 // Demo: Overdue threshold set to 1 minute instead of 7 days
 // AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
@@ -14,7 +25,7 @@ $sql1 = "
     SET status = 'Overdue'
     WHERE date_returned IS NULL
     AND status != 'Overdue'
-    AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
+    AND TIMESTAMPDIFF(DAY, date_borrowed, NOW()) >= $due_date_days
 ";
 if ($conn->query($sql1) === TRUE) {
     $affected1 = $conn->affected_rows;
@@ -35,7 +46,7 @@ $sql_insert = "
     FROM borrow_log AS b
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
-      AND TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) > 1
+      AND TIMESTAMPDIFF(DAY, date_borrowed, NOW()) >= $due_date_days
       AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
 ";
 
@@ -93,7 +104,7 @@ if ($conn->query($sql3) === TRUE) {
 $sql_update_days = "
     UPDATE overdue_log AS o
     JOIN borrow_log AS b ON o.borrow_id = b.id
-    SET o.days_overdue = TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) - 1
+    SET o.days_overdue = TIMESTAMPDIFF(DAY, b.date_borrowed, NOW())
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
 ";

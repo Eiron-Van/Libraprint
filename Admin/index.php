@@ -48,21 +48,13 @@ require_once __DIR__ . '/../inc/auth_admin.php';
         <div id="side-menu" class="hidden fixed flex-col bg-[#F4F4F4] w-fit z-10">
             <nav class="flex flex-col bg-[#F4F4F4] h-[calc(100vh-76.9886px)] justify-between">
                 <ul>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 bg-slate-200 w-full px-5 py-4 flex items-center"
-                            href=""><img class="w-8 m-2" src="../asset/dashboard.png">Dashboard</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"
-                            href="./inventory"><img class="w-8 m-2" src="../asset/inventory.png">Inventory</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"
-                            href="./users"><img class="w-8 m-2" src="../asset/users.png">Users</a></li>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"
-                            href="./activity-logs"><img class="w-8 m-2" src="../asset/reports.png">Activity Logs</a>
-                    </li>
-                    <button id="returnBookBtn"
-                        class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"><img
-                            class="w-8 m-2" src="../asset/return.png">Return</button>
-                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"
-                            href="https://libraprintlucena.com/Registration/"><img class="w-8 m-2"
-                                src="../asset/registration.png">Registration</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 bg-slate-200 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="../asset/dashboard.png">Dashboard</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./inventory"><img class="w-8 m-2" src="../asset/inventory.png">Inventory</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./users"><img class="w-8 m-2" src="../asset/users.png">Users</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./activity-logs"><img class="w-8 m-2" src="../asset/reports.png">Activity Logs</a></li>
+                    <button id="returnBookBtn" class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center"><img class="w-8 m-2" src="../asset/return.png">Return</button>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="https://libraprintlucena.com/Registration/"><img class="w-8 m-2" src="../asset/registration.png">Registration</a></li>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="./settings"><img class="w-8 m-2" src="../asset/setting.png">Settings</a></li>
                 </ul>
             </nav>
         </div>

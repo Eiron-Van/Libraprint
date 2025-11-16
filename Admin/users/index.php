@@ -42,9 +42,7 @@ require_once __DIR__ . '/../../inc/auth_admin.php';
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300  bg-slate-200 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="/asset/users.png">Users</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="/Admin/activity-logs"><img class="w-8 m-2" src="/asset/reports.png">Activity Logs</a></li>
                     <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="https://libraprintlucena.com/Registration/"><img class="w-8 m-2" src="/asset/registration.png">Registration</a></li>                    
-
-                    <!-- <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href=""><img class="w-8 m-2" src="../asset/setting.png">Settings</a></li> -->
-                </ul>
+                    <li><a class=" text-black text-2xl hover:bg-slate-200 active:bg-slate-300 w-full px-5 py-4 flex items-center" href="../settings"><img class="w-8 m-2" src="/asset/setting.png">Settings</a></li>                </ul>
             </nav>
         </div>
     </div>
