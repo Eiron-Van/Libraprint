@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const numValue = parseInt(value);
 
         // If the value hasn't changed, do nothing (on blur etc)
-        if (numValue === lastLoadedDueDate) return;
-        
+        if (Number(bookDueDateInput.value) === Number(lastLoadedDueDate)) return;
+
         // Check if it's a valid number
         if (isNaN(numValue)) {
             showFeedback('Error: Please enter a valid number', false);
