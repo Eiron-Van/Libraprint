@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const bookDueDateLabel = document.getElementById('book-due-date-label');
     const feedbackMessage = document.getElementById('feedback-message');
 
+    let lastLoadedDueDate = null;
+
     // ===== UPDATE LABEL =====
     // When value is 1, show "day" instead of "days"
     function updateLabel() {
@@ -41,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Convert to number
         const numValue = parseInt(value);
+
+        // If the value hasn't changed, do nothing (on blur etc)
+        if (numValue === lastLoadedDueDate) return;
         
         // Check if it's a valid number
         if (isNaN(numValue)) {
@@ -104,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (data.success) {
                 bookDueDateInput.value = data.due_date_days;
+                lastLoadedDueDate = data.due_date_days;
                 updateLabel();
             } else {
                 console.error('Error loading settings:', data.error);
