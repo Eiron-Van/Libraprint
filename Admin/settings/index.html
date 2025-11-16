@@ -49,7 +49,7 @@
                 <p class="text-sm">Manage your admin settings</p>
             </section>
     
-            <section class="flex flex-col gap-1 bg-white/10 p-6 rounded-xl shadow-lg">
+            <section class="flex flex-col gap-4 bg-white/10 p-6 rounded-xl shadow-lg">
                 <div class="flex flex-col gap-1">
                     <h2 class="text-lg font-semibold">Book Due Date</h2>
                     <p class="text-sm">Change the book due date</p>
@@ -57,6 +57,16 @@
                         <input type="number" name="book-due-date" id="book-due-date" min="1" max="365" class="w-1/4 px-2 py-0.5 bg-white/40 text-right rounded-lg shadow-xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
                         <label for="book-due-date" id="book-due-date-label" class="text-sm">days</label>
                         <div id="feedback-message" class="text-sm hidden"></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-lg font-semibold">Overdue Email Notification</h2>
+                    <p class="text-sm">Change the interval of overdue email notification</p>
+                    <div>
+                        <input type="number" name="overdue-email-interval" id="overdue-email-interval" min="1" max="30" class="w-1/4 px-2 py-0.5 bg-white/40 text-right rounded-lg shadow-xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                        <label for="overdue-email-interval" id="overdue-email-interval-label" class="text-sm">days</label>
+                        <div id="interval-feedback-message" class="text-sm hidden"></div>
                     </div>
                 </div>
             </section>
