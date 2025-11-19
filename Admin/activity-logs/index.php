@@ -100,6 +100,43 @@ require_once __DIR__ . '/../../inc/auth_admin.php';
         </div>
 
     </main>
+    
+    <!-- Configuration Overlay -->
+    <div id="configuration" class="hidden fixed inset-0 bg-black/80 flex justify-center items-center z-51">
+        <div class="bg-white p-6 rounded-lg w-[420px] max-w-full text-left shadow-2xl relative">
+            <button id="config-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="mb-4 pr-8">
+                <h2 class="text-2xl font-bold text-gray-800">Borrow Configuration</h2>
+                <p id="config-context" class="text-sm text-gray-500 mt-1"></p>
+            </div>
+
+            <form id="config-form" class="space-y-5">
+                <div>
+                    <label for="config-due-date" class="block text-sm font-semibold text-gray-700 mb-1">Custom due date (days)</label>
+                    <input type="number" id="config-due-date" name="due_date_days" min="1" max="365" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <p class="text-xs text-gray-500 mt-1" id="due-date-helper"></p>
+                </div>
+
+                <div>
+                    <label for="config-email-interval" class="block text-sm font-semibold text-gray-700 mb-1">Custom overdue email interval (days)</label>
+                    <input type="number" id="config-email-interval" name="overdue_email_interval_days" min="1" max="30" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <p class="text-xs text-gray-500 mt-1" id="email-interval-helper"></p>
+                </div>
+
+                <div id="config-message" class="hidden text-sm"></div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" id="config-reset" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">Reset to default</button>
+                    <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-500/40">Save</button>
+                    <button type="button" id="config-cancel" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
 

@@ -4,39 +4,56 @@ ini_set('display_errors', 1);
 
 require __DIR__ . '/../connection.php';
 require __DIR__ . '/../mailer.php';
+require_once __DIR__ . '/../inc/user_book_config.php';
 
-// Step 0: Get overdue email interval from settings
-$sql = "SELECT setting_value FROM settings WHERE setting_name = 'overdue_email_interval_days'";
-$result = $conn->query($sql);
-
-$interval_days = 3; // default if not set
-if ($result && $row = $result->fetch_assoc()) {
-    $interval_days = (int)$row['setting_value'];
-    if ($interval_days < 1) { $interval_days = 3; }
-}
+lp_ensure_user_book_config_table($conn);
+$settings = lp_get_default_borrow_settings($conn);
+$interval_days = (int) $settings['overdue_email_interval_days'];
+$interval_days = $interval_days > 0 ? $interval_days : 3;
+$default_due_days = (int) $settings['book_due_date_days'];
+$default_due_days = $default_due_days > 0 ? $default_due_days : 7;
 
 // Prepare SQL using day intervals instead of minutes
 $sql = "
     SELECT 
         o.borrow_id, 
         o.user_id, 
+        o.book_id,
         u.email, 
         u.first_name, 
         b.title, 
         o.date_overdue_detected,
         o.last_email_sent,
         bl.date_borrowed,
-        TIMESTAMPDIFF(DAY, bl.date_borrowed, NOW()) AS days_overdue
+        COALESCE(cfg.due_date_days, $default_due_days) AS effective_due_days,
+        COALESCE(cfg.overdue_email_interval_days, $interval_days) AS effective_interval_days,
+        GREATEST(
+            TIMESTAMPDIFF(
+                DAY, 
+                DATE_ADD(bl.date_borrowed, INTERVAL COALESCE(cfg.due_date_days, $default_due_days) DAY),
+                NOW()
+            ),
+            0
+        ) AS days_overdue
     FROM overdue_log o
     JOIN users u ON o.user_id = u.user_id
     JOIN book_inventory b ON o.book_id = b.item_id
     JOIN borrow_log bl ON o.borrow_id = bl.id
+    LEFT JOIN user_book_configurations AS cfg 
+        ON cfg.user_id = o.user_id AND cfg.book_id = o.book_id
     WHERE bl.date_returned IS NULL
       AND bl.status = 'Overdue'
-      AND TIMESTAMPDIFF(DAY, bl.date_borrowed, NOW()) >= 1
+      AND GREATEST(
+            TIMESTAMPDIFF(
+                DAY, 
+                DATE_ADD(bl.date_borrowed, INTERVAL COALESCE(cfg.due_date_days, $default_due_days) DAY),
+                NOW()
+            ),
+            0
+        ) >= 1
       AND (
         o.last_email_sent IS NULL
-        OR TIMESTAMPDIFF(DAY, o.last_email_sent, NOW()) >= $interval_days
+        OR TIMESTAMPDIFF(DAY, o.last_email_sent, NOW()) >= COALESCE(cfg.overdue_email_interval_days, $interval_days)
       )
 ";
 
@@ -53,10 +70,12 @@ if ($result && $result->num_rows > 0) {
         // Format time display
         $timeText = "$daysOverdue day(s)";
 
+        $effectiveDueDays = (int)($row['effective_due_days'] ?? $default_due_days);
+
         $bodyHtml = "
             <p>Dear {$toName},</p>
             <p>Our records show that your borrowed book <strong>{$row['title']}</strong> 
-            is overdue. It has been <strong>{$timeText}</strong> since the due date.</p>
+            is overdue. It has been <strong>{$timeText}</strong> since the due date ({$effectiveDueDays} day loan).</p>
             <p>Please return the book as soon as possible to avoid further action.</p>
             <p>Thank you,<br>Libraprint</p>
         ";

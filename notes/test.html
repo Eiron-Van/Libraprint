@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separated Slider and Number Line Labels</title>
+    <link rel="stylesheet" href="/style.css?v=1.5">
+    <!-- <style>
+        .slider-wrapper {
+            width: 80%;
+            margin: 40px auto; /* Provides space around the component */
+            text-align: center;
+        }
+
+        .level-slider {
+            width: 100%;
+            margin-bottom: 15px; /* Space between slider and labels */
+            cursor: pointer;
+        }
+
+        .number-line-labels {
+            display: flex;
+            justify-content: space-between; /* Distributes items evenly */
+            width: 100%;
+            padding: 0;
+            list-style-type: none; /* Removes bullet points from the list */
+            margin: 0;
+        }
+
+        .label-item {
+            font-size: 14px;
+            color: #555;
+            /* Optional: Add a small visual indicator/tick line using a pseudo-element */
+            position: relative;
+            text-align: center;
+            width: 2ch; /* Helps in precise centering */
+        }
+
+        .label-item::before {
+            content: '';
+            position: absolute;
+            top: -10px; /* Position above the number */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 5px; /* Small tick mark height */
+            background-color: #333;
+        }
+    </style> -->
+</head>
+<body>
+
+    <div class="w-[80%] m-10">
+        <label for="level-slider">Use the slider above to select a level:</label>
+        
+        <!-- The Slider Input -->
+        <input type="range" id="level-slider" class="w-full mb-5 cursor-pointer appearance-none bg-gray-400 rounded-full h-2" min="1" max="7" step="1">
+        
+        <!-- The Number Line Labels (Unordered List) -->
+        <ul class="flex justify-between w-full p-0 list-none m-0">
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">1</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">2</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">3</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">4</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">5</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">6</li>
+            <li class="text-sm relative text-center width-[3ch] before:content-[''] before:absolute before:-top-2.5 before:left-1/2 before:translate-x-1/2 before:w-0.25 before:h-1.25 before:bg-black">7</li>
+        </ul>
+    </div>
+
+</body>
+</html>

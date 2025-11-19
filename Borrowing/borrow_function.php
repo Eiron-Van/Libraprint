@@ -13,6 +13,7 @@ session_start();
 
 require '../connection.php';
 require '../mailer.php';
+require_once __DIR__ . '/../inc/user_book_config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -22,6 +23,8 @@ if (!isset($_SESSION['user_id'])) {
 
 
 $user_id = $_SESSION['user_id'];
+$borrowSettings = lp_get_default_borrow_settings($conn);
+$defaultDueDateDays = (int) $borrowSettings['book_due_date_days'];
 
 // ✅ Check if this is the "final email" trigger (not a book scan)
 if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
@@ -29,24 +32,29 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
         $user = $_SESSION['user_info'];
         $borrowedBooks = $_SESSION['borrowed_books'];
 
-        $sql_settings = "SELECT setting_value FROM settings WHERE setting_name = 'book_due_date_days'";
-        $result_settings = $conn->query($sql_settings);
-        $due_date_days = 7; // fallback
-        if ($result_settings && ($row_settings = $result_settings->fetch_assoc())) {
-            $due_date_days = (int)$row_settings['setting_value'];
-            if ($due_date_days < 1) { $due_date_days = 7; }
-        }
-
         $borrowDate = date('F j, Y');
-        $returnDate = date('F j, Y', strtotime("+{$due_date_days} days"));
-
 
         // Build book list
         $bookList = "<ul>";
+        $dueDates = [];
         foreach ($borrowedBooks as $title) {
-            $bookList .= "<li><strong>{$title}</strong></li>";
+            if (is_array($title)) {
+                $bookTitle = $title['title'] ?? '';
+                $dueDays = isset($title['due_date_days']) ? (int)$title['due_date_days'] : $defaultDueDateDays;
+            } else {
+                $bookTitle = (string)$title;
+                $dueDays = $defaultDueDateDays;
+            }
+
+            $dueTimestamp = strtotime("+{$dueDays} days");
+            $dueDates[] = $dueTimestamp;
+            $prettyDueDate = date('F j, Y', $dueTimestamp);
+
+            $bookList .= "<li><strong>{$bookTitle}</strong> <span style='color:#555'>(Due: {$prettyDueDate})</span></li>";
         }
         $bookList .= "</ul>";
+
+        $soonestDue = !empty($dueDates) ? min($dueDates) : null;
 
         // Email content
         $subject = "📚 Borrowing Confirmation - LibraPrint Lucena Library";
@@ -55,8 +63,13 @@ if (isset($_POST['finalBorrow']) && $_POST['finalBorrow'] === 'true') {
             <p>Dear {$user['first_name']} {$user['last_name']},</p>
             <p>You have successfully borrowed the following book(s):</p>
             {$bookList}
-            <p><strong>Borrowed on:</strong> {$borrowDate}<br>
-               <strong>Return Due Date:</strong> {$returnDate}</p>
+            <p><strong>Borrowed on:</strong> {$borrowDate}</p>";
+
+        if ($soonestDue) {
+            $body .= "<p><strong>Earliest Due Date:</strong> " . date('F j, Y', $soonestDue) . "</p>";
+        }
+
+        $body .= "
             <p>Please return your borrowed books on or before the due date to avoid penalties.</p>
             <br>
             <p>Thank you,<br><strong>LibraPrint Lucena Library</strong></p>
@@ -156,7 +169,15 @@ if ($stmt->execute()) {
     if (!isset($_SESSION['borrowed_books'])) {
         $_SESSION['borrowed_books'] = [];
     }
-    $_SESSION['borrowed_books'][] = $book_title;
+    $config = lp_get_user_book_config($conn, $user_id, (int)$book_id);
+    $effectiveDueDays = $config['due_date_days'] !== null ? (int)$config['due_date_days'] : $defaultDueDateDays;
+
+    $_SESSION['borrowed_books'][] = [
+        'book_id' => $book_id,
+        'title' => $book_title,
+        'due_date_days' => $effectiveDueDays,
+        'custom_due_date_days' => $config['due_date_days'],
+    ];
 
     echo json_encode([
         'success' => true,

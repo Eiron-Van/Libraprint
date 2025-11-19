@@ -3,29 +3,27 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require __DIR__ . '/../connection.php';
+require_once __DIR__ . '/../inc/user_book_config.php';
 
-// Step 0: Get book due date setting
-$sql_settings = "SELECT setting_value FROM settings WHERE setting_name = 'book_due_date_days'";
-$result_settings = $conn->query($sql_settings);
-if (!$result_settings) {
-    die("Error getting settings: " . $conn->error);
-}
-$row_settings = $result_settings->fetch_assoc();
-$due_date_days = $row_settings ? (int)$row_settings['setting_value'] : 7; // fallback to 7
-if ($due_date_days < 1) { $due_date_days = 7; }
-$due_date_minutes = $due_date_days * 24 * 60;
-echo "Current overdue threshold is <strong>$due_date_days day(s)</strong>.<br>";
+lp_ensure_user_book_config_table($conn);
+$settings = lp_get_default_borrow_settings($conn);
+$due_date_days = (int) $settings['book_due_date_days'];
+$due_date_days = $due_date_days > 0 ? $due_date_days : 7;
+
+echo "Current base overdue threshold is <strong>$due_date_days day(s)</strong>. Per-user overrides will adjust this where available.<br>";
 
 // Demo: Overdue threshold set to 1 minute instead of 7 days
 // AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
 
 // Step 1: Mark as overdue if borrowed for more than 1 minute and not returned
 $sql1 = "
-    UPDATE borrow_log
-    SET status = 'Overdue'
-    WHERE date_returned IS NULL
-    AND status != 'Overdue'
-    AND TIMESTAMPDIFF(DAY, date_borrowed, NOW()) >= $due_date_days
+    UPDATE borrow_log AS br
+    LEFT JOIN user_book_configurations AS cfg 
+        ON cfg.user_id = br.user_id AND cfg.book_id = br.book_id
+    SET br.status = 'Overdue'
+    WHERE br.date_returned IS NULL
+    AND br.status != 'Overdue'
+    AND TIMESTAMPDIFF(DAY, br.date_borrowed, NOW()) >= COALESCE(cfg.due_date_days, $due_date_days)
 ";
 if ($conn->query($sql1) === TRUE) {
     $affected1 = $conn->affected_rows;
@@ -42,11 +40,20 @@ $sql_insert = "
         b.user_id,
         b.book_id,
         NOW() AS date_overdue_detected,
-        TIMESTAMPDIFF(MINUTE, b.date_borrowed, NOW()) - 1 AS days_overdue
+        GREATEST(
+            TIMESTAMPDIFF(
+                DAY, 
+                DATE_ADD(b.date_borrowed, INTERVAL COALESCE(cfg.due_date_days, $due_date_days) DAY), 
+                NOW()
+            ),
+            0
+        ) AS days_overdue
     FROM borrow_log AS b
+    LEFT JOIN user_book_configurations AS cfg 
+        ON cfg.user_id = b.user_id AND cfg.book_id = b.book_id
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
-      AND TIMESTAMPDIFF(DAY, date_borrowed, NOW()) >= $due_date_days
+      AND TIMESTAMPDIFF(DAY, b.date_borrowed, NOW()) >= COALESCE(cfg.due_date_days, $due_date_days)
       AND b.id NOT IN (SELECT borrow_id FROM overdue_log)
 ";
 
@@ -104,7 +111,16 @@ if ($conn->query($sql3) === TRUE) {
 $sql_update_days = "
     UPDATE overdue_log AS o
     JOIN borrow_log AS b ON o.borrow_id = b.id
-    SET o.days_overdue = TIMESTAMPDIFF(DAY, b.date_borrowed, NOW())
+    LEFT JOIN user_book_configurations AS cfg
+        ON cfg.user_id = b.user_id AND cfg.book_id = b.book_id
+    SET o.days_overdue = GREATEST(
+        TIMESTAMPDIFF(
+            DAY,
+            DATE_ADD(b.date_borrowed, INTERVAL COALESCE(cfg.due_date_days, $due_date_days) DAY),
+            NOW()
+        ),
+        0
+    )
     WHERE b.date_returned IS NULL
       AND b.status = 'Overdue'
 ";
