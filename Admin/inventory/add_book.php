@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $authors = $_POST['author'] ?? [];
     $titles = $_POST['title'] ?? [];
     $genres = $_POST['genre'] ?? [];
+    $isbns = $_POST['isbn'] ?? [];
     $propertyNos = $_POST['property_no'] ?? [];
     $units = $_POST['unit'] ?? [];
     $unitValues = $_POST['unit_value'] ?? [];
@@ -19,17 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $barcodes = $_POST['barcode'] ?? [];
 
     $count = max(
-        count($authors), count($titles), count($genres), count($propertyNos), count($units), count($unitValues),
+        count($authors), count($titles), count($isbns), count($genres), count($propertyNos), count($units), count($unitValues),
         count($accessionNos), count($classNos), count($dates), count($remarksArr), count($statuses), count($barcodes)
     );
 
      $inserted = 0;
      if ($count > 0) {
-        $sql = "INSERT INTO book_inventory (author, title, genre, property_no, unit, unit_value, accession_no, class_no, date_acquired, remarks, status, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO book_inventory (author, title, isbn, genre, property_no, unit, unit_value, accession_no, class_no, date_acquired, remarks, status, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         for ($i = 0; $i < $count; $i++) {
             $author = trim($authors[$i] ?? '');
             $title = trim($titles[$i] ?? '');
+            $isbn = trim($isbns[$i] ?? '');
             $genre = trim($genres[$i] ?? '');
             $property_no = trim($propertyNos[$i] ?? '');
             $unit = trim($units[$i] ?? '');
@@ -47,9 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt->bind_param(
-                'ssssssssssss',
+                'sssssssssssss',
                 $author,
                 $title,
+                $isbn,
                 $genre,
                 $property_no,
                 $unit,
@@ -97,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <tr>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-40">ISBN</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
@@ -117,6 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -175,6 +182,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
+            </td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">

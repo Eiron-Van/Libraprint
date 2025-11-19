@@ -81,6 +81,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function toggleDetailsRow(button) {
+    const targetId = button.getAttribute('data-target');
+    if (!targetId) return;
+    const targetRow = document.getElementById(targetId);
+    if (!targetRow) return;
+
+    const isOpen = targetRow.classList.toggle('show');
+    button.textContent = isOpen ? 'Hide details' : 'View other details';
+  }
+
+  resultsDiv.addEventListener('click', (event) => {
+    const btn = event.target.closest('.toggle-details');
+    if (btn) {
+      toggleDetailsRow(btn);
+    }
+  });
+
   function fetchResults(query) {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "search.php?search=" + encodeURIComponent(query), true);

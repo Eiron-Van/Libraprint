@@ -4,27 +4,53 @@ include '../../connection.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
+function columnExists(mysqli $conn, string $table, string $column): bool {
+    $sql = "SELECT COUNT(*) AS count 
+            FROM information_schema.COLUMNS 
+            WHERE TABLE_SCHEMA = DATABASE() 
+              AND TABLE_NAME = ? 
+              AND COLUMN_NAME = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        return false;
+    }
+    $stmt->bind_param('ss', $table, $column);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result ? $result->fetch_assoc() : ['count' => 0];
+    $stmt->close();
+    return (int)($row['count'] ?? 0) > 0;
+}
+
+$isbnEnabled = columnExists($conn, 'book_inventory', 'isbn');
+
 // query
 if (!empty($search)) {
     $safe_search = $conn->real_escape_string($search);
-    $sql = "SELECT * FROM book_inventory 
-            WHERE author LIKE '%$safe_search%' 
-            OR title LIKE '%$safe_search%' 
-            OR genre LIKE '%$safe_search%' 
-            OR property_no LIKE '%$safe_search%' 
-            OR unit LIKE '%$safe_search%' 
-            OR unit_value LIKE '%$safe_search%' 
-            OR accession_no LIKE '%$safe_search%' 
-            OR class_no LIKE '%$safe_search%' 
-            OR date_acquired LIKE '%$safe_search%' 
-            OR remarks LIKE '%$safe_search%' 
-            OR status LIKE '%$safe_search%'
-            OR barcode LIKE '%$safe_search%'
-            OR book_condition LIKE '%$safe_search%'
-            OR location LIKE '%$safe_search%'";
+    $conditions = [
+        "author LIKE '%$safe_search%'",
+        "title LIKE '%$safe_search%'",
+        "genre LIKE '%$safe_search%'",
+        "property_no LIKE '%$safe_search%'",
+        "unit LIKE '%$safe_search%'",
+        "unit_value LIKE '%$safe_search%'",
+        "accession_no LIKE '%$safe_search%'",
+        "class_no LIKE '%$safe_search%'",
+        "date_acquired LIKE '%$safe_search%'",
+        "remarks LIKE '%$safe_search%'",
+        "status LIKE '%$safe_search%'",
+        "barcode LIKE '%$safe_search%'",
+        "book_condition LIKE '%$safe_search%'",
+        "location LIKE '%$safe_search%'"
+    ];
+    if ($isbnEnabled) {
+        $conditions[] = "isbn LIKE '%$safe_search%'";
+    }
+    $sql = "SELECT * FROM book_inventory WHERE " . implode(' OR ', $conditions);
 } else {
     $sql = "SELECT * FROM book_inventory";
 }
+
 $result = $conn->query($sql);
 if (!$result) {
     die("Invalid query: " . $conn->error);
@@ -99,34 +125,34 @@ function getLocationIcon($location) {
 }
 
 // output table
+$warningHtml = '';
+if (!$isbnEnabled) {
+    $warningHtml = "<div class='mt-1 text-xs text-yellow-100 bg-yellow-900/60 border border-yellow-700 rounded px-2 py-1'>
+        ISBN column is missing on <code>book_inventory</code>. Run <code>ALTER TABLE book_inventory ADD COLUMN isbn VARCHAR(20) NOT NULL UNIQUE AFTER title;</code> to enable it.
+    </div>";
+}
+
 echo "<div id='results-count'>
         <strong>$num_rows</strong> results for '" . htmlspecialchars($search) . "'
+        $warningHtml
       </div>";
 
 echo "<div class='overflow-auto rounded-lg shadow text-white'>";
-echo "<table class='w-full'>";
+echo "<table class='inventory-table'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Author</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Genre</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-28'>Property No.</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-5'>Unit</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-25'>Unit Value</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-30'>Accession No.</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-23'>Class No.</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-30'>Date Acquired</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-10'>Remarks</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-center w-15'>Status</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-center w-15'>Barcode</th>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left w-35'></th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Book</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left w-40'>ISBN</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-center w-32'>Status</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-center w-32'>Barcode</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-center w-32'>Actions</th>
         </tr>
       </thead>
       <tbody class='divide-y divide-[#5a6480]'>";
 
 $row_class = true;
 while ($row = $result->fetch_assoc()) {
-    $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#8f9ecc] text-gray-700';
+    $bg_color = $row_class ? 'bg-white text-gray-700' : 'bg-[#e3e7f5] text-gray-700';
     $row_class = !$row_class;
 
     $status_class = '';
@@ -143,24 +169,65 @@ while ($row = $result->fetch_assoc()) {
     $conditionDot = getConditionDot($condition);
     $location = $row['location'] ?? null;
     $locationIcon = getLocationIcon($location);
+    if ($isbnEnabled) {
+        $isbnValue = trim((string)($row['isbn'] ?? ''));
+        $isbnDisplay = $isbnValue !== '' 
+            ? highlightTerms($isbnValue, $search) 
+            : "<span class='text-gray-400 text-xs'>Not set</span>";
+    } else {
+        $isbnDisplay = "<span class='text-gray-400 text-xs'>Column unavailable</span>";
+    }
+
+    $detailPairs = [
+        'Genre' => $row['genre'] ?? '',
+        'Property No.' => $row['property_no'] ?? '',
+        'Unit' => $row['unit'] ?? '',
+        'Unit Value' => $row['unit_value'] ?? '',
+        'Accession No.' => $row['accession_no'] ?? '',
+        'Class No.' => $row['class_no'] ?? '',
+        'Date Acquired' => $row['date_acquired'] ?? '',
+        'Remarks' => $row['remarks'] ?? '',
+        'Location' => $row['location'] ?? '',
+        'Condition' => $row['book_condition'] ?? ''
+    ];
+
+    $detailsHtml = '';
+    foreach ($detailPairs as $label => $value) {
+        $valueText = $value !== '' ? highlightTerms($value, $search) : '<span class="text-gray-400">—</span>';
+        $detailsHtml .= "<div>
+            <div class='details-label'>$label</div>
+            <div class='details-value'>$valueText</div>
+        </div>";
+    }
+
+    $detailsId = 'details-' . (int)$row['item_id'];
     
     echo "<tr class='$bg_color'>
-      <td class='p-3 text-xs whitespace-nowrap'><div class='flex items-center'>" . $conditionDot . $locationIcon . highlightTerms($row['author'], $search) . "</div></td>
-      <td class='p-3 text-xs'>" . highlightTerms($row['title'], $search) . "</td>
-      <td class='p-3 text-xs'>" . highlightTerms($row['genre'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['property_no'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap'>" . highlightTerms($row['unit'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['unit_value'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['accession_no'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['class_no'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['date_acquired'], $search) . "</td>
-      <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['remarks'], $search) . "</td>
+      <td class='p-3 text-xs whitespace-nowrap'>
+        <div class='flex flex-col gap-1'>
+            <div class='flex items-center gap-2'>" . $conditionDot . $locationIcon . "<span class='font-semibold text-sm'>" . highlightTerms($row['author'], $search) . "</span></div>
+            <div class='text-gray-600 text-xs'>" . highlightTerms($row['title'], $search) . "</div>
+        </div>
+      </td>
+      <td class='p-3 text-xs whitespace-nowrap'>$isbnDisplay</td>
       <td class='p-3 text-xs whitespace-nowrap text-center'><span class='$status_class'>" . highlightTerms($row['status'], $search) . "</span></td>
       <td class='p-3 text-xs whitespace-nowrap text-center'>" . highlightTerms($row['barcode'], $search) . "</td>
-      <td class='p-3 flex flex-row items-center justify-center gap-1'>
-        <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl text-xs'>Edit</a>
-        <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl text-xs'>Delete</a>
+      <td class='p-3 text-xs whitespace-nowrap text-center'>
+        <div class='flex flex-col gap-1 items-center'>
+            <button type='button' class='toggle-details' data-target='$detailsId'>View other details</button>
+            <div class='flex gap-1'>
+                <a href='edit_book.php?item_id=" . $row['item_id'] . "' class='bg-green-300 px-2 py-1 rounded-2xl text-xs text-gray-900'>Edit</a>
+                <a href='delete_book.php?item_id=" . $row['item_id'] . "' onclick='return confirm(\"Delete this book?\");' class='bg-red-300 px-2 py-1 rounded-2xl text-xs text-gray-900'>Delete</a>
+            </div>
+        </div>
       </td>
+    </tr>
+    <tr class='extra-details-row' id='$detailsId'>
+        <td colspan='5' class='p-4 text-gray-800'>
+            <div class='details-grid'>
+                $detailsHtml
+            </div>
+        </td>
     </tr>";
 }
 echo "</tbody></table></div>";

@@ -12,8 +12,7 @@ $due_date_days = $due_date_days > 0 ? $due_date_days : 7;
 
 echo "Current base overdue threshold is <strong>$due_date_days day(s)</strong>. Per-user overrides will adjust this where available.<br>";
 
-// Demo: Overdue threshold set to 1 minute instead of 7 days
-// AND TIMESTAMPDIFF(MINUTE, date_borrowed, NOW()) > 1
+
 
 // Step 1: Mark as overdue if borrowed for more than 1 minute and not returned
 $sql1 = "

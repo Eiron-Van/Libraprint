@@ -114,6 +114,43 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             overflow-x: auto !important;
             overflow-y: auto !important;
         }
+        .inventory-table {
+            width: 100%;
+        }
+        .extra-details-row {
+            display: none;
+            background-color: #f9fafb;
+        }
+        .extra-details-row.show {
+            display: table-row;
+        }
+        .toggle-details {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            transition: background-color 0.2s ease;
+        }
+        .toggle-details:hover {
+            background-color: #111827;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        .details-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+        .details-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
     </style>
     <script src="/Admin/js/script.js"></script>
     <script src="inventory_script.js"></script>

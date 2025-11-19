@@ -24,6 +24,7 @@ if (!$book) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $author = $_POST['author'];
     $title = $_POST['title'];
+    $isbn = $_POST['isbn'];
     $genre = $_POST['genre'];
     $property_no = $_POST['property_no'];
     $unit = $_POST['unit'];
@@ -80,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     $update_sql = "UPDATE book_inventory 
-                   SET author=?, title=?, genre=?, property_no=?, unit=?, unit_value=?, accession_no=?, class_no=?, date_acquired=?, remarks=?, status=?, barcode=?
+                   SET author=?, title=?, isbn=?, genre=?, property_no=?, unit=?, unit_value=?, accession_no=?, class_no=?, date_acquired=?, remarks=?, status=?, barcode=?
                    WHERE item_id=?";
     $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("ssssssssssssi", $author, $title, $genre, $property_no, $unit, $unit_value, $accession_no, $class_no, $date_acquired, $remarks, $status, $barcode, $id);
+    $stmt->bind_param("sssssssssssssi", $author, $title, $isbn, $genre, $property_no, $unit, $unit_value, $accession_no, $class_no, $date_acquired, $remarks, $status, $barcode, $id);
     $stmt->execute();
 
     header("Location: https://libraprintlucena.com/Admin/inventory");
@@ -113,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <tr>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-40">ISBN</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
@@ -137,6 +139,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="title" value="<?php echo $book['title']; ?>"
                                 class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="isbn" value="<?php echo $book['isbn'] ?? ''; ?>"
+                                class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre" value="<?php echo $book['genre']; ?>"
@@ -177,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <option <?php if($book['status']=='Missing') echo 'selected'; ?>>Missing</option>
                                     <option <?php if($book['status']=='Reserved') echo 'selected'; ?>>Reserved</option>
                                 </select>
-                            </td">
+                            </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="barcode" value="<?php echo $book['barcode']; ?>"
                                 class="w-full shadow px-3 py-1 rounded-lg">
