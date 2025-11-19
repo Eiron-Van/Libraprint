@@ -20,6 +20,22 @@ if (!$book) {
     die("Book not found.");
 }
 
+function generateSampleIsbnFromId(int $itemId): string {
+    $id = max(1, $itemId);
+    $padded = str_pad((string)$id, 6, '0', STR_PAD_LEFT);
+    $group = substr($padded, 0, 3);
+    $publisher = substr($padded, 3);
+    $check = ($id % 9) + 1;
+    return "978-1-$group-$publisher-$check";
+}
+
+$prefilledIsbn = $book['isbn'] ?? '';
+$isbnSampleUsed = false;
+if (trim($prefilledIsbn) === '') {
+    $prefilledIsbn = generateSampleIsbnFromId((int)$book['item_id']);
+    $isbnSampleUsed = true;
+}
+
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $author = $_POST['author'];
@@ -112,8 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <table class="w-full">
                 <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
                     <tr>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-40">ISBN</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
@@ -133,16 +149,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <form method="post">
                         <tr class="bg-white">
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="author" value="<?php echo $book['author']; ?>"
-                                class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="title" value="<?php echo $book['title']; ?>"
                                 class="w-full shadow px-3 py-1 rounded-lg">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="isbn" value="<?php echo $book['isbn'] ?? ''; ?>"
-                                class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
+                                <input type="text" name="author" value="<?php echo $book['author']; ?>"
+                                class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="isbn" value="<?php echo $prefilledIsbn; ?>"
+                                class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-..." <?php echo $isbnSampleUsed ? 'data-autofilled="true"' : ''; ?>>
+                                <span class="text-xs text-gray-500 block mt-1">
+                                    <?php echo $isbnSampleUsed ? 'Sample ISBN generated automatically; replace with the authentic value when you have it.' : 'Update this field if the ISBN needs to change.'; ?>
+                                </span>
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre" value="<?php echo $book['genre']; ?>"

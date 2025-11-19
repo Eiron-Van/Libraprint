@@ -124,6 +124,15 @@ function getLocationIcon($location) {
             </span>";
 }
 
+function generateSampleIsbnFromId(int $itemId): string {
+    $id = max(1, $itemId);
+    $padded = str_pad((string)$id, 6, '0', STR_PAD_LEFT);
+    $group = substr($padded, 0, 3);
+    $publisher = substr($padded, 3);
+    $check = ($id % 9) + 1;
+    return "978-1-$group-$publisher-$check";
+}
+
 // output table
 $warningHtml = '';
 if (!$isbnEnabled) {
@@ -141,7 +150,7 @@ echo "<div class='overflow-auto rounded-lg shadow text-white'>";
 echo "<table class='inventory-table'>";
 echo "<thead class='bg-[#7581a6] text-gray-50 sticky top-0 z-[8]'>
         <tr>
-          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Book</th>
+          <th class='p-3 text-sm font-semibold tracking-wide text-left'>Title / Author</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-left w-40'>ISBN</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-center w-32'>Status</th>
           <th class='p-3 text-sm font-semibold tracking-wide text-center w-32'>Barcode</th>
@@ -171,11 +180,18 @@ while ($row = $result->fetch_assoc()) {
     $locationIcon = getLocationIcon($location);
     if ($isbnEnabled) {
         $isbnValue = trim((string)($row['isbn'] ?? ''));
-        $isbnDisplay = $isbnValue !== '' 
-            ? highlightTerms($isbnValue, $search) 
-            : "<span class='text-gray-400 text-xs'>Not set</span>";
+        if ($isbnValue !== '') {
+            $isbnDisplay = highlightTerms($isbnValue, $search);
+        } else {
+            $sample = htmlspecialchars(generateSampleIsbnFromId((int)$row['item_id']), ENT_QUOTES, 'UTF-8');
+            $isbnDisplay = "<div class='flex flex-col text-left gap-0.5'>
+                <span class='text-gray-400 text-xs'>Not set</span>
+                <span class='text-gray-600 text-xs'>Example: $sample</span>
+            </div>";
+        }
     } else {
-        $isbnDisplay = "<span class='text-gray-400 text-xs'>Column unavailable</span>";
+        $sample = htmlspecialchars(generateSampleIsbnFromId((int)$row['item_id']), ENT_QUOTES, 'UTF-8');
+        $isbnDisplay = "<span class='text-gray-400 text-xs'>Example: $sample</span>";
     }
 
     $detailPairs = [
@@ -202,11 +218,14 @@ while ($row = $result->fetch_assoc()) {
 
     $detailsId = 'details-' . (int)$row['item_id'];
     
+    $authorDisplay = trim((string)$row['author']) !== ''
+        ? "by " . highlightTerms($row['author'], $search)
+        : "<span class='text-gray-400'>Author unknown</span>";
     echo "<tr class='$bg_color'>
       <td class='p-3 text-xs whitespace-nowrap'>
         <div class='flex flex-col gap-1'>
-            <div class='flex items-center gap-2'>" . $conditionDot . $locationIcon . "<span class='font-semibold text-sm'>" . highlightTerms($row['author'], $search) . "</span></div>
-            <div class='text-gray-600 text-xs'>" . highlightTerms($row['title'], $search) . "</div>
+            <div class='flex items-center gap-2 text-sm font-semibold'>" . $conditionDot . $locationIcon . "<span>" . highlightTerms($row['title'], $search) . "</span></div>
+            <div class='text-gray-600 text-xs'>$authorDisplay</div>
         </div>
       </td>
       <td class='p-3 text-xs whitespace-nowrap'>$isbnDisplay</td>

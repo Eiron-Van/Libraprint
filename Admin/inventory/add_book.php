@@ -98,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <table class="w-full" id="books-table">
                     <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
                         <tr>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
+                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-40">ISBN</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
                             <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
@@ -117,13 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tbody class="divide-y divide-[#5a6480]" id="rows">
                         <tr class="bg-white book-row">
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
+                            </td>
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
+                                <span class="text-xs text-gray-500 block mt-1">Sample auto-filled if left blank.</span>
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -178,13 +179,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <template id="row-template">
         <tr class="bg-white book-row">
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
+                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
+            </td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
+                <span class="text-xs text-gray-500 block mt-1">Sample auto-filled if left blank.</span>
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -232,9 +234,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const rowsTbody = document.getElementById('rows');
         const rowTemplate = document.getElementById('row-template');
 
+        function generateSampleIsbn(seed) {
+            seed = seed || Date.now();
+            const base = String(seed).slice(-6).padStart(6, '0');
+            const group = base.slice(0, 3);
+            const publisher = base.slice(3);
+            const check = (seed % 9) + 1;
+            return `978-1-${group}-${publisher}-${check}`;
+        }
+
+        function hydrateIsbn(input, seed) {
+            if (!input || input.dataset.userFilled === 'true') return;
+            if (!input.value.trim()) {
+                input.value = generateSampleIsbn(seed);
+            }
+            if (!input.dataset.listenerAttached) {
+                input.addEventListener('input', () => {
+                    input.dataset.userFilled = 'true';
+                });
+                input.dataset.listenerAttached = 'true';
+            }
+        }
+
+        function hydrateAllIsbn() {
+            const isbnInputs = rowsTbody.querySelectorAll('input[name="isbn[]"]');
+            isbnInputs.forEach((input, idx) => hydrateIsbn(input, Date.now() + idx));
+        }
+
+        hydrateAllIsbn();
+
         addRowBtn.addEventListener('click', () => {
             const clone = rowTemplate.content.cloneNode(true);
             rowsTbody.appendChild(clone);
+            hydrateAllIsbn();
         });
 
         rowsTbody.addEventListener('click', (e) => {
