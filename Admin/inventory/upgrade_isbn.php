@@ -27,9 +27,49 @@ function ensureIsbnColumn(mysqli $conn): bool {
     }
 
     $alterSql = "ALTER TABLE book_inventory
-                 ADD COLUMN isbn VARCHAR(20) NOT NULL UNIQUE
+                 ADD COLUMN isbn VARCHAR(20) NULL DEFAULT NULL
                  AFTER title";
     return $conn->query($alterSql) === true;
+}
+
+function ensureIsbnConstraints(mysqli $conn): bool {
+    $columnSql = "SELECT IS_NULLABLE
+                  FROM information_schema.COLUMNS
+                  WHERE TABLE_SCHEMA = DATABASE()
+                    AND TABLE_NAME = 'book_inventory'
+                    AND COLUMN_NAME = 'isbn'";
+    $columnResult = $conn->query($columnSql);
+    $isNullable = 'YES';
+    if ($columnResult && ($row = $columnResult->fetch_assoc())) {
+        $isNullable = $row['IS_NULLABLE'];
+    }
+
+    $indexSql = "SELECT COUNT(*) AS cnt
+                 FROM information_schema.STATISTICS
+                 WHERE TABLE_SCHEMA = DATABASE()
+                   AND TABLE_NAME = 'book_inventory'
+                   AND INDEX_NAME = 'isbn_unique'";
+    $indexResult = $conn->query($indexSql);
+    $hasIndex = false;
+    if ($indexResult && ($row = $indexResult->fetch_assoc())) {
+        $hasIndex = (int)$row['cnt'] > 0;
+    }
+
+    if ($isNullable === 'YES' || !$hasIndex) {
+        $alterParts = [];
+        if ($isNullable === 'YES') {
+            $alterParts[] = "MODIFY isbn VARCHAR(20) NOT NULL";
+        }
+        if (!$hasIndex) {
+            $alterParts[] = "ADD UNIQUE KEY isbn_unique (isbn)";
+        }
+        if (!empty($alterParts)) {
+            $alterSql = "ALTER TABLE book_inventory " . implode(", ", $alterParts);
+            return $conn->query($alterSql) === true;
+        }
+    }
+
+    return true;
 }
 
 function generateSampleIsbn(int $itemId): string {
@@ -91,6 +131,10 @@ while ($row = $select->fetch_assoc()) {
 
 $checkStmt->close();
 $updateStmt->close();
+
+if (!ensureIsbnConstraints($conn)) {
+    respondAndExit("Rows updated but constraints failed: " . $conn->error);
+}
 
 respondAndExit("ISBN column ready.\nRows updated with sample ISBNs: $updated\n\nYou can now remove placeholder UI logic referencing the \"ISBN upgrade\" once you confirm everything looks good.", true);
 
