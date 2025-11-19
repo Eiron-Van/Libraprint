@@ -172,6 +172,9 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 <button id="read-btn" class="col-span-2 col-start-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Read</button>
                 <button id="borrow-btn" class="col-span-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full">Borrow</button>
             </div>
+            <p id="readOnlyNotice" class="hidden text-sm text-red-600 mb-3">
+                This title is for in-library use only. Borrowing is disabled.
+            </p>
             <!-- ✅ Success message -->
             <div id="successMsg" class="hidden bg-green-100 text-green-800 p-2 rounded-md">
                 ✅ Book reservation completed successfully!

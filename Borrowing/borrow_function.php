@@ -124,10 +124,10 @@ if (empty($_SESSION['user_info'])) {
 }
 
 // Find the book in the inventory
-$findBook = $conn->prepare("SELECT item_id, title, status FROM book_inventory WHERE barcode = ?");
+$findBook = $conn->prepare("SELECT item_id, title, status, remarks FROM book_inventory WHERE barcode = ?");
 $findBook->bind_param("s", $barcode);
 $findBook->execute();
-$findBook->bind_result($book_id, $book_title, $status);
+$findBook->bind_result($book_id, $book_title, $status, $book_remark);
 $findBook->fetch();
 $findBook->close();
 
@@ -137,6 +137,11 @@ if (empty($book_id)) {
 }
 
 // ✅ Step 2: Check book restrictions
+if (strcasecmp((string)$book_remark, 'R') === 0) {
+    echo json_encode(['success' => false, 'message' => 'This title is limited to in-library use and cannot be borrowed.']);
+    exit;
+}
+
 if ($status === 'Missing') {
     echo json_encode(['success' => false, 'message' => 'This book is marked as missing and cannot be borrowed.']);
     exit;

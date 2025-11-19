@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const readBookBtn = document.getElementById("read-btn");
     const borrowBookBtn = document.getElementById("borrow-btn");
     const successMsg = document.getElementById("successMsg");
+    const readOnlyNotice = document.getElementById("readOnlyNotice");
 
     let selectedTitle = null; // store the clicked book’s Title
+    let selectedReadOnly = false;
 
     // Delegate clicks from dynamically injected results container
     const resultsContainer = document.getElementById("results");
@@ -15,15 +17,34 @@ document.addEventListener("DOMContentLoaded", function () {
             if (target && target.classList && target.classList.contains("reserve-btn")) {
                 e.preventDefault();
                 selectedTitle = target.getAttribute("data-title");  // Get the title
+                selectedReadOnly = target.getAttribute("data-read-only") === "true";
                 if (!selectedTitle) return;
                 overlay.classList.remove("hidden");
                 overlay.classList.add("flex");
+                updateBorrowButtonState();
             }
         });
     }
 
+    function updateBorrowButtonState() {
+        if (!borrowBookBtn) return;
+        if (selectedReadOnly) {
+            borrowBookBtn.disabled = true;
+            borrowBookBtn.classList.add("opacity-50", "cursor-not-allowed");
+            if (readOnlyNotice) readOnlyNotice.classList.remove("hidden");
+        } else {
+            borrowBookBtn.disabled = false;
+            borrowBookBtn.classList.remove("opacity-50", "cursor-not-allowed");
+            if (readOnlyNotice) readOnlyNotice.classList.add("hidden");
+        }
+    }
+
     function reserveBook(purpose) {
         if (!selectedTitle) return;
+        if (purpose === "borrow" && selectedReadOnly) {
+            alert("This title is for in-library use only and cannot be borrowed.");
+            return;
+        }
 
         fetch("reserve_book.php", {
             method: "POST",
@@ -55,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (closeOverlayBtn) {
         closeOverlayBtn.addEventListener("click", () => {
             overlay.classList.add("hidden");
+            selectedTitle = null;
+            selectedReadOnly = false;
+            updateBorrowButtonState();
         });
     }
 });

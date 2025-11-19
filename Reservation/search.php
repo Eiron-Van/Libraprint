@@ -46,7 +46,9 @@ if (!empty($search)) {
         SELECT 
             title,
             author,
-            COUNT(*) AS total_copies
+            COUNT(*) AS total_copies,
+            SUM(CASE WHEN UPPER(IFNULL(remarks, '')) = 'R' THEN 1 ELSE 0 END) AS reference_copies,
+            SUM(CASE WHEN UPPER(IFNULL(remarks, '')) <> 'R' THEN 1 ELSE 0 END) AS borrowable_copies
         FROM book_inventory
         WHERE status = 'Available'
         AND (
@@ -76,7 +78,9 @@ if (!empty($search)) {
         SELECT 
             title,
             author,
-            COUNT(*) AS total_copies
+            COUNT(*) AS total_copies,
+            SUM(CASE WHEN UPPER(IFNULL(remarks, '')) = 'R' THEN 1 ELSE 0 END) AS reference_copies,
+            SUM(CASE WHEN UPPER(IFNULL(remarks, '')) <> 'R' THEN 1 ELSE 0 END) AS borrowable_copies
         FROM book_inventory
         WHERE status = 'Available'
         GROUP BY title, author
@@ -149,16 +153,21 @@ echo "  <!-- Available Section Label -->
 
     if ($availableResult->num_rows > 0) {
         while ($row = $availableResult->fetch_assoc()) {
+        $isReadOnly = ((int)$row['borrowable_copies']) === 0 && (int)$row['reference_copies'] > 0;
+        $badge = $isReadOnly
+            ? "<span class='ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300'>Read Only</span>"
+            : "";
         echo "<div class='w-full grid grid-cols-7 bg-white text-gray-700 border-b border-gray-200 items-center'>
                 <div class='col-span-3 px-2 py-1'>" . highlightTerms($row['title'], $search) . "</div>
                 <div class='col-span-2 px-2 py-1'>" . highlightTerms($row['author'], $search) . "</div>
-                <div class='col-span-1 px-2 py-1 text-center font-semibold'>" . $row['total_copies'] . "</div>
+                <div class='col-span-1 px-2 py-1 text-center font-semibold flex items-center justify-center'>" . $row['total_copies'] . $badge . "</div>
 
                 <div class='col-span-1 px-2 py-1 flex justify-center'>
                     <button 
                         class='reserve-btn bg-[#005f78] hover:bg-[#064358] transition-opacity duration-200 px-2 py-1 rounded text-sm text-white'
                         data-title='" . htmlspecialchars($row['title'], ENT_QUOTES) . "'
                         data-author='" . htmlspecialchars($row['author'], ENT_QUOTES) . "'
+                        data-read-only='" . ($isReadOnly ? "true" : "false") . "'
                     >Reserve</button>
                 </div>
             </div>";

@@ -19,11 +19,17 @@ if (!isset($_SESSION['user_id'])) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 $title = $data['title'] ?? null;
-$purpose = $data['purpose'] ?? null;
+$purpose = isset($data['purpose']) ? strtolower($data['purpose']) : null;
 $user_id = $_SESSION['user_id'];
 
 if (!$title || !$purpose) {
     echo json_encode(["success" => false, "message" => "Missing data."]);
+    exit;
+}
+
+$allowedPurposes = ['read', 'borrow'];
+if (!in_array($purpose, $allowedPurposes, true)) {
+    echo json_encode(["success" => false, "message" => "Invalid reservation purpose."]);
     exit;
 }
 
@@ -45,19 +51,27 @@ if (!$title || !$purpose) {
 // }
 
 // Find one available copy based on the title
-$find = $conn->prepare("
+$remarksRestriction = $purpose === 'borrow' ? "AND (remarks IS NULL OR remarks = '' OR UPPER(remarks) <> 'R')" : "";
+$sql = "
     SELECT item_id 
     FROM book_inventory
-    WHERE title = ? AND status = 'Available'
+    WHERE title = ? 
+      AND status = 'Available'
+      $remarksRestriction
     ORDER BY item_id ASC
     LIMIT 1
-");
+";
+$find = $conn->prepare($sql);
 $find->bind_param("s", $title);
 $find->execute();
 $itemResult = $find->get_result();
 
 if ($itemResult->num_rows == 0) {
-    echo json_encode(["success" => false, "message" => "No available copies for this title."]);
+    $message = "No available copies for this title.";
+    if ($purpose === 'borrow') {
+        $message = "No borrowable copies available for this title. It may be restricted to in-library use.";
+    }
+    echo json_encode(["success" => false, "message" => $message]);
     exit;
 }
 

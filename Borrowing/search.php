@@ -33,7 +33,7 @@ if (!empty($search)) {
 
     // Reserved Books Query
     $reservedBooks = $conn->prepare("
-        SELECT bi.item_id, bi.title, bi.author, bi.status, r.purpose
+        SELECT bi.item_id, bi.title, bi.author, bi.status, bi.remarks, r.purpose
         FROM reservation r
         INNER JOIN book_inventory bi ON r.item_id = bi.item_id
         WHERE r.user_id = ?
@@ -41,32 +41,34 @@ if (!empty($search)) {
             bi.title LIKE ?
             OR bi.author LIKE ?
             OR bi.status LIKE ?
+            OR bi.remarks LIKE ?
             OR r.purpose LIKE ?
         )
     ");
-    $reservedBooks->bind_param("sssss", $user_id, $safe_search, $safe_search, $safe_search, $safe_search);
+    $reservedBooks->bind_param("ssssss", $user_id, $safe_search, $safe_search, $safe_search, $safe_search, $safe_search);
     $reservedBooks->execute();
     $reservedResult = $reservedBooks->get_result();
 
     // Available Books Query
     $availableBooks = $conn->prepare("
-        SELECT item_id, title, author, status
+        SELECT item_id, title, author, status, remarks
         FROM book_inventory
         WHERE status = 'Available'
         AND (
             title LIKE ?
             OR author LIKE ?
             OR status LIKE ?
+            OR remarks LIKE ?
         )
     ");
-    $availableBooks->bind_param("sss", $safe_search, $safe_search, $safe_search);
+    $availableBooks->bind_param("ssss", $safe_search, $safe_search, $safe_search, $safe_search);
     $availableBooks->execute();
     $availableResult = $availableBooks->get_result();
 
 } else {
     // Reserved Books
     $reservedBooks = $conn->prepare("
-        SELECT bi.item_id, bi.title, bi.author, bi.status, r.purpose
+        SELECT bi.item_id, bi.title, bi.author, bi.status, bi.remarks, r.purpose
         FROM reservation r
         INNER JOIN book_inventory bi ON r.item_id = bi.item_id
         WHERE r.user_id = ?
@@ -77,7 +79,7 @@ if (!empty($search)) {
 
     // Available Books
     $availableResult = $conn->query("
-        SELECT item_id, title, author, status
+        SELECT item_id, title, author, status, remarks
         FROM book_inventory
         WHERE status = 'Available'
     ");
@@ -126,10 +128,13 @@ echo "<div class='grid grid-cols-8 gap-2 bg-gray-800 text-white sticky top-0 z-1
 
 if ($reservedResult->num_rows > 0) {
     while ($row = $reservedResult->fetch_assoc()) {
+    $remarkBadge = (isset($row['remarks']) && strtoupper($row['remarks']) === 'R')
+        ? "<span class='ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300'>Read Only</span>"
+        : "";
     echo "<div class='grid grid-cols-8 gap-2 border-b border-gray-200 bg-blue-100 hover:bg-blue-200 px-6 py-3 items-center'>
             <div class='col-span-4'>" . highlightTerms($row['title'], $search) . "</div>
             <div class='col-span-2'>" . highlightTerms($row['author'], $search) . "</div>
-            <div class='col-span-2 text-center'>" . highlightTerms($row['status'], $search) . " (" . highlightTerms($row['purpose'], $search) . ")</div>
+            <div class='col-span-2 text-center flex flex-col items-center justify-center'>" . highlightTerms($row['status'], $search) . " (" . highlightTerms($row['purpose'], $search) . ") $remarkBadge</div>
           </div>";
     }
 } else {
@@ -143,10 +148,13 @@ echo "<!-- Available Section Label -->
 
 if ($availableResult->num_rows > 0) {
     while ($row = $availableResult->fetch_assoc()) {
+    $remarkBadge = (isset($row['remarks']) && strtoupper($row['remarks']) === 'R')
+        ? "<span class='ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300'>Read Only</span>"
+        : "";
     echo "<div class='grid grid-cols-8 gap-2 border-b border-gray-200 bg-gray-100 hover:bg-gray-200 px-6 py-3 items-center'>
             <div class='col-span-4'>" . highlightTerms($row['title'], $search) . "</div>
             <div class='col-span-2'>" . highlightTerms($row['author'], $search) . "</div>
-            <div class='col-span-2 text-center'>" . highlightTerms($row['status'], $search) . "</div>
+            <div class='col-span-2 text-center flex items-center justify-center'>" . highlightTerms($row['status'], $search) . " $remarkBadge</div>
           </div>";
     }
 } else {
