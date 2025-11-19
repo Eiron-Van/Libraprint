@@ -124,7 +124,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-                                <span class="text-xs text-gray-500 block mt-1">Sample auto-filled if left blank.</span>
+                                <span class="text-xs text-gray-500 block mt-1">
+                                    Sample auto-filled if left blank.
+                                    <!-- CLEANUP NOTE: remove hint + auto-fill script after all ISBNs exist in DB -->
+                                </span>
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -186,7 +189,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-                <span class="text-xs text-gray-500 block mt-1">Sample auto-filled if left blank.</span>
+                <span class="text-xs text-gray-500 block mt-1">
+                    Sample auto-filled if left blank.
+                    <!-- CLEANUP NOTE: remove this once ISBNs are fully migrated -->
+                </span>
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -234,6 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const rowsTbody = document.getElementById('rows');
         const rowTemplate = document.getElementById('row-template');
 
+        // CLEANUP NOTE: delete the helper below after real ISBNs exist for every record.
         function generateSampleIsbn(seed) {
             seed = seed || Date.now();
             const base = String(seed).slice(-6).padStart(6, '0');

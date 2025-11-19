@@ -135,6 +135,8 @@ function generateSampleIsbnFromId(int $itemId): string {
 
 // output table
 $warningHtml = '';
+// CLEANUP NOTE: remove this fallback warning once `upgrade_isbn.php` has been run
+// and you have confirmed the column exists permanently.
 if (!$isbnEnabled) {
     $warningHtml = "<div class='mt-1 text-xs text-yellow-100 bg-yellow-900/60 border border-yellow-700 rounded px-2 py-1'>
         ISBN column is missing on <code>book_inventory</code>. Run <code>ALTER TABLE book_inventory ADD COLUMN isbn VARCHAR(20) NOT NULL UNIQUE AFTER title;</code> to enable it.
@@ -183,6 +185,7 @@ while ($row = $result->fetch_assoc()) {
         if ($isbnValue !== '') {
             $isbnDisplay = highlightTerms($isbnValue, $search);
         } else {
+            // CLEANUP NOTE: remove sample display after every record has an ISBN.
             $sample = htmlspecialchars(generateSampleIsbnFromId((int)$row['item_id']), ENT_QUOTES, 'UTF-8');
             $isbnDisplay = "<div class='flex flex-col text-left gap-0.5'>
                 <span class='text-gray-400 text-xs'>Not set</span>
@@ -190,6 +193,7 @@ while ($row = $result->fetch_assoc()) {
             </div>";
         }
     } else {
+        // CLEANUP NOTE: can drop this entire branch after upgrade script runs.
         $sample = htmlspecialchars(generateSampleIsbnFromId((int)$row['item_id']), ENT_QUOTES, 'UTF-8');
         $isbnDisplay = "<span class='text-gray-400 text-xs'>Example: $sample</span>";
     }
