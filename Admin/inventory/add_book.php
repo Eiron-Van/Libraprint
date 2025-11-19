@@ -189,10 +189,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-                <span class="text-xs text-gray-500 block mt-1">
-                    Sample auto-filled if left blank.
-                    <!-- CLEANUP NOTE: remove this once ISBNs are fully migrated -->
-                </span>
             </td>
             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
@@ -239,36 +235,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const addRowBtn = document.getElementById('add-row');
         const rowsTbody = document.getElementById('rows');
         const rowTemplate = document.getElementById('row-template');
-
-        // CLEANUP NOTE: delete the helper below after real ISBNs exist for every record.
-        function generateSampleIsbn(seed) {
-            seed = seed || Date.now();
-            const base = String(seed).slice(-6).padStart(6, '0');
-            const group = base.slice(0, 3);
-            const publisher = base.slice(3);
-            const check = (seed % 9) + 1;
-            return `978-1-${group}-${publisher}-${check}`;
-        }
-
-        function hydrateIsbn(input, seed) {
-            if (!input || input.dataset.userFilled === 'true') return;
-            if (!input.value.trim()) {
-                input.value = generateSampleIsbn(seed);
-            }
-            if (!input.dataset.listenerAttached) {
-                input.addEventListener('input', () => {
-                    input.dataset.userFilled = 'true';
-                });
-                input.dataset.listenerAttached = 'true';
-            }
-        }
-
-        function hydrateAllIsbn() {
-            const isbnInputs = rowsTbody.querySelectorAll('input[name="isbn[]"]');
-            isbnInputs.forEach((input, idx) => hydrateIsbn(input, Date.now() + idx));
-        }
-
-        hydrateAllIsbn();
 
         addRowBtn.addEventListener('click', () => {
             const clone = rowTemplate.content.cloneNode(true);

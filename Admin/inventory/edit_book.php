@@ -158,13 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="isbn" value="<?php echo $prefilledIsbn; ?>"
-                                class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-..." <?php echo $isbnSampleUsed ? 'data-autofilled="true"' : ''; ?>>
-                                <span class="text-xs text-gray-500 block mt-1">
-                                    <?php echo $isbnSampleUsed
-                                        ? 'Sample ISBN generated automatically; replace with the authentic value when you have it.'
-                                        : 'Update this field if the ISBN needs to change.'; ?>
-                                    <!-- CLEANUP NOTE: remove this helper text + autofill logic after every book has a real ISBN -->
-                                </span>
+                                class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-..." >
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre" value="<?php echo $book['genre']; ?>"
