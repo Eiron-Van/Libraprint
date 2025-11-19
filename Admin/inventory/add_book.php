@@ -124,10 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-                                <span class="text-xs text-gray-500 block mt-1">
-                                    Sample auto-filled if left blank.
-                                    <!-- CLEANUP NOTE: remove hint + auto-fill script after all ISBNs exist in DB -->
-                                </span>
                             </td>
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
                                 <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
