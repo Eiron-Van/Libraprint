@@ -12,7 +12,7 @@ $sql = "
         d.logged_at
     FROM delinquent_log AS d
     JOIN users AS u ON d.user_id = u.user_id
-    LEFT JOIN overdue_log AS o ON o.user_id = u.user_id AND o.status = 'unreturned'
+    LEFT JOIN overdue_log AS o ON o.user_id = u.user_id
     GROUP BY u.user_id, u.first_name, u.last_name, d.total_overdue_books, d.logged_at
     ORDER BY d.total_overdue_books DESC, d.logged_at DESC
 ";
