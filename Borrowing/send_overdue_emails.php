@@ -40,7 +40,7 @@ $sql = "
     JOIN book_inventory b ON o.book_id = b.item_id
     JOIN borrow_log bl ON o.borrow_id = bl.id
     LEFT JOIN user_book_configurations AS cfg 
-        ON cfg.user_id = o.user_id AND cfg.book_id = o.book_id
+        ON cfg.user_id = bl.user_id AND cfg.book_id = bl.book_id
     WHERE bl.date_returned IS NULL
       AND bl.status = 'Overdue'
       AND GREATEST(
