@@ -163,10 +163,11 @@ try {
             $newDue = (int) $notificationPlan['new_due_days'];
             $bodyHtml = "
                 <p>Dear {$displayName},</p>
-                <p>The library has updated the overdue threshold for <strong>{$bookTitle}</strong>.</p>
-                <p><strong>New overdue days:</strong> {$newDue} day(s)</p>
+                <p>The librarian has updated your overdue settings for <strong>{$bookTitle}</strong>.</p>
+                <p><strong>Your new book return date:</strong> {$newDue} day(s) from the borrowing date.</p>
                 <p>Please make sure to return the book on or before the updated due window to avoid penalties.</p>
-                <p>Thank you,<br>Libraprint</p>
+                <p>If you need further information or assistance, please contact the librarian directly.</p>
+                <p>Thank you,<br>Libraprint Lucena</p>
             ";
             $emailResult = sendEmail($email, $displayName, $subject, $bodyHtml);
             $notificationOutcome['sent'] = $emailResult['status'] === 'success';
