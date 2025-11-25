@@ -18,15 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $remarksArr = $_POST['remarks'] ?? [];
     $statuses = $_POST['status'] ?? [];
     $barcodes = $_POST['barcode'] ?? [];
+    $locations = $_POST['location'] ?? [];
 
     $count = max(
         count($authors), count($titles), count($isbns), count($genres), count($propertyNos), count($units), count($unitValues),
-        count($accessionNos), count($classNos), count($dates), count($remarksArr), count($statuses), count($barcodes)
+        count($accessionNos), count($classNos), count($dates), count($remarksArr), count($statuses), count($barcodes), count($locations)
     );
 
      $inserted = 0;
      if ($count > 0) {
-        $sql = "INSERT INTO book_inventory (author, title, isbn, genre, property_no, unit, unit_value, accession_no, class_no, date_acquired, remarks, status, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO book_inventory (author, title, isbn, genre, property_no, unit, unit_value, accession_no, class_no, date_acquired, remarks, status, barcode, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         for ($i = 0; $i < $count; $i++) {
             $author = trim($authors[$i] ?? '');
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $remarks = trim($remarksArr[$i] ?? '');
             $status = trim($statuses[$i] ?? '');
             $barcode = trim($barcodes[$i] ?? '');
+            $location = trim($locations[$i] ?? 'Shelved');
 
             // Minimal validation: require at least title or author
             if ($author === '' && $title === '') {
@@ -49,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt->bind_param(
-                'sssssssssssss',
+                'ssssssssssssss',
                 $author,
                 $title,
                 $isbn,
@@ -62,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $date_acquired,
                 $remarks,
                 $status,
-                $barcode
+                $barcode,
+                $location
             );
              if ($stmt->execute()) {
                  $inserted++;
@@ -90,161 +93,206 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body class="bg-gradient-to-b from-[#304475] to-[#0c0c0c] bg-fixed overflow-hidden min-h-screen">
-    <main class="mt-2 flex flex-col p-15">
-        <h1 class="text-6xl font-serif text-white text-center p-4">Add Book</h1>
+    <main class="mt-2 flex flex-col p-4 md:p-8 max-w-7xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-serif text-white text-center p-4 mb-6">Add Book</h1>
 
-        <form method="post">
-            <div class="overflow-auto overflow-y-auto max-h-[600px] rounded-lg shadow">
-                <table class="w-full" id="books-table">
-                    <thead class="bg-[#7581a6] border-b-2 border-[#5a6480] text-gray-50 sticky top-0 z-[8]">
-                        <tr>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-100">Title</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Author</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-40">ISBN</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-50">Genre</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-28">Property No.</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-25">Unit Value</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Accession No.</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-23">Class No.</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-30">Date Acquired</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-10">Remarks</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-center w-40">Status</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-center w-35">Barcode</th>
-                            <th class="p-3 text-sm font-semibold tracking-wide text-left w-35"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-[#5a6480]" id="rows">
-                        <tr class="bg-white book-row">
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="property_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="unit[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="unit_value[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="accession_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="class_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="date" name="date_acquired[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="remarks[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                <select name="status[]" class="w-full shadow px-3 py-1 rounded-lg">
-                                    <option>Available</option>
-                                    <option>Checked Out</option>
-                                    <option>Missing</option>
-                                    <option>Reserved</option>
-                                </select>
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                                <input type="text" name="barcode[]" class="w-full shadow px-3 py-1 rounded-lg">
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                <button type="button" class='bg-red-300 px-2 py-1 rounded-2xl inline-block remove-row'>Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <form method="post" id="books-form">
+            <div class="overflow-y-auto max-h-[70vh] rounded-lg shadow-lg space-y-4 p-4" id="books-container">
+                <div class="bg-white rounded-lg shadow-md p-6 book-row border-2 border-gray-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        <div class="lg:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Title *</label>
+                            <input type="text" name="title[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Author *</label>
+                            <input type="text" name="author[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">ISBN</label>
+                            <input type="text" name="isbn[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]" placeholder="978-...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Genre</label>
+                            <input type="text" name="genre[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Barcode</label>
+                            <input type="text" name="barcode[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Property No.</label>
+                            <input type="text" name="property_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Unit</label>
+                            <input type="text" name="unit[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Unit Value</label>
+                            <input type="text" name="unit_value[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Date Acquired</label>
+                            <input type="date" name="date_acquired[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Accession No.</label>
+                            <input type="text" name="accession_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Class No.</label>
+                            <input type="text" name="class_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
+                            <select name="status[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                                <option>Available</option>
+                                <option>Checked Out</option>
+                                <option>Missing</option>
+                                <option>Reserved</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Location</label>
+                            <select name="location[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                                <option>Shelved</option>
+                                <option>Archived</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Remarks</label>
+                        <input type="text" name="remarks[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="button" class='bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg font-semibold text-white remove-row transition-colors'>Remove Book</button>
+                    </div>
+                </div>
             </div>
-            <div class="flex gap-2 mt-4">
-                <button type="button" id="add-row" class='bg-[#7581a6] px-3 py-2 rounded-xl font-semibold text-white'>Add More Books</button>
-                <button type="submit" class='bg-green-600 hover:bg-green-700 px-4 py-2 rounded-xl font-semibold text-white'>Save All</button>
-                <a href="/Admin/inventory" class='bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-xl font-semibold text-gray-800'>Cancel</a>
+            <div class="flex flex-wrap gap-3 mt-6 justify-center">
+                <button type="button" id="add-row" class='bg-[#7581a6] hover:bg-[#5a6480] px-6 py-3 rounded-xl font-semibold text-white transition-colors shadow-lg'>Add More Books</button>
+                <button type="submit" class='bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl font-semibold text-white transition-colors shadow-lg'>Save All</button>
+                <a href="/Admin/inventory" class='bg-gray-300 hover:bg-gray-400 px-6 py-3 rounded-xl font-semibold text-gray-800 transition-colors shadow-lg'>Cancel</a>
             </div>
         </form>
     </main>
 
     <template id="row-template">
-        <tr class="bg-white book-row">
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="title[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="author[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="isbn[]" class="w-full shadow px-3 py-1 rounded-lg" placeholder="978-...">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="genre[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="property_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="unit[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="unit_value[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="accession_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="class_no[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="date" name="date_acquired[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="remarks[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                <select name="status[]" class="w-full shadow px-3 py-1 rounded-lg">
-                    <option>Available</option>
-                    <option>Checked Out</option>
-                    <option>Missing</option>
-                    <option>Reserved</option>
-                </select>
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">
-                <input type="text" name="barcode[]" class="w-full shadow px-3 py-1 rounded-lg">
-            </td>
-            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
-                <button type="button" class='bg-red-300 px-2 py-1 rounded-2xl inline-block remove-row'>Remove</button>
-            </td>
-        </tr>
+        <div class="bg-white rounded-lg shadow-md p-6 book-row border-2 border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div class="lg:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Title *</label>
+                    <input type="text" name="title[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Author *</label>
+                    <input type="text" name="author[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">ISBN</label>
+                    <input type="text" name="isbn[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]" placeholder="978-...">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Genre</label>
+                    <input type="text" name="genre[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Barcode</label>
+                    <input type="text" name="barcode[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Property No.</label>
+                    <input type="text" name="property_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Unit</label>
+                    <input type="text" name="unit[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Unit Value</label>
+                    <input type="text" name="unit_value[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Date Acquired</label>
+                    <input type="date" name="date_acquired[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Accession No.</label>
+                    <input type="text" name="accession_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Class No.</label>
+                    <input type="text" name="class_no[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
+                    <select name="status[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        <option>Available</option>
+                        <option>Checked Out</option>
+                        <option>Missing</option>
+                        <option>Reserved</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Location</label>
+                    <select name="location[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+                        <option>Shelved</option>
+                        <option>Archived</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Remarks</label>
+                <input type="text" name="remarks[]" class="w-full shadow px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7581a6]">
+            </div>
+
+            <div class="flex justify-end">
+                <button type="button" class='bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg font-semibold text-white remove-row transition-colors'>Remove Book</button>
+            </div>
+        </div>
     </template>
 
     <script>
         const addRowBtn = document.getElementById('add-row');
-        const rowsTbody = document.getElementById('rows');
+        const booksContainer = document.getElementById('books-container');
         const rowTemplate = document.getElementById('row-template');
 
         addRowBtn.addEventListener('click', () => {
             const clone = rowTemplate.content.cloneNode(true);
-            rowsTbody.appendChild(clone);
-            hydrateAllIsbn();
+            booksContainer.appendChild(clone);
         });
 
-        rowsTbody.addEventListener('click', (e) => {
+        booksContainer.addEventListener('click', (e) => {
             if (e.target && e.target.classList.contains('remove-row')) {
-                const tr = e.target.closest('tr');
-                if (!tr) return;
+                const bookRow = e.target.closest('.book-row');
+                if (!bookRow) return;
                 // Keep at least one row
-                if (rowsTbody.querySelectorAll('tr.book-row').length > 1) {
-                    tr.remove();
+                if (booksContainer.querySelectorAll('.book-row').length > 1) {
+                    bookRow.remove();
+                } else {
+                    alert('You must keep at least one book entry.');
                 }
             }
         });
