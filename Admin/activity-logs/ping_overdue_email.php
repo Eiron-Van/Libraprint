@@ -20,11 +20,14 @@ $default_due_days = $default_due_days > 0 ? $default_due_days : 7;
 
 // Get overdue information directly from borrow_log, bypassing interval check
 // This works even if there's no entry in overdue_log yet
+// We check if the book is actually overdue based on date calculation, not just status
 $sql = "
     SELECT 
         bl.id AS borrow_id, 
         bl.user_id, 
         bl.book_id,
+        bl.status,
+        bl.date_returned,
         u.email, 
         u.first_name, 
         b.title, 
@@ -45,15 +48,6 @@ $sql = "
         ON cfg.user_id = bl.user_id AND cfg.book_id = bl.book_id
     WHERE bl.id = ?
       AND bl.date_returned IS NULL
-      AND bl.status = 'Overdue'
-      AND GREATEST(
-            TIMESTAMPDIFF(
-                DAY, 
-                DATE_ADD(bl.date_borrowed, INTERVAL COALESCE(cfg.due_date_days, $default_due_days) DAY),
-                NOW()
-            ),
-            0
-        ) >= 1
 ";
 
 $stmt = $conn->prepare($sql);
@@ -62,7 +56,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    echo json_encode(['status' => 'error', 'message' => 'No overdue record found for this borrow ID. The book may not be overdue or may have been returned.']);
+    echo json_encode(['status' => 'error', 'message' => 'Borrow record not found or book has already been returned.']);
     $stmt->close();
     $conn->close();
     exit;
@@ -70,6 +64,17 @@ if ($result->num_rows === 0) {
 
 $row = $result->fetch_assoc();
 $stmt->close();
+
+// Check if the book is actually overdue (days_overdue >= 1)
+$days_overdue = (int)$row['days_overdue'];
+if ($days_overdue < 1) {
+    echo json_encode([
+        'status' => 'error', 
+        'message' => "Book is not overdue yet. Days overdue: $days_overdue. The due date calculation shows the book is still within the loan period."
+    ]);
+    $conn->close();
+    exit;
+}
 
 $toEmail = $row['email'];
 $toName  = $row['first_name'] ?? '';
