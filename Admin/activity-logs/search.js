@@ -158,6 +158,73 @@ document.addEventListener("DOMContentLoaded", function () {
     openConfigOverlay(button);
   });
 
+  // Delegated handler for ping buttons
+  resultsContainer.addEventListener("click", async (event) => {
+    const button = event.target.closest(".ping-btn");
+    if (!button) return;
+
+    const borrowId = button.dataset.borrowId;
+    if (!borrowId) return;
+
+    // Disable button and show loading state
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Sending...";
+    button.classList.add("opacity-50", "cursor-not-allowed");
+
+    try {
+      const formData = new FormData();
+      formData.append("borrow_id", borrowId);
+
+      const response = await fetch("ping_overdue_email.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        button.textContent = "Sent!";
+        button.classList.remove("bg-blue-500", "hover:bg-blue-600");
+        button.classList.add("bg-green-500");
+        
+        // Show success message temporarily
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.classList.remove("bg-green-500", "opacity-50", "cursor-not-allowed");
+          button.classList.add("bg-blue-500", "hover:bg-blue-600");
+          button.disabled = false;
+        }, 2000);
+      } else {
+        button.textContent = "Error";
+        button.classList.remove("bg-blue-500", "hover:bg-blue-600");
+        button.classList.add("bg-red-500");
+        
+        // Show error message
+        alert(result.message || "Failed to send email");
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.classList.remove("bg-red-500", "opacity-50", "cursor-not-allowed");
+          button.classList.add("bg-blue-500", "hover:bg-blue-600");
+          button.disabled = false;
+        }, 2000);
+      }
+    } catch (error) {
+      button.textContent = "Error";
+      button.classList.remove("bg-blue-500", "hover:bg-blue-600");
+      button.classList.add("bg-red-500");
+      alert("An error occurred: " + error.message);
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove("bg-red-500", "opacity-50", "cursor-not-allowed");
+        button.classList.add("bg-blue-500", "hover:bg-blue-600");
+        button.disabled = false;
+      }, 2000);
+    }
+  });
+
   configForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!activeConfig) return;
