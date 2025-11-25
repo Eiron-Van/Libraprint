@@ -18,12 +18,13 @@ $settings = lp_get_default_borrow_settings($conn);
 $default_due_days = (int) $settings['book_due_date_days'];
 $default_due_days = $default_due_days > 0 ? $default_due_days : 7;
 
-// Get overdue information for this specific borrow_id, bypassing interval check
+// Get overdue information directly from borrow_log, bypassing interval check
+// This works even if there's no entry in overdue_log yet
 $sql = "
     SELECT 
-        o.borrow_id, 
-        o.user_id, 
-        o.book_id,
+        bl.id AS borrow_id, 
+        bl.user_id, 
+        bl.book_id,
         u.email, 
         u.first_name, 
         b.title, 
@@ -37,13 +38,12 @@ $sql = "
             ),
             0
         ) AS days_overdue
-    FROM overdue_log o
-    JOIN users u ON o.user_id = u.user_id
-    JOIN book_inventory b ON o.book_id = b.item_id
-    JOIN borrow_log bl ON o.borrow_id = bl.id
+    FROM borrow_log bl
+    JOIN users u ON bl.user_id = u.user_id
+    JOIN book_inventory b ON bl.book_id = b.item_id
     LEFT JOIN user_book_configurations AS cfg 
         ON cfg.user_id = bl.user_id AND cfg.book_id = bl.book_id
-    WHERE o.borrow_id = ?
+    WHERE bl.id = ?
       AND bl.date_returned IS NULL
       AND bl.status = 'Overdue'
       AND GREATEST(
@@ -62,7 +62,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    echo json_encode(['status' => 'error', 'message' => 'No overdue record found for this borrow ID']);
+    echo json_encode(['status' => 'error', 'message' => 'No overdue record found for this borrow ID. The book may not be overdue or may have been returned.']);
     $stmt->close();
     $conn->close();
     exit;
@@ -90,11 +90,31 @@ $bodyHtml = "
 $resultSend = sendEmail($toEmail, $toName, $subject, $bodyHtml);
 
 if ($resultSend['status'] === 'success') {
-    // Update last_email_sent timestamp
-    $update_stmt = $conn->prepare("UPDATE overdue_log SET last_email_sent = NOW() WHERE borrow_id = ?");
-    $update_stmt->bind_param("i", $borrow_id);
-    $update_stmt->execute();
-    $update_stmt->close();
+    // Update or insert overdue_log entry with last_email_sent timestamp
+    // First, check if entry exists
+    $check_stmt = $conn->prepare("SELECT borrow_id FROM overdue_log WHERE borrow_id = ?");
+    $check_stmt->bind_param("i", $borrow_id);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+    $check_stmt->close();
+    
+    if ($check_result->num_rows > 0) {
+        // Update existing entry
+        $update_stmt = $conn->prepare("UPDATE overdue_log SET last_email_sent = NOW() WHERE borrow_id = ?");
+        $update_stmt->bind_param("i", $borrow_id);
+        $update_stmt->execute();
+        $update_stmt->close();
+    } else {
+        // Insert new entry if it doesn't exist
+        $days_overdue = (int)$row['days_overdue'];
+        $insert_stmt = $conn->prepare("
+            INSERT INTO overdue_log (borrow_id, user_id, book_id, date_overdue_detected, days_overdue, last_email_sent, status)
+            VALUES (?, ?, ?, NOW(), ?, NOW(), 'unreturned')
+        ");
+        $insert_stmt->bind_param("iiii", $borrow_id, $row['user_id'], $row['book_id'], $days_overdue);
+        $insert_stmt->execute();
+        $insert_stmt->close();
+    }
     
     echo json_encode([
         'status' => 'success', 
