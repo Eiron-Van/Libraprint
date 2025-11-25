@@ -65,16 +65,16 @@ if ($result->num_rows === 0) {
 $row = $result->fetch_assoc();
 $stmt->close();
 
-// // Check if the book is actually overdue (days_overdue >= 1)
-// $days_overdue = (int)$row['days_overdue'];
-// if ($days_overdue < 1) {
-//     echo json_encode([
-//         'status' => 'error', 
-//         'message' => "Book is not overdue yet. Days overdue: $days_overdue. The due date calculation shows the book is still within the loan period."
-//     ]);
-//     $conn->close();
-//     exit;
-// }
+// Check if the book is actually overdue (days_overdue >= 1)
+$days_overdue = (int)$row['days_overdue'];
+if ($days_overdue < 1) {
+    echo json_encode([
+        'status' => 'error', 
+        'message' => "Book is not overdue yet. Days overdue: $days_overdue. The due date calculation shows the book is still within the loan period."
+    ]);
+    $conn->close();
+    exit;
+}
 
 $toEmail = $row['email'];
 $toName  = $row['first_name'] ?? '';
