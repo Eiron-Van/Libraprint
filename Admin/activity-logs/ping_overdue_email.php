@@ -65,12 +65,39 @@ if ($result->num_rows === 0) {
 $row = $result->fetch_assoc();
 $stmt->close();
 
-// Check if the book is actually overdue (days_overdue >= 1)
-$days_overdue = (int)$row['days_overdue'];
+// Calculate due date and days overdue manually for verification
+$date_borrowed = new DateTime($row['date_borrowed']);
+$effective_due_days = (int)($row['effective_due_days'] ?? $default_due_days);
+$due_date = clone $date_borrowed;
+$due_date->modify("+{$effective_due_days} days");
+$now = new DateTime();
+
+// Calculate days overdue: if due_date is in the past, calculate the difference
+if ($due_date < $now) {
+    $interval = $now->diff($due_date);
+    $days_overdue_calc = (int)$interval->format('%a'); // Total days
+    // If due date was in the past, make sure it's positive
+    if ($days_overdue_calc < 0) {
+        $days_overdue_calc = abs($days_overdue_calc);
+    }
+} else {
+    $days_overdue_calc = 0;
+}
+
+// Use the SQL calculated value, but verify with PHP calculation
+$days_overdue_sql = (int)$row['days_overdue'];
+
+// Use whichever is higher (more accurate) - sometimes SQL and PHP calculations differ slightly
+$days_overdue = max($days_overdue_sql, $days_overdue_calc);
+
 if ($days_overdue < 1) {
+    $due_date_str = $due_date->format('Y-m-d H:i:s');
+    $now_str = $now->format('Y-m-d H:i:s');
+    $borrowed_str = $date_borrowed->format('Y-m-d H:i:s');
+    
     echo json_encode([
         'status' => 'error', 
-        'message' => "Book is not overdue yet. Days overdue: $days_overdue. The due date calculation shows the book is still within the loan period."
+        'message' => "Book is not overdue yet. Days overdue: $days_overdue. Debug info: Borrowed: $borrowed_str, Due date: $due_date_str (loan period: $effective_due_days days), Current time: $now_str"
     ]);
     $conn->close();
     exit;
